@@ -33,7 +33,7 @@ jobs:
           
       #Set permissions
       - name: Change wrapper permissions
-        run: chmod +x ./gradlew
+        run: chmod +x ./mvnw
 
       # Builds and installs the artifact
       - name: Build and Install
