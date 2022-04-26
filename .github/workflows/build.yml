@@ -30,6 +30,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }} # The JDK version to make available on the path.
+          
+      #Set permissions
+      - name: Change wrapper permissions
+        run: chmod +x ./mvnw
 
       # Builds and installs the artifact
       - name: Build and Install
