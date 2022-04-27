@@ -4,10 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.text.Font;
+import javafx.scene.control.TextField;
+import javafx.css.PseudoClass;
 import javafx.stage.Stage;
 import org.ShelterMe.project.services.FileSystemService;
 import org.ShelterMe.project.services.UserService;
 
+import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,9 +22,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         initDirectory();
         UserService.initDatabase();
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         primaryStage.setTitle("ShelterMe");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 627, 418));
+        primaryStage.getIcons().add(new Image("file:docs/Logo.png"));
         primaryStage.show();
     }
 
