@@ -5,7 +5,7 @@ public class PhoneNumberFormatException extends Exception {
     private String phoneNumber;
 
     public PhoneNumberFormatException(String phoneNumber) {
-        super("The entered phone number is not formatted correctly.");
+        super("Error: The entered phone number is not formatted correctly. ");
         this.phoneNumber = phoneNumber;
     }
 

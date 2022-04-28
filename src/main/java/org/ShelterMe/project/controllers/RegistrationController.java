@@ -5,7 +5,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import org.ShelterMe.project.exceptions.EmptyFieldException;
+import org.ShelterMe.project.exceptions.PhoneNumberFormatException;
 import org.ShelterMe.project.exceptions.UsernameAlreadyExistsException;
+import org.ShelterMe.project.exceptions.WeakPasswordException;
 import org.ShelterMe.project.services.UserService;
 
 public class RegistrationController {
@@ -35,7 +38,7 @@ public class RegistrationController {
         try {
             UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue(), fullName.getText(), address.getText(), phoneNumber.getText());
             registrationMessage.setText("Account created successfully!");
-        } catch (UsernameAlreadyExistsException e) {
+        } catch (UsernameAlreadyExistsException | EmptyFieldException | PhoneNumberFormatException | WeakPasswordException e) {
             registrationMessage.setText(e.getMessage());
         }
     }
