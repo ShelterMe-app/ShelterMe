@@ -40,7 +40,7 @@
    <Text fx:id="registrationMessage" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-id" textAlignment="CENTER" textOrigin="CENTER" translateY="10.0" wrappingWidth="520.7999863624573" />
     <HBox alignment="center" spacing="10" translateY="35.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-id" text="Already have an account?" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="208.79998636245728" />
-        <Hyperlink alignment="CENTER_LEFT" prefWidth="80.0" text="Sign in">
+        <Hyperlink fx:id="signInPressed" alignment="CENTER_LEFT" onAction="#handleSignInMenu" prefWidth="80.0" text="Sign in">
             <padding>
                 <Insets left="5.0" top="2.0" />
             </padding>

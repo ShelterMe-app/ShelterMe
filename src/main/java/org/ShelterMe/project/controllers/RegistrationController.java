@@ -1,7 +1,10 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.*;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -17,6 +20,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.application.Platform;
 
 public class RegistrationController {
 
@@ -34,6 +43,8 @@ public class RegistrationController {
     private TextField usernameField;
     @FXML
     private ChoiceBox role;
+    @FXML
+    private Hyperlink signInPressed;
 
     private static ArrayList<String> countries = new ArrayList<>();
     private static ArrayList<String> countryShort = new ArrayList<>();
@@ -66,12 +77,41 @@ public class RegistrationController {
     }
 
     @FXML
-    public void handleRegisterAction() {
+    public void handleRegisterAction(javafx.event.ActionEvent event) {
         try {
             UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue(), fullName.getText(), (String) country.getValue(), phoneNumber.getText(), countryShort.get(countries.indexOf((String) country.getValue())));
-            registrationMessage.setText("Account created successfully!");
+            registrationMessage.setText("Account created successfully! You will be redirected to the login page in 5 seconds.");
+            new Thread(() -> {
+                try {
+                    Thread.sleep(5000);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                handleSignInMenu(event);
+                            } catch (IOException e) {
+                                registrationMessage.setText(e.getMessage());
+                            }
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    registrationMessage.setText(e.getMessage());
+                }
+            }).start();
+
         } catch (UsernameAlreadyExistsException | EmptyFieldException | PhoneNumberFormatException | WeakPasswordException | FullNameFormatException e) {
             registrationMessage.setText(e.getMessage());
         }
+    }
+    @FXML
+    public void handleSignInMenu(javafx.event.ActionEvent event) throws IOException {
+        Stage stage = (Stage) signInPressed.getScene().getWindow();
+        stage.close();
+
+        Parent login = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
+        Scene scene = new Scene(login);
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        appStage.setScene(scene);
+        appStage.show();
     }
 }
