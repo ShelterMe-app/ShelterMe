@@ -10,15 +10,15 @@ public class User {
     private String password;
     private String role;
     private String fullName;
-    private String address;
+    private String country;
     private String phoneNumber;
 
-    public User(String username, String password, String role, String fullName, String address, String phoneNumber) {
+    public User(String username, String password, String role, String fullName, String country, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.fullName = fullName;
-        this.address = address;
+        this.country = country;
         this.phoneNumber = phoneNumber;
     }
 
@@ -57,12 +57,12 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getCountry() {
+        return country;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getPhoneNumber() {
@@ -78,11 +78,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return username.equals(user.username) && password.equals(user.password) && role.equals(user.role) && fullName.equals(user.fullName) && address.equals(user.address) && phoneNumber.equals(user.phoneNumber);
+        return username.equals(user.username) && password.equals(user.password) && role.equals(user.role) && fullName.equals(user.fullName) && country.equals(user.country) && phoneNumber.equals(user.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, role, fullName, address, phoneNumber);
+        return Objects.hash(username, password, role, fullName, country, phoneNumber);
     }
 }

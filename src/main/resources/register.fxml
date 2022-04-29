@@ -23,7 +23,7 @@
    <Label prefHeight="20.0" prefWidth="200.0" text="Full Name:" />
    <TextField fx:id="fullName" maxHeight="20.0" maxWidth="200.0" />
    <Label prefHeight="20.0" prefWidth="200.0" text="Country:" />
-   <ChoiceBox fx:id="address" prefWidth="200.0" />
+   <ChoiceBox fx:id="country" prefWidth="200.0" />
    <Label prefHeight="20.0" prefWidth="200.0" text="Phone Number:" />
    <TextField fx:id="phoneNumber" maxHeight="20.0" maxWidth="200.0" />
 

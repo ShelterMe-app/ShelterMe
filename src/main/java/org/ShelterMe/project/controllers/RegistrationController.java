@@ -8,11 +8,11 @@ import javafx.scene.text.Text;
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.services.UserService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Iterator;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,7 +25,7 @@ public class RegistrationController {
     @FXML
     private TextField fullName;
     @FXML
-    private ChoiceBox address;
+    private ChoiceBox country;
     @FXML
     private TextField phoneNumber;
     @FXML
@@ -42,15 +42,15 @@ public class RegistrationController {
         JSONParser parser = new JSONParser();
 
         try {
-
-            JSONArray a = (JSONArray) parser.parse(new FileReader("C:\\Users\\drago\\Desktop\\ShelterMe\\src\\main\\java\\org\\ShelterMe\\project\\controllers\\countries.json"));
+            String filePath = new File("").getAbsolutePath();
+            JSONArray a = (JSONArray) parser.parse(new FileReader(filePath + "/src/main/resources/countries.json"));
 
             for (Object o : a)
             {
-                JSONObject country = (JSONObject) o;
+                JSONObject countryObject = (JSONObject) o;
 
-                countries.add((String) country.get("name"));
-                countryShort.add((String) country.get("code"));
+                countries.add((String) countryObject.get("name"));
+                countryShort.add((String) countryObject.get("code"));
             }
 
         } catch (IOException | ParseException e) {
@@ -61,14 +61,14 @@ public class RegistrationController {
     @FXML
     public void initialize() {
         countryParser();
-        address.getItems().addAll(countries);
+        country.getItems().addAll(countries);
         role.getItems().addAll("Affected", "Volunteer");
     }
 
     @FXML
     public void handleRegisterAction() {
         try {
-            UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue(), fullName.getText(), (String) address.getValue(), phoneNumber.getText(), countryShort.get(countries.indexOf((String) address.getValue())));
+            UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue(), fullName.getText(), (String) country.getValue(), phoneNumber.getText(), countryShort.get(countries.indexOf((String) country.getValue())));
             registrationMessage.setText("Account created successfully!");
         } catch (UsernameAlreadyExistsException | EmptyFieldException | PhoneNumberFormatException | WeakPasswordException | FullNameFormatException e) {
             registrationMessage.setText(e.getMessage());
