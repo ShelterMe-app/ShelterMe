@@ -1,10 +1,12 @@
 package org.ShelterMe.project.services;
 
-import org.ShelterMe.project.exceptions.EmptyFieldException;
-import org.ShelterMe.project.exceptions.PhoneNumberFormatException;
-import org.ShelterMe.project.exceptions.UsernameAlreadyExistsException;
-import org.ShelterMe.project.exceptions.WeakPasswordException;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.User;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
@@ -12,10 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
-
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 
 public class UserService {
 
@@ -29,8 +27,9 @@ public class UserService {
         userRepository = database.getRepository(User.class);
     }
 
-    public static void addUser(String username, String password, String role, String fullName, String address, String phoneNumber) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException {
+    public static void addUser(String username, String password, String role, String fullName, String address, String phoneNumber) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
         checkEmptyFields(username, password, role, fullName, address, phoneNumber);
+        fullName = checkFullNameFormat(fullName);
         phoneNumber = checkPhoneNumberFormat(phoneNumber);
         checkUserDoesNotAlreadyExist(username);
         checkPassword(password);
@@ -70,6 +69,13 @@ public class UserService {
         } catch (NumberParseException e) {
             throw new PhoneNumberFormatException(phoneNumber);
         }
+    }
+
+    private static String checkFullNameFormat(String FullName) throws FullNameFormatException {
+        String[] words = StringUtils.normalizeSpace(FullName).split("\\s+");
+        if (words.length < 2)
+            throw new FullNameFormatException("Full name needs to contain at least 2 words");
+        return WordUtils.capitalizeFully(StringUtils.lowerCase(StringUtils.normalizeSpace(FullName)));
     }
 
     private static void checkPassword(String password) throws WeakPasswordException {
