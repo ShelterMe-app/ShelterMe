@@ -27,10 +27,10 @@ public class UserService {
         userRepository = database.getRepository(User.class);
     }
 
-    public static void addUser(String username, String password, String role, String fullName, String address, String phoneNumber) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
+    public static void addUser(String username, String password, String role, String fullName, String address, String phoneNumber, String code) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
         checkEmptyFields(username, password, role, fullName, address, phoneNumber);
         fullName = checkFullNameFormat(fullName);
-        phoneNumber = checkPhoneNumberFormat(phoneNumber);
+        phoneNumber = checkPhoneNumberFormat(phoneNumber, code);
         checkUserDoesNotAlreadyExist(username);
         checkPassword(password);
         userRepository.insert(new User(username, encodePassword(username, password), role, fullName, address, phoneNumber));
@@ -58,10 +58,10 @@ public class UserService {
         }
     }
 
-    private static String checkPhoneNumberFormat(String phoneNumber) throws PhoneNumberFormatException {
+    private static String checkPhoneNumberFormat(String phoneNumber, String code) throws PhoneNumberFormatException {
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         try {
-            PhoneNumber phoneNumberProto = phoneUtil.parse(phoneNumber, "RO");
+            PhoneNumber phoneNumberProto = phoneUtil.parse(phoneNumber, code);
             boolean isValid = phoneUtil.isValidNumber(phoneNumberProto);
             if (isValid == false)
                 throw new PhoneNumberFormatException(phoneNumber);
