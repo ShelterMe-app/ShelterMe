@@ -79,7 +79,21 @@ public class RegistrationController {
     @FXML
     public void handleRegisterAction(javafx.event.ActionEvent event) {
         try {
-            UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue(), fullName.getText(), (String) country.getValue(), phoneNumber.getText(), countryShort.get(countries.indexOf((String) country.getValue())));
+            String roleAux;
+            if (role.getValue() == null)
+                roleAux = "";
+            else roleAux = (String) role.getValue();
+            String countryAux;
+            if (country.getValue() == null)
+                countryAux = "";
+            else countryAux = (String) country.getValue();
+            String countryShortAux;
+            try {
+                countryShortAux = countryShort.get(countries.indexOf(countryAux));
+            } catch(IndexOutOfBoundsException e) {
+                countryShortAux = "";
+            }
+            UserService.addUser(usernameField.getText(), passwordField.getText(), roleAux, fullName.getText(), countryAux, phoneNumber.getText(), countryShortAux);
             registrationMessage.setText("Account created successfully! You will be redirected to the login page in 5 seconds.");
             new Thread(() -> {
                 try {

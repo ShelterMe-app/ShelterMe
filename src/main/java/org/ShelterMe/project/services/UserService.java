@@ -37,18 +37,19 @@ public class UserService {
     }
 
     private static void checkEmptyFields(String username, String password, String role, String fullName, String country, String phoneNumber) throws EmptyFieldException {
+
+        if (fullName.length() == 0)
+            throw new EmptyFieldException("full name");
+        if (country.length() == 0)
+            throw new EmptyFieldException("country");
+        if (phoneNumber.length() == 0)
+            throw new EmptyFieldException("phone number");
         if (username.length() == 0)
             throw new EmptyFieldException("username");
         if (password.length() == 0)
             throw new EmptyFieldException("password");
         if (role.length() == 0)
             throw new EmptyFieldException("role");
-        if (fullName.length() == 0)
-            throw new EmptyFieldException("full name");
-        if (country.length() == 0)
-            throw new EmptyFieldException("address");
-        if (phoneNumber.length() == 0)
-            throw new EmptyFieldException("phone number");
     }
 
     private static void checkUserDoesNotAlreadyExist(String username) throws UsernameAlreadyExistsException {
