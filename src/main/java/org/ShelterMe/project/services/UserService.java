@@ -4,7 +4,9 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import org.ShelterMe.project.exceptions.*;
+import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.model.User;
+import org.ShelterMe.project.model.Volunteer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
@@ -33,7 +35,10 @@ public class UserService {
         phoneNumber = checkPhoneNumberFormat(phoneNumber, country, code);
         checkUserDoesNotAlreadyExist(username);
         checkPassword(password);
-        userRepository.insert(new User(username, encodePassword(username, password), role, fullName, country, phoneNumber));
+        if (role.equals("Affected"))
+            userRepository.insert(new Affected(username, encodePassword(username, password), role, fullName, country, phoneNumber));
+        else userRepository.insert(new Volunteer(username, encodePassword(username, password), role, fullName, country, phoneNumber));
+
     }
 
     private static void checkEmptyFields(String username, String password, String role, String fullName, String country, String phoneNumber) throws EmptyFieldException {
@@ -143,7 +148,7 @@ public class UserService {
             throw new EmptyFieldException("password");
     }
 
-    public static void verifyLogin(String username, String password) throws EmptyFieldException, IncorrectPasswordException, UsernameDoesNotExistException {
+    public static User verifyLogin(String username, String password) throws EmptyFieldException, IncorrectPasswordException, UsernameDoesNotExistException {
         checkLoginEmptyFields(username, password);
         boolean userExists = false;
         for (User user : userRepository.find()) {
@@ -151,9 +156,11 @@ public class UserService {
                 userExists = true;
                 if (! Objects.equals(encodePassword(username, password), user.getPassword()))
                     throw new IncorrectPasswordException();
+                return user;
             }
         }
         if(!userExists)
             throw new UsernameDoesNotExistException(username);
+        return null;
     }
 }

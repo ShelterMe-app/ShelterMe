@@ -1,10 +1,28 @@
 package org.ShelterMe.project.model;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import org.dizitart.no2.objects.Id;
 
+import java.io.IOException;
 import java.util.Objects;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "role", visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Affected.class, name = "Affected"),
+
+        @JsonSubTypes.Type(value = Volunteer.class, name = "Volunteer") }
+)
+abstract public class User {
     @Id
     private String username;
     private String password;
@@ -85,4 +103,6 @@ public class User {
     public int hashCode() {
         return Objects.hash(username, password, role, fullName, country, phoneNumber);
     }
+
+    abstract public void openMainUserPage() throws IOException;
 }
