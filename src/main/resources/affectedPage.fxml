@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="14.0" layoutY="466.0" prefHeight="19.0" prefWidth="178.0" text="Signed in as: " />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="300.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Logo-corners.png" />
+         </image>
+      </ImageView>
+      <HBox alignment="TOP_CENTER" layoutX="-3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="750.0">
+         <children>
+            <MenuBar prefHeight="27.0" prefWidth="421.0">
+              <menus>
+                  <Menu mnemonicParsing="false" text="My Requests">
+                     <items>
+                    <MenuItem mnemonicParsing="false" text="View" />
+                        <MenuItem mnemonicParsing="false" text="Add" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                     </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="View Volunteers" />
+                <Menu mnemonicParsing="false" text="History" />
+              </menus>
+            </MenuBar>
+            <MenuBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="324.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Sign Out" />
+                  <Menu mnemonicParsing="false" text="About" />
+              </menus>
+            </MenuBar>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
