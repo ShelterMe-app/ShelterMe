@@ -136,5 +136,24 @@ public class UserService {
         return md;
     }
 
+    private static void checkLoginEmptyFields(String username, String password) throws EmptyFieldException {
+        if(username.length() == 0)
+            throw new EmptyFieldException("username");
+        if(password.length() == 0)
+            throw new EmptyFieldException("password");
+    }
 
+    public static void verifyLogin(String username, String password) throws EmptyFieldException, IncorrectPasswordException, UsernameDoesNotExistException {
+        checkLoginEmptyFields(username, password);
+        boolean userExists = false;
+        for (User user : userRepository.find()) {
+            if (Objects.equals(username, user.getUsername())) {
+                userExists = true;
+                if (! Objects.equals(encodePassword(username, password), user.getPassword()))
+                    throw new IncorrectPasswordException();
+            }
+        }
+        if(!userExists)
+            throw new UsernameDoesNotExistException(username);
+    }
 }
