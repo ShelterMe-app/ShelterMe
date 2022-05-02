@@ -1,0 +1,33 @@
+.root{
+    -fx-background-image: url("BackgroundImage_colorised.jpg");
+    -fx-background-size: 200%;
+    -fx-background-repeat: repeat;
+    -fx-background-position: center;
+}
+
+#menuBar {
+    -fx-background-color: #d6eaed;
+}
+
+#homeButton:hover, #requestsButton:hover, #volunteersButton:hover, #historyButton:hover, #offersButton:hover, #signOutButton:hover {
+    -fx-border-color: #44919c;
+    -fx-border-width: 0px 0px 3px 0px;
+}
+
+#homeButton:pressed, #requestsButton:pressed, #volunteersButton:pressed, #historyButton:pressed, #offersButton:pressed, #signOutButton:pressed {
+    -fx-background-color: #44919c;
+}
+
+#homeButton:focused, #requestsButton:focused, #volunteersButton:focused, #historyButton:focused, #offersButton:focused, #signOutButton:focused {
+    -fx-border-color: #44919c;
+    -fx-border-width: 0px 0px 3px 0px;
+}
+
+#welcomeMessage {
+    -fx-font-family: "Gill Sans MT";
+    -fx-font-size: 30px;
+}
+
+#affectedHomePhoto {
+    -fx-alignment: center;
+}
