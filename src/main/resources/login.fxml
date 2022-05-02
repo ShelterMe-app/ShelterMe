@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" prefHeight="404.0" prefWidth="600" spacing="10" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.LoginController">
+    <padding>
+        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+    </padding>
+
+    <Text id="title-text" styleClass="text-id" text="Login" textAlignment="CENTER" wrappingWidth="200.0">
+      <VBox.margin>
+         <Insets bottom="40.0" />
+      </VBox.margin></Text>
+
+    <Label prefHeight="20.0" prefWidth="200.0" text="Username:" />
+
+    <TextField fx:id="usernameField" maxHeight="20.0" maxWidth="200.0" />
+
+    <Label prefHeight="20.0" prefWidth="200.0" text="Password:" textAlignment="RIGHT" />
+
+    <PasswordField fx:id="passwordField" maxHeight="20.0" maxWidth="200.0" />
+
+    <Text fx:id="loginMessage" styleClass="text-id" textAlignment="CENTER" />
+    <Button fx:id="loginButton" onAction="#handleLoginAction" text="Login" />
+    <HBox alignment="center" spacing="10">
+          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-id" text="Don't have an account?" textAlignment="RIGHT" textOrigin="CENTER" wrappingWidth="200" />
+          <Hyperlink fx:id="registerPressed" alignment="CENTER_LEFT" onAction="#handleRegisterMenu" prefWidth="80.0" text="Sign up">
+         <padding>
+            <Insets left="5.0" top="2.0" />
+         </padding></Hyperlink>
+    </HBox>
+</VBox>

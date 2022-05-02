@@ -76,8 +76,8 @@ However, if you try to register a user with the same username again, you will se
 ### What happened???
 
 Behind the scenes, the app actually saved the **admin** user in the database, encrypting the password. To see that it actually worked, we need to inspect the database that was created in the 
-`$HOME/.registration-example/registration-example.db` (for Linux and MacOS) and `%USERPROFILE%/.registration-example/registration-example.db` file, using the [nitrite-explorer-3.4.3.jar](https://github.com/nitrite/nitrite-java/releases/download/v3.4.3/nitrite-explorer-3.4.3.jar), provided by Nitrite Java.
-Download the jar and run `java --module-path $PATH_TO_FX --add-modules javafx.controls nitrite-explorer-3.4.3.jar
+`$HOME/.registration-example/registration-example.db` (for Linux and MacOS) and `%USERPROFILE%/.registration-example/registration-example.db` file, using the [nitrite-explorer-3.4.4.jar](https://github.com/nitrite/nitrite-java/releases/download/v3.4.4/nitrite-explorer-3.4.4.jar), provided by Nitrite Java.
+Download the jar and run `java --module-path $PATH_TO_FX --add-modules javafx.controls,javafx.fxml -jar "path/to/nitrite-explorer/nitrite-explorer-3.4.4.jar"
 `. You should see a window like this open:
 
 <img src="docs/NitriteExplorer.png" width="250"/>
