@@ -15,11 +15,8 @@ import org.ShelterMe.project.exceptions.EmptyFieldException;
 import org.ShelterMe.project.exceptions.IncorrectPasswordException;
 import org.ShelterMe.project.exceptions.LockedAccountException;
 import org.ShelterMe.project.exceptions.UsernameDoesNotExistException;
-import org.ShelterMe.project.services.FileSystemService;
 import org.ShelterMe.project.services.UserService;
 import org.ShelterMe.project.model.User;
-import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.objects.ObjectRepository;
 
 import java.io.IOException;
 
@@ -41,17 +38,17 @@ public class LoginController {
         User connectedUser = null;
         try{
             connectedUser = UserService.verifyLogin(usernameField.getText(), passwordField.getText());
-            connectedUser.setCurrentFailedAttemps(0);
+            connectedUser.setCurrentFailedAttempts(0);
             UserService.updateUserInDatabase(connectedUser);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.close();
             connectedUser.openMainUserPage();
         } catch(IncorrectPasswordException e) {
             connectedUser = e.getUser();
-            connectedUser.setCurrentFailedAttemps(connectedUser.getCurrentFailedAttemps() + 1);
+            connectedUser.setCurrentFailedAttempts(connectedUser.getCurrentFailedAttempts() + 1);
             UserService.updateUserInDatabase(connectedUser);
-            if (connectedUser.getCurrentFailedAttemps() == 5 && connectedUser.isLocked() == false) {
-                connectedUser.setCurrentFailedAttemps(0);
+            if (connectedUser.getCurrentFailedAttempts() == 5 && connectedUser.isLocked() == false) {
+                connectedUser.setCurrentFailedAttempts(0);
                 connectedUser.setLockedInUntil(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
                 connectedUser.setLocked(true);
                 UserService.updateUserInDatabase(connectedUser);
@@ -72,5 +69,6 @@ public class LoginController {
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         appStage.setScene(scene);
         appStage.show();
+        appStage.setResizable(false);
     }
 }

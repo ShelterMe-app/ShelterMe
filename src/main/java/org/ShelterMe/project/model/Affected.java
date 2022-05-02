@@ -26,8 +26,9 @@ public class Affected extends User {
         stage.setTitle("ShelterMe - "  + getFullName() + " (" + getRole() + ")");
         stage.getIcons().add(new Image("file:docs/Logo.png"));
         stage.setScene(new Scene(mainUserPage, 750, 500));
-        stage.show();;
+        stage.show();
         stage.setResizable(false);
         controller.setSignedInAs(getFullName());
+        mainUserPage.requestFocus();
     }
 }

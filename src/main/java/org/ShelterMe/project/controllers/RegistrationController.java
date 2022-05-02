@@ -1,8 +1,6 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.*;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -21,13 +19,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.Parent;
 import javafx.application.Platform;
 
-public class RegistrationController {
+public class RegistrationController{
 
     @FXML
     private Text registrationMessage;
@@ -117,15 +112,10 @@ public class RegistrationController {
             registrationMessage.setText(e.getMessage());
         }
     }
+
     @FXML
     public void handleSignInMenu(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) signInPressed.getScene().getWindow();
-        stage.close();
-
-        Parent login = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
-        Scene scene = new Scene(login);
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        appStage.setScene(scene);
-        appStage.show();
+        GotoLoginController.goToLogin(stage, event);
     }
 }

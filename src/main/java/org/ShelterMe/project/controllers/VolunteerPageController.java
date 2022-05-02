@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AffectedPageController{
+public class VolunteerPageController{
     @FXML
     private Label signedInAsLabel;
     @FXML

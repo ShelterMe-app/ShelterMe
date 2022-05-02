@@ -27,6 +27,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 627, 418));
         primaryStage.getIcons().add(new Image("file:docs/Logo.png"));
         primaryStage.show();
+        primaryStage.setResizable(false);
     }
 
     private void initDirectory() {

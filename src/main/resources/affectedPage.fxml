@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedPageController">
    <children>
        <HBox alignment="TOP_CENTER" disable="true" layoutX="-3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="750.0">
            <MenuBar prefHeight="27.0" prefWidth="421.0">
@@ -50,7 +43,7 @@
                            <graphic>
                               <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true">
                                  <image>
-                                    <Image url="@Logo-corners.png" />
+                                    <Image url="@Images/Logo-corners.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -59,7 +52,7 @@
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@house.png" />
+                                    <Image url="@Images/house.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -68,16 +61,16 @@
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@folder-plus.png" />
+                                    <Image url="@Images/folder-plus.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton id="offersButton" fx:id="aboutButton" prefHeight="60.0" prefWidth="102.0" text="Offers">
+                        <JFXButton id="offersButton" fx:id="offersButton" prefHeight="60.0" prefWidth="102.0" text="Offers">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@comment-medical.png" />
+                                    <Image url="@Images/comment-medical.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -86,7 +79,7 @@
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@person-shelter.png" />
+                                    <Image url="@Images/person-shelter.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -95,16 +88,16 @@
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@clock-rotate-left.png" />
+                                    <Image url="@Images/clock-rotate-left.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton id="signOutButton" fx:id="signOutButton" prefHeight="60.0" prefWidth="102.0" text="Sign Out">
+                        <JFXButton id="signOutButton" fx:id="signOutButton" onAction="#handleSignOut" prefHeight="60.0" prefWidth="102.0" text="Sign Out">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@door-open.png" />
+                                    <Image url="@Images/door-open.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -121,24 +114,24 @@
                         <Font name="Gill Sans MT" size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="61.0" prefWidth="692.0" text="You currently have: x Requests in your Requests list." textFill="#44919c" translateX="20.0" wrapText="true">
+                  <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Requests in your Requests list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
                      <font>
                         <Font name="Gill Sans MT" size="27.0" />
                      </font>
                   </Label>
-                  <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="62.0" prefWidth="692.0" text="x Offers in your Offers list." textFill="#44919c" translateX="242.0" translateY="15.0" wrapText="true">
+                  <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Offers in your Offers list." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
                      <font>
                         <Font name="Gill Sans MT" size="27.0" />
                      </font>
                   </Label>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <ImageView id="affectedHomePhoto" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                        <ImageView id="affectedHomePhoto" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" translateY="20.0" BorderPane.alignment="CENTER">
                            <viewport>
                               <Rectangle2D />
                            </viewport>
                            <image>
-                              <Image url="@home-photo.png" />
+                              <Image url="@Images/home-photo.png" />
                            </image>
                         </ImageView>
                      </center>

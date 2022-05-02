@@ -1,11 +1,5 @@
 package org.ShelterMe.project.model;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 import org.dizitart.no2.objects.Id;
 
 import java.io.IOException;
@@ -32,7 +26,7 @@ abstract public class User {
     private String fullName;
     private String country;
     private String phoneNumber;
-    private int currentFailedAttemps;
+    private int currentFailedAttempts;
     private Date lockedInUntil;
     private boolean isLocked;
 
@@ -96,12 +90,12 @@ abstract public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getCurrentFailedAttemps() {
-        return currentFailedAttemps;
+    public int getCurrentFailedAttempts() {
+        return currentFailedAttempts;
     }
 
-    public void setCurrentFailedAttemps(int currentFailedAttemps) {
-        this.currentFailedAttemps = currentFailedAttemps;
+    public void setCurrentFailedAttempts(int currentFailedAttempts) {
+        this.currentFailedAttempts = currentFailedAttempts;
     }
 
     public boolean isLocked() {
