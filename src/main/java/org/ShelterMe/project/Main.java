@@ -24,7 +24,7 @@ public class Main extends Application {
         UserService.initDatabase();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         primaryStage.setTitle("ShelterMe");
-        primaryStage.setScene(new Scene(root, 627, 418));
+        primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.getIcons().add(new Image("file:docs/Logo.png"));
         primaryStage.show();
         primaryStage.setResizable(false);

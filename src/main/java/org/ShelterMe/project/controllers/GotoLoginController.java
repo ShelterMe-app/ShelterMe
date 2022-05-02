@@ -16,7 +16,7 @@ abstract class GotoLoginController {
         stage.close();
 
         Parent login = FXMLLoader.load(GotoLoginController.class.getClassLoader().getResource("login.fxml"));
-        Scene scene = new Scene(login);
+        Scene scene = new Scene(login, 700, 500);
         Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         appStage.setScene(scene);
         appStage.setTitle("ShelterMe");
