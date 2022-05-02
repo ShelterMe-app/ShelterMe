@@ -17,6 +17,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
+import java.util.Date;
+
 public class UserService {
 
     private static ObjectRepository<User> userRepository;
@@ -148,19 +150,38 @@ public class UserService {
             throw new EmptyFieldException("password");
     }
 
-    public static User verifyLogin(String username, String password) throws EmptyFieldException, IncorrectPasswordException, UsernameDoesNotExistException {
+    public static User verifyLogin(String username, String password) throws EmptyFieldException, IncorrectPasswordException, UsernameDoesNotExistException, LockedAccountException {
         checkLoginEmptyFields(username, password);
         boolean userExists = false;
         for (User user : userRepository.find()) {
             if (Objects.equals(username, user.getUsername())) {
                 userExists = true;
-                if (! Objects.equals(encodePassword(username, password), user.getPassword()))
-                    throw new IncorrectPasswordException();
+                if (!Objects.equals(encodePassword(username, password), user.getPassword())) {
+                    if (user.isLocked() == true) {
+                        if (new Date().after(user.getLockedInUntil())) {
+                            user.setLocked(false);
+                            user.setLockedInUntil(null);
+                            updateUserInDatabase(user);
+                            throw new IncorrectPasswordException(user);
+                        } else throw new LockedAccountException(user);
+                    } else throw new IncorrectPasswordException(user);
+                }
+                if (user.isLocked() == true) {
+                    if (new Date().after(user.getLockedInUntil())) {
+                        user.setLocked(false);
+                        user.setLockedInUntil(null);
+                        updateUserInDatabase(user);
+                    } else throw new LockedAccountException(user);
+                }
                 return user;
             }
-        }
+         }
         if(!userExists)
             throw new UsernameDoesNotExistException(username);
         return null;
+    }
+
+    public static void updateUserInDatabase(User user) {
+        userRepository.update(user);
     }
 }

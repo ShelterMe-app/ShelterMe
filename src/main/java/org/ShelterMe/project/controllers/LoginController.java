@@ -13,11 +13,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.ShelterMe.project.exceptions.EmptyFieldException;
 import org.ShelterMe.project.exceptions.IncorrectPasswordException;
+import org.ShelterMe.project.exceptions.LockedAccountException;
 import org.ShelterMe.project.exceptions.UsernameDoesNotExistException;
+import org.ShelterMe.project.services.FileSystemService;
 import org.ShelterMe.project.services.UserService;
 import org.ShelterMe.project.model.User;
+import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.objects.ObjectRepository;
 
 import java.io.IOException;
+
+import java.util.Date;
 
 public class LoginController {
 
@@ -32,12 +38,27 @@ public class LoginController {
     private Button loginButton;
 
     public void handleLoginAction(javafx.event.ActionEvent event){
+        User connectedUser = null;
         try{
-            User connectedUser = UserService.verifyLogin(usernameField.getText(), passwordField.getText());
+            connectedUser = UserService.verifyLogin(usernameField.getText(), passwordField.getText());
+            connectedUser.setCurrentFailedAttemps(0);
+            UserService.updateUserInDatabase(connectedUser);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.close();
             connectedUser.openMainUserPage();
-        } catch (EmptyFieldException | UsernameDoesNotExistException | IncorrectPasswordException | IOException e) {
+        } catch(IncorrectPasswordException e) {
+            connectedUser = e.getUser();
+            connectedUser.setCurrentFailedAttemps(connectedUser.getCurrentFailedAttemps() + 1);
+            UserService.updateUserInDatabase(connectedUser);
+            if (connectedUser.getCurrentFailedAttemps() == 5 && connectedUser.isLocked() == false) {
+                connectedUser.setCurrentFailedAttemps(0);
+                connectedUser.setLockedInUntil(new Date(new Date().getTime() + (1000 * 60 * 60 * 24)));
+                connectedUser.setLocked(true);
+                UserService.updateUserInDatabase(connectedUser);
+                loginMessage.setText("You have exhausted all attempts. You can try again after: " + connectedUser.getLockedInUntil().toString());
+            } else
+                loginMessage.setText(e.getMessage());
+        } catch (LockedAccountException | EmptyFieldException | UsernameDoesNotExistException | IOException e) {
             loginMessage.setText(e.getMessage());
         }
     }

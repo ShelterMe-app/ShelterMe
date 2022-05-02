@@ -15,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.Date;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "role", visible = true)
 @JsonSubTypes({
@@ -30,6 +32,9 @@ abstract public class User {
     private String fullName;
     private String country;
     private String phoneNumber;
+    private int currentFailedAttemps;
+    private Date lockedInUntil;
+    private boolean isLocked;
 
     public User(String username, String password, String role, String fullName, String country, String phoneNumber) {
         this.username = username;
@@ -89,6 +94,30 @@ abstract public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public int getCurrentFailedAttemps() {
+        return currentFailedAttemps;
+    }
+
+    public void setCurrentFailedAttemps(int currentFailedAttemps) {
+        this.currentFailedAttemps = currentFailedAttemps;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public Date getLockedInUntil() {
+        return lockedInUntil;
+    }
+
+    public void setLockedInUntil(Date lockedInUntil) {
+        this.lockedInUntil = lockedInUntil;
     }
 
     @Override
