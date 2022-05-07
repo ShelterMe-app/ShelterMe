@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.ShelterMe.project.controllers.VolunteerPageController;
 import org.ShelterMe.project.controllers.RegistrationController;
+import org.ShelterMe.project.services.VolunteerService;
 
 import java.io.IOException;
 
@@ -31,4 +32,6 @@ public class Volunteer extends User {
         controller.setSignedInAs(getFullName());
         mainUserPage.requestFocus();
     }
+
+
 }

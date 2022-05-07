@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.ShelterMe.project.services.VolunteerService;
+import org.ShelterMe.project.model.VolunteerItem;
 
 import java.io.IOException;
 
