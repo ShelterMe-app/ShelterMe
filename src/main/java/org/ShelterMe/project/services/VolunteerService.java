@@ -29,4 +29,13 @@ public class VolunteerService {
         volunteerItemsRepository = database.getRepository(VolunteerItem.class);
     }
 
+    public static VolunteerItem getVolunteerItems(String username) {
+        for (VolunteerItem item : volunteerItemsRepository.find()) {
+            if (Objects.equals(username, item.getUsername())) {
+                return item;
+            }
+        }
+        return null;
+    }
+
 }
