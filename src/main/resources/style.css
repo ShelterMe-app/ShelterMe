@@ -78,3 +78,8 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
 }
 
+#AddForm{
+    -fx-background-image: url("Images/BackgroundImage_colorised.jpg");
+    -fx-background-size: 400%;
+}
+
