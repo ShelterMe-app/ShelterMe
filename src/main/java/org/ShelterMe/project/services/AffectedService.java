@@ -22,11 +22,20 @@ import java.util.Date;
 public class AffectedService {
     private static ObjectRepository<AffectedItem> affectedItemsRepository;
 
-    public static void initVolunteerItemsDatabase() {
+    public static void initAffectedItemsDatabase() {
         Nitrite database = Nitrite.builder()
                 .filePath(FileSystemService.getPathToFile("affected-items.db").toFile())
                 .openOrCreate("test", "test");
 
         affectedItemsRepository = database.getRepository(AffectedItem.class);
+    }
+
+    public static AffectedItem getAffectedItems(String username) {
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            if (Objects.equals(username, item.getUsername())) {
+                return item;
+            }
+        }
+        return null;
     }
 }
