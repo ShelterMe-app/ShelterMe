@@ -12,6 +12,8 @@ import org.ShelterMe.project.controllers.RegistrationController;
 
 import java.io.IOException;
 
+import org.ShelterMe.project.services.AffectedService;
+
 public class Affected extends User {
 
     public Affected(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
