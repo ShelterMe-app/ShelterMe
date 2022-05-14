@@ -87,7 +87,7 @@
                 <StackPane>
 
 
-                    <VBox fx:id="homeTab" managed="false" visible="false">
+                    <VBox fx:id="homeTab">
                         <children>
                             <Label id="welcomeMessage" fx:id="signedInAsLabel" alignment="TOP_LEFT" prefHeight="37.0" prefWidth="730.0" text="Welcome," textFill="#44919c" translateX="20.0">
                                 <font>
@@ -124,7 +124,7 @@
                         </children>
                     </VBox>
 
-                    <VBox fx:id="offersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
+                    <VBox fx:id="offersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" managed="false" visible="false">
                         <children>
                             <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" text="New offer" onAction="#handleAddOffer">
                                 <graphic>

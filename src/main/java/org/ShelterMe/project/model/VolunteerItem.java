@@ -21,7 +21,7 @@ public class VolunteerItem {
         this.image = image;
     }
 
-    public VolunteerItem() {
+    public VolunteerItem(String username, String name, String category, String supplies, float quantity, java.awt.Image image) {
     }
 
     public void setUsername(String username) {
