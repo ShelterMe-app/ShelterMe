@@ -18,6 +18,8 @@ import java.util.Objects;
 
 import java.util.Date;
 
+import javafx.scene.image.Image;
+
 
 public class AffectedService {
     private static ObjectRepository<AffectedItem> affectedItemsRepository;
@@ -37,5 +39,9 @@ public class AffectedService {
             }
         }
         return null;
+    }
+
+    public static void addItem(String username, String name, String categories, String supplies, float quantity, Image image) {
+            affectedItemsRepository.insert(new AffectedItem(username, name, categories, supplies, quantity, image));
     }
 }
