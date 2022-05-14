@@ -9,33 +9,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedPageController">
    <children>
-       <HBox alignment="TOP_CENTER" disable="true" layoutX="-3.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="60.0" prefWidth="750.0">
-           <MenuBar prefHeight="27.0" prefWidth="421.0">
-               <menus>
-                   <Menu mnemonicParsing="false" text="My Requests">
-                       <items>
-                           <MenuItem mnemonicParsing="false" text="View" />
-                           <MenuItem mnemonicParsing="false" text="Add" />
-                           <MenuItem mnemonicParsing="false" text="Delete" />
-                       </items>
-                   </Menu>
-                   <Menu mnemonicParsing="false" text="View Volunteers" />
-                   <Menu mnemonicParsing="false" text="History" />
-               </menus>
-           </MenuBar>
-           <MenuBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="324.0">
-               <menus>
-                   <Menu mnemonicParsing="false" text="Sign Out" />
-                   <Menu mnemonicParsing="false" text="About" />
-               </menus>
-           </MenuBar>
-       </HBox>
-      <BorderPane prefHeight="500.0" prefWidth="750.0">
-         <center>
-            <HBox id="welcomeMessage" prefHeight="339.0" prefWidth="750.0" BorderPane.alignment="CENTER" />
-         </center>
+      <BorderPane fx:id="borderPane" prefHeight="500.0" prefWidth="750.0">
          <top>
-            <VBox prefHeight="500.0" prefWidth="750.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="60.0" prefWidth="750.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox id="menuBar" prefHeight="60.0" prefWidth="750.0">
                      <children>
@@ -48,16 +24,16 @@
                               </ImageView>
                            </graphic>
                         </Label>
-                        <JFXButton id="homeButton" fx:id="homeButton" prefHeight="60.0" prefWidth="102.0" text="Home">
+                        <JFXButton id="homeButton" fx:id="homeButton" onAction="#handleHomePage" prefHeight="60.0" prefWidth="102.0" text="Home">
                            <graphic>
-                              <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView accessibleRole="BUTTON" fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@Images/house.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton id="requestsButton" fx:id="requestsButton" prefHeight="60.0" prefWidth="102.0" text="Requests">
+                        <JFXButton id="requestsButton" fx:id="requestsButton" onAction="#handleRequestsPage" prefHeight="60.0" prefWidth="102.0" text="Requests">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -75,7 +51,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton id="volunteersButton" fx:id="volunteersButton" prefHeight="60.0" prefWidth="102.0" text="Volunteers">
+                        <JFXButton id="volunteersButton" fx:id="volunteerButton" prefHeight="60.0" prefWidth="102.0" text="Volunteers">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -104,41 +80,72 @@
                         </JFXButton>
                      </children>
                   </HBox>
-                  <Label id="welcomeMessage" fx:id="signedInAsLabel" alignment="TOP_LEFT" prefHeight="37.0" prefWidth="730.0" text="Welcome," textFill="#44919c" translateX="20.0">
-                     <font>
-                        <Font name="Gill Sans MT" size="19.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="signedInAsLabel1" alignment="TOP_LEFT" prefHeight="38.0" prefWidth="722.0" text="There are currently x Volunteers available in your country." textFill="#44919c" translateX="20.0" wrapText="true">
-                     <font>
-                        <Font name="Gill Sans MT" size="27.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Requests in your Requests list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
-                     <font>
-                        <Font name="Gill Sans MT" size="27.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Offers in your Offers list." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
-                     <font>
-                        <Font name="Gill Sans MT" size="27.0" />
-                     </font>
-                  </Label>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <ImageView id="affectedHomePhoto" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" translateY="20.0" BorderPane.alignment="CENTER">
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                           <image>
-                              <Image url="@Images/home-photo.png" />
-                           </image>
-                        </ImageView>
-                     </center>
-                  </BorderPane>
                </children>
             </VBox>
          </top>
+         <center>
+            <StackPane>
+
+
+               <VBox fx:id="homeTab" managed="false" visible="false">
+                  <children>
+                     <Label id="welcomeMessage" fx:id="signedInAsLabel" alignment="TOP_LEFT" prefHeight="37.0" prefWidth="730.0" text="Welcome," textFill="#44919c" translateX="20.0">
+                        <font>
+                           <Font name="Gill Sans MT" size="19.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="signedInAsLabel1" alignment="TOP_LEFT" prefHeight="38.0" prefWidth="722.0" text="There are currently x Volunteers available in your country." textFill="#44919c" translateX="20.0" wrapText="true">
+                        <font>
+                           <Font name="Gill Sans MT" size="27.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Requests in your Requests list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
+                        <font>
+                           <Font name="Gill Sans MT" size="27.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Offers in your Offers list." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
+                        <font>
+                           <Font name="Gill Sans MT" size="27.0" />
+                        </font>
+                     </Label>
+                     <BorderPane prefHeight="200.0" prefWidth="200.0">
+                        <center>
+                           <ImageView id="affectedHomePhoto" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" translateY="20.0" BorderPane.alignment="CENTER">
+                              <viewport>
+                                 <Rectangle2D />
+                              </viewport>
+                              <image>
+                                 <Image url="@Images/home-photo.png" />
+                              </image>
+                           </ImageView>
+                        </center>
+                     </BorderPane>
+                  </children>
+               </VBox>
+
+               <VBox fx:id="requestsTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
+                  <children>
+                     <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" text="New request" onAction="#handleAddRequest">
+                        <graphic>
+                           <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@Images/circle-plus.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                     </JFXButton>
+                  </children>
+                  <padding>
+                     <Insets bottom="50.0" />
+                  </padding>
+               </VBox>
+            </StackPane>
+
+         </center>
       </BorderPane>
+
    </children>
+
+
 </AnchorPane>
