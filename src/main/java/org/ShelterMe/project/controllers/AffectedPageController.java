@@ -26,7 +26,9 @@ import java.awt.*;
 import java.awt.Rectangle;
 import java.awt.image.ImageFilter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.model.AffectedItem;
@@ -34,7 +36,18 @@ import org.ShelterMe.project.model.AffectedItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
+import org.ShelterMe.project.model.Affected;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class AffectedPageController{
+    private Affected loggedInAffected;
+
     @FXML
     private Label signedInAsLabel;
     @FXML
@@ -49,19 +62,11 @@ public class AffectedPageController{
     private VBox requestsTab;
     @FXML
     private VBox homeTab;
-    @FXML
-    private TextField requestName;
-    @FXML
-    private ComboBox requestCategory;
-    @FXML
-    private TextArea requestSupplies;
-    @FXML
-    private TextField requestQuantity;
-    @FXML
-    private Hyperlink requestImage;
 
-    public void setSignedInAs(String fullName) {
-        signedInAsLabel.setText("Welcome, " + fullName + "!");
+
+    public void setSignedInAs(Affected loggedInAffected) {
+        this.loggedInAffected = loggedInAffected;
+        signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -83,7 +88,10 @@ public class AffectedPageController{
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
-        Parent addRequest = FXMLLoader.load(getClass().getClassLoader().getResource("addRequestForm.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("addRequestForm.fxml"));
+        Parent addRequest = loader.load();
+        RequestMenuController newController = loader.getController();
+        newController.setLoggedInAffected(loggedInAffected);
         Scene scene = new Scene(addRequest);
         Stage newStage = new Stage();
         newStage.setScene(scene);
@@ -95,14 +103,5 @@ public class AffectedPageController{
         newStage.setResizable(false);
     }
 
-    public void handleAddImageAction(javafx.event.ActionEvent event) throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select an image..");
-        fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Image files", "*.png", "*.jpg"));
-        fileChooser.showOpenDialog(requestImage.getScene().getWindow());
-    }
 
-    public void handleAddRequestAction(javafx.event.ActionEvent event) throws IOException {
-
-    }
 }

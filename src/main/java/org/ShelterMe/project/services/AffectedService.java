@@ -41,7 +41,13 @@ public class AffectedService {
         return null;
     }
 
-    public static void addItem(String username, String name, String categories, String supplies, float quantity, Image image) {
-            affectedItemsRepository.insert(new AffectedItem(username, name, categories, supplies, quantity, image));
+    public static void addItem(String username, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) {
+            affectedItemsRepository.insert(new AffectedItem(username, name, categories, supplies, quantity, generalInformation, healthCondition, imageBase64));
+    }
+
+    public static int getCounter() {
+        if (affectedItemsRepository != null)
+            return affectedItemsRepository.find().toList().size();
+        else return 0;
     }
 }

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox fx:id="AddForm" alignment="CENTER" prefHeight="600.0" prefWidth="350.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedPageController">
+<?import javafx.scene.control.ComboBox?>
+<VBox fx:id="AddForm" alignment="CENTER" prefHeight="600.0" prefWidth="350.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.RequestMenuController">
     <padding>
         <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
     </padding>
@@ -17,11 +22,15 @@
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Request name:" />
     <TextField fx:id="requestName" />
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" />
-    <ComboBox fx:id="requestCategory" prefWidth="150.0" />
+   <ComboBox fx:id="requestCategory" prefWidth="150.0" />
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplies:" />
     <TextArea fx:id="requestSupplies" prefHeight="200.0" prefWidth="200.0" />
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity:" />
     <TextField fx:id="requestQuantity" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="General information" />
+   <TextArea fx:id="generalInformation" prefHeight="50.0" prefWidth="285.0" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Health Condition" />
+   <TextArea fx:id="healthCondition" prefHeight="200.0" prefWidth="200.0" />
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Image:" />
     <Hyperlink fx:id="requestImage" onAction="#handleAddImageAction" text="Select image" />
     <Button fx:id="addRequestButton" onAction="#handleAddRequestAction" text="Add request" />

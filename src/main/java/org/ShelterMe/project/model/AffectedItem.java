@@ -1,24 +1,31 @@
 package org.ShelterMe.project.model;
 
 import javafx.scene.image.Image;
+import org.ShelterMe.project.services.AffectedService;
 import org.dizitart.no2.objects.Id;
 
 public class AffectedItem {
     @Id
+    private int id;
     private String username;
     private String name;
     private String category;
     private String supplies;
     private float quantity;
-    private Image image;
+    private String generalInformation;
+    private String healthCondition;
+    private String imageBase64;
 
-    public AffectedItem(String username, String name, String category, String supplies, float quantity, Image image) {
+    public AffectedItem(String username, String name, String category, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) {
+        this.id = AffectedService.getCounter() + 1;
         this.username = username;
         this.name = name;
         this.category = category;
         this.supplies = supplies;
         this.quantity = quantity;
-        this.image = image;
+        this.generalInformation = generalInformation;
+        this.healthCondition = healthCondition;
+        this.imageBase64 = imageBase64;
     }
 
     public AffectedItem() {
@@ -44,8 +51,12 @@ public class AffectedItem {
         this.quantity = quantity;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public String getUsername() {
@@ -68,7 +79,23 @@ public class AffectedItem {
         return quantity;
     }
 
-    public Image getImage() {
-        return image;
+    public String getGeneralInformation() {
+        return generalInformation;
+    }
+
+    public void setGeneralInformation(String generalInformation) {
+        this.generalInformation = generalInformation;
+    }
+
+    public String getHealthCondition() {
+        return healthCondition;
+    }
+
+    public void setHealthCondition(String healthCondition) {
+        this.healthCondition = healthCondition;
+    }
+
+    public int getId() {
+        return id;
     }
 }
