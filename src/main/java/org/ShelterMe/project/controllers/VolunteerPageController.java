@@ -24,7 +24,20 @@ import java.awt.*;
 import java.awt.Rectangle;
 import java.io.IOException;
 
+import java.io.FileReader;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
+import org.ShelterMe.project.model.Volunteer;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class VolunteerPageController{
+    private Volunteer loggedInVolunteer;
     @FXML
     private Label signedInAsLabel;
     @FXML
@@ -39,9 +52,11 @@ public class VolunteerPageController{
     private VBox offersTab;
     @FXML
     private VBox homeTab;
+    protected String username;
 
-    public void setSignedInAs(String fullName) {
-        signedInAsLabel.setText("Welcome, " + fullName + "!");
+    public void setSignedInAs(Volunteer loggedInAffected) {
+        this.loggedInVolunteer = loggedInAffected;
+        signedInAsLabel.setText("Welcome, " + loggedInVolunteer.getFullName() + "!");
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -62,7 +77,10 @@ public class VolunteerPageController{
     }
 
     public void handleAddOffer(javafx.event.ActionEvent event) throws IOException {
-        Parent addOffer = FXMLLoader.load(getClass().getClassLoader().getResource("addOfferForm.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("addOfferForm.fxml"));
+        Parent addOffer = loader.load();
+        OfferMenuController newController = loader.getController();
+        newController.setLoggedInVolunteer(loggedInVolunteer);
         Scene scene = new Scene(addOffer);
         Stage newStage = new Stage();
         newStage.setScene(scene);
@@ -72,9 +90,5 @@ public class VolunteerPageController{
         newStage.getIcons().add(new Image("file:docs/Logo.png"));
         newStage.show();
         newStage.setResizable(false);
-    }
-
-    public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
-
     }
 }

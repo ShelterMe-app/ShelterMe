@@ -1,27 +1,30 @@
 package org.ShelterMe.project.model;
 
 import javafx.scene.image.Image;
+import org.ShelterMe.project.services.VolunteerService;
 import org.dizitart.no2.objects.Id;
 
 public class VolunteerItem {
     @Id
+    private int id;
     private String username;
     private String name;
     private String category;
     private String supplies;
     private float quantity;
-    private Image image;
+    private String imageBase64;
 
-    public VolunteerItem(String username, String name, String category, String supplies, float quantity, Image image) {
+    public VolunteerItem(String username, String name, String category, String supplies, float quantity, String imageBase64) {
+        this.id = VolunteerService.getCounter() + 1;
         this.username = username;
         this.name = name;
         this.category = category;
         this.supplies = supplies;
         this.quantity = quantity;
-        this.image = image;
+        this.imageBase64 = imageBase64;
     }
 
-    public VolunteerItem(String username, String name, String category, String supplies, float quantity, java.awt.Image image) {
+    public VolunteerItem() {
     }
 
     public void setUsername(String username) {
@@ -44,8 +47,8 @@ public class VolunteerItem {
         this.quantity = quantity;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public String getUsername() {
@@ -68,7 +71,8 @@ public class VolunteerItem {
         return quantity;
     }
 
-    public Image getImage() {
-        return image;
+    public String getImageBase64() {
+        return imageBase64;
     }
+
 }

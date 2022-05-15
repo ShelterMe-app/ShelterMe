@@ -29,7 +29,7 @@ public class Volunteer extends User {
         stage.setScene(new Scene(mainUserPage, 750, 500));
         stage.show();
         stage.setResizable(false);
-        controller.setSignedInAs(getFullName());
+        controller.setSignedInAs(this);
         mainUserPage.requestFocus();
     }
 

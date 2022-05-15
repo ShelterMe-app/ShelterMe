@@ -10,7 +10,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
-import java.awt.*;
+import javafx.scene.image.Image;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,8 +39,14 @@ public class VolunteerService {
         return null;
     }
 
-    public static void addVolunteerItem(String username, String name, String category, String supplies, float quantity, Image image) {
-        volunteerItemsRepository.insert(new VolunteerItem(username, name, category, supplies, quantity, image));
+    public static void addItem(String username, String name, String categories, String supplies, float quantity, String imageBase64) {
+        volunteerItemsRepository.insert(new VolunteerItem(username, name, categories, supplies, quantity, imageBase64));
+    }
+
+    public static int getCounter() {
+        if (volunteerItemsRepository != null)
+            return volunteerItemsRepository.find().toList().size();
+        else return 0;
     }
 
 }

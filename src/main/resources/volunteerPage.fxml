@@ -94,17 +94,17 @@
                                     <Font name="Gill Sans MT" size="19.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="signedInAsLabel1" alignment="TOP_LEFT" prefHeight="38.0" prefWidth="722.0" text="There are currently x Volunteers available in your country." textFill="#44919c" translateX="20.0" wrapText="true">
+                            <Label fx:id="signedInAsLabel1" alignment="TOP_LEFT" prefHeight="38.0" prefWidth="722.0" text="There are currently x Affected available in your country." textFill="#44919c" translateX="20.0" wrapText="true">
                                 <font>
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Requests in your Requests list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
+                            <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Offers in your Requests list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
                                 <font>
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Offers in your Offers list." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
+                            <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Requests in your Offers list." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
                                 <font>
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
