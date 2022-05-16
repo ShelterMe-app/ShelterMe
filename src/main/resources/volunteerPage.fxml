@@ -124,18 +124,44 @@
                         </children>
                     </VBox>
 
-                    <VBox fx:id="offersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" managed="false" visible="false">
+                    <VBox fx:id="offersTab" alignment="BOTTOM_CENTER" managed="false" stylesheets="@menu.css" visible="false">
                         <children>
-                            <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" text="New offer" onAction="#handleAddOffer">
-                                <graphic>
-                                    <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@Images/circle-plus.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic>
-                            </JFXButton>
+                            <TableView fx:id="offersTable" onMouseClicked="#handleTableClick" prefHeight="291.0" prefWidth="750" />
+                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                <children>
+                                    <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddOffer" text="New offer">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/circle-plus.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="InMenuButton" fx:id="editOffer" alignment="CENTER" mnemonicParsing="false" onAction="#handleEditOffer" text="Edit Offer" textAlignment="CENTER">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/circle-plus.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="InMenuButton" fx:id="showOfferImage" alignment="CENTER" mnemonicParsing="false" onAction="#handleOfferImage" text="Show Offer Image">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/circle-plus.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                </children>
+                            </HBox>
                         </children>
+                        <padding>
+                            <Insets bottom="50.0" />
+                        </padding>
                   <padding>
                      <Insets bottom="50.0" />
                   </padding>
