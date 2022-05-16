@@ -203,5 +203,19 @@ public class AffectedPageController{
         }
     }
 
+    public void handleRemoveRequest(javafx.event.ActionEvent event) throws IOException {
+        if (requestsTable.getSelectionModel().getSelectedItem() != null) {
+            AffectedItem request = (AffectedItem)requestsTable.getSelectionModel().getSelectedItem();
+            int requestId = request.getId();
+            AffectedService.removeItem(requestId);
+            JOptionPane.showMessageDialog(null, "Selected request has been removed", "Succesfully removed request", 1);
+            if (requestsTable != null)
+                requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a request in order to remove", "Failed to remove request", 1);
+        }
+    }
+
+
 
 }
