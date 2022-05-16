@@ -31,3 +31,28 @@
 #affectedHomePhoto {
     -fx-alignment: center;
 }
+
+#InMenuButton {
+    -fx-padding: 5 22 5 22;
+    -fx-border-color: #1d1d1d;
+    -fx-border-width: 3px 0px 3px 0px;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #1d1d1d;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+#InMenuButton:hover {
+    -fx-background-color: #2a937f;
+}
+
+#InMenuButton:pressed, #InMenuButton:default:hover:pressed {
+    -fx-background-color: #effcf8;
+}
+
+#InMenuButton:default:hover {
+    -fx-background-color: derive(-fx-focus-color,30%);
+
+}
