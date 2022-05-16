@@ -70,7 +70,7 @@ public class AffectedPageController{
     @FXML
     private TableView requestsTable;
 
-    private ImageView requestImage;
+    private Image requestImage;
 
     public void setSignedInAs(Affected loggedInAffected) {
         this.loggedInAffected = loggedInAffected;
@@ -144,12 +144,27 @@ public class AffectedPageController{
     }
 
     public void handleTableClick(MouseEvent event) throws IOException  {
-        requestImage = new ImageView();
-        requestImage.setImage(AffectedService.base64ToImage(((AffectedItem)requestsTable.getSelectionModel().getSelectedItem()).getImageBase64())));
+        requestImage = AffectedService.base64ToImage(((AffectedItem)requestsTable.getSelectionModel().getSelectedItem()).getImageBase64());
     }
 
     public void handleRequestImage(javafx.event.ActionEvent event) throws IOException {
-        requestImage.get
+        if (requestImage == null) {
+            JOptionPane.showMessageDialog(null, "This request has no image", "Failed to open image", 1);
+            return;
+        }
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("requestImageDialog.fxml"));
+        Parent imageDialog = loader.load();
+        RequestImageDialogController controller = loader.getController();
+        controller.setRequestImage(requestImage);
+        Scene scene = new Scene(imageDialog);
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.setTitle("ShelterMe - Request image");
+        newStage.getIcons().add(new Image("file:docs/Logo.png"));
+        newStage.show();
+        newStage.setResizable(false);
+
     }
 
     public void handleEditRequest(javafx.event.ActionEvent event) throws IOException {

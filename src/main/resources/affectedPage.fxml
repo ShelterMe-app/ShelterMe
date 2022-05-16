@@ -133,7 +133,7 @@
 
                <VBox fx:id="requestsTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
                   <children>
-                     <TableView fx:id="requestsTable" onAction="#handleTableClick" prefHeight="291.0" prefWidth="750.0" />
+                     <TableView fx:id="requestsTable" onMouseClicked="#handleTableClick" prefHeight="291.0" prefWidth="750.0" />
                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddRequest" text="New request">
