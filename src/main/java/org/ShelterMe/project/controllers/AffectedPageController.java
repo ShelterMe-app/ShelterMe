@@ -1,23 +1,27 @@
 package org.ShelterMe.project.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.*;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
 import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -63,16 +67,46 @@ public class AffectedPageController{
     @FXML
     private VBox homeTab;
 
+    @FXML
+    private TableView requestsTable;
+
+    private ImageView requestImage;
 
     public void setSignedInAs(Affected loggedInAffected) {
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
+        requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) signOutButton.getScene().getWindow();
         GotoLoginController.goToLogin(stage, event);
     }
+
+    @FXML
+    public void initialize() {
+        TableColumn<AffectedItem, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setMinWidth(200);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<AffectedItem, String> categoryColumn = new TableColumn<>("Category");
+        categoryColumn.setMinWidth(200);
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        TableColumn<AffectedItem, String> suppliesColumn = new TableColumn<>("Supplies");
+        suppliesColumn.setMinWidth(200);
+        suppliesColumn.setCellValueFactory(new PropertyValueFactory<>("supplies"));
+        TableColumn<AffectedItem, Float> quantityColumn = new TableColumn<>("Quantity");
+        quantityColumn.setMinWidth(200);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        TableColumn<AffectedItem, String> generalInformationColumn = new TableColumn<>("General Information");
+        generalInformationColumn.setMinWidth(200);
+        generalInformationColumn.setCellValueFactory(new PropertyValueFactory<>("generalInformation"));
+        TableColumn<AffectedItem, String> healthConditionColumn = new TableColumn<>("Health Condition");
+        healthConditionColumn.setMinWidth(200);
+        healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
+        requestsTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn, generalInformationColumn, healthConditionColumn);
+    }
+
+
 
     public void handleHomePage() {
         homeTab.setVisible(true);
@@ -85,6 +119,7 @@ public class AffectedPageController{
         homeTab.setManaged(false);
         requestsTab.setVisible(true);
         requestsTab.setManaged(true);
+
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
@@ -103,8 +138,22 @@ public class AffectedPageController{
         newStage.setResizable(false);
     }
 
+    public ObservableList<AffectedItem> getRequests(String username) {
+
+        return FXCollections.observableList(AffectedService.databaseToList(username));
+    }
+
+    public void handleTableClick(MouseEvent event) throws IOException  {
+        requestImage = new ImageView();
+        requestImage.setImage(AffectedService.base64ToImage(((AffectedItem)requestsTable.getSelectionModel().getSelectedItem()).getImageBase64())));
+    }
+
+    public void handleRequestImage(javafx.event.ActionEvent event) throws IOException {
+        requestImage.get
+    }
+
     public void handleEditRequest(javafx.event.ActionEvent event) throws IOException {
-        
+
     }
 
 

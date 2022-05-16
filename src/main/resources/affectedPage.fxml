@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -132,7 +133,8 @@
 
                <VBox fx:id="requestsTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
                   <children>
-                     <HBox prefHeight="100.0" prefWidth="200.0">
+                     <TableView fx:id="requestsTable" onAction="#handleTableClick" prefHeight="291.0" prefWidth="750.0" />
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddRequest" text="New request">
                               <graphic>
@@ -143,7 +145,16 @@
                                  </ImageView>
                               </graphic>
                            </JFXButton>
-                           <JFXButton id="InMenuButton" fx:id="editRequest" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddRequest" text="Edit Request" textAlignment="CENTER">
+                           <JFXButton id="InMenuButton" fx:id="editRequest" alignment="CENTER" mnemonicParsing="false" onAction="#handleEditRequest" text="Edit Request" textAlignment="CENTER">
+                              <graphic>
+                                 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@Images/circle-plus.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton id="InMenuButton" fx:id="showRequestImage" alignment="CENTER" mnemonicParsing="false" onAction="#handleRequestImage" text="Show Request Image">
                               <graphic>
                                  <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

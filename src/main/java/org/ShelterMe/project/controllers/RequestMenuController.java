@@ -88,7 +88,7 @@ public class RequestMenuController {
         File selectedFile = fileChooser.showOpenDialog(requestImage.getScene().getWindow());
         if (selectedFile != null) {
             selectedImage = new Image(selectedFile.getPath());
-            base64Image = imageToBase64(selectedFile.getPath());
+            base64Image = AffectedService.imageToBase64(selectedFile.getPath());
             JOptionPane.showMessageDialog(null, "File has been selected: " + selectedFile.getName(), "Success", 1);
             requestImage.setText(selectedFile.getName());
 
@@ -101,20 +101,5 @@ public class RequestMenuController {
         JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
     }
 
-    private String imageToBase64(String filePath) throws IOException {
-        byte[] fileContent = FileUtils.readFileToByteArray(new File(filePath));
-        String encodedString = Base64
-                .getEncoder()
-                .encodeToString(fileContent);
-    return encodedString;
-    }
 
-    private Image Base64ToString(String base64) throws IOException {
-        byte[] decodedBytes = Base64
-                .getDecoder()
-                .decode(base64);
-        InputStream stream = new ByteArrayInputStream(decodedBytes);
-        Image recoveredImage = new Image(stream);
-        return recoveredImage;
-    }
 }
