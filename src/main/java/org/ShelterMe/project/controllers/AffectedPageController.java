@@ -128,6 +128,7 @@ public class AffectedPageController{
         RequestMenuController newController = loader.getController();
         newController.setLoggedInAffected(loggedInAffected);
         newController.setRequestsTable(requestsTable);
+        newController.setRemoveCurrentImageStatus(false);
         Scene scene = new Scene(addRequest);
         Stage newStage = new Stage();
         newStage.setScene(scene);
@@ -179,6 +180,10 @@ public class AffectedPageController{
             RequestMenuController newController = loader.getController();
             newController.setLoggedInAffected(loggedInAffected);
             newController.setRequestsTable(requestsTable);
+            if (request.getImageBase64() != null && request.getImageBase64().length() > 0)
+                newController.setRemoveCurrentImageStatus(true);
+            else
+                newController.setRemoveCurrentImageStatus(false);
             newController.setRequestId(requestId);
             newController.setRequestMenuWelcomeText("Edit Request");
             newController.setAddRequestButtonText("Edit request");
@@ -198,6 +203,7 @@ public class AffectedPageController{
             newStage.getIcons().add(new Image("file:docs/Logo.png"));
             newStage.show();
             newStage.setResizable(false);
+            requestImage = null;
         } else {
             JOptionPane.showMessageDialog(null, "Select a request in order to edit", "Failed to edit request", 1);
         }

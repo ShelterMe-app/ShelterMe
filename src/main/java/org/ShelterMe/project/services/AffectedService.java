@@ -50,27 +50,28 @@ public class AffectedService {
         return null;
     }
 
-    public static void addItem(String username, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) {
+    public static void addItem(String username, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) throws  EmptyFieldException {
+            checkItemEmptyFields(name, categories, supplies, generalInformation);
             affectedItemsRepository.insert(new AffectedItem(username, name, categories, supplies, quantity, generalInformation, healthCondition, imageBase64));
     }
 
-    public static void editItem(int id, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) {
+    public static void editItem(int id, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) throws EmptyFieldException {
+        checkItemEmptyFields(name, categories, supplies, generalInformation);
         for (AffectedItem item : affectedItemsRepository.find()) {
             if (Objects.equals(id, item.getId())) {
-                if (name.length() > 0)
+                if (name != null && name.length() > 0)
                     item.setName(name);
-                if (categories.length() > 0)
+                if (categories != null && categories.length() > 0)
                     item.setCategory(categories);
-                if (supplies.length() > 0)
+                if (supplies != null && supplies.length() > 0)
                     item.setSupplies(supplies);
                 if (quantity > 0)
                     item.setQuantity(quantity);
-                if (generalInformation.length() > 0)
+                if (generalInformation!= null && generalInformation.length() > 0)
                     item.setGeneralInformation(generalInformation);
-                if (healthCondition.length() > 0)
+                if (healthCondition != null && healthCondition.length() > 0)
                      item.setHealthCondition(healthCondition);
-                if (imageBase64 != null)
-                    item.setImageBase64(imageBase64);
+                item.setImageBase64(imageBase64);
                 affectedItemsRepository.update(item);
                 break;
             }
@@ -85,6 +86,17 @@ public class AffectedService {
                 break;
             }
         }
+    }
+
+    public static void checkItemEmptyFields(String name, String categories, String supplies, String generalInformation) throws EmptyFieldException {
+        if (name == null || name.length() == 0)
+            throw new EmptyFieldException("name");
+        if(categories == null || categories.length() == 0)
+            throw new EmptyFieldException("category");
+        if (supplies == null || supplies.length() == 0)
+            throw new EmptyFieldException("supplies");
+        if (generalInformation == null || generalInformation.length() == 0)
+            throw new EmptyFieldException("general information");
     }
 
     public static List<AffectedItem> databaseToList(String username) {

@@ -32,5 +32,6 @@
    <TextArea fx:id="healthCondition" prefHeight="200.0" prefWidth="200.0" />
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Image:" />
     <Hyperlink fx:id="requestImage" onAction="#handleAddImageAction" text="Select image" />
+   <Hyperlink fx:id="removeCurrentImage" onAction="#handleRemoveImageAction" text="Remove current image" />
     <Button fx:id="addRequestButton" onAction="#handleAddRequestAction" text="Add request" />
 </VBox>

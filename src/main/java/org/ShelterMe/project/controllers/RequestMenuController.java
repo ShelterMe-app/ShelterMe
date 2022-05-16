@@ -5,12 +5,14 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import org.ShelterMe.project.exceptions.QuantityFormatException;
 import org.ShelterMe.project.services.AffectedService;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.ShelterMe.project.exceptions.EmptyFieldException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -46,6 +48,8 @@ public class RequestMenuController {
     private TextArea healthCondition;
     @FXML
     private Hyperlink requestImage;
+    @FXML
+    private Hyperlink removeCurrentImage;
     @FXML
     private Button addRequestButton;
     @FXML
@@ -110,17 +114,43 @@ public class RequestMenuController {
         }
     }
 
+    public void handleRemoveImageAction(javafx.event.ActionEvent event) throws IOException {
+        base64Image = null;
+        JOptionPane.showMessageDialog(null, "Image has been removed", "Success", 1);
+        setRemoveCurrentImageStatus(false);
+    }
+
     public void handleAddRequestAction(javafx.event.ActionEvent event) throws IOException {
         if (addRequestButton.getText().equals("Edit request")) {
-            AffectedService.editItem(requestId, requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
-            JOptionPane.showMessageDialog(null, "Request updated succesfully", "Success", 1);
-            if (requestsTable != null)
-                requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
-        } else {
+           try {
+               if (Float.valueOf(requestQuantity.getText()) <= 0)
+                   throw new QuantityFormatException();
+               AffectedService.editItem(requestId, requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
+               JOptionPane.showMessageDialog(null, "Request updated succesfully", "Success", 1);
+               if (requestsTable != null)
+                   requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
+           }catch(EmptyFieldException e) {
+               JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+           } catch(NumberFormatException e) {
+               JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
+           } catch(QuantityFormatException e) {
+               JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.WARNING_MESSAGE);
+           }
+        } else { try {
+            if (Float.valueOf(requestQuantity.getText()) <= 0)
+                throw new QuantityFormatException();
             AffectedService.addItem(loggedInAffected.getUsername(), requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
             JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
             if (requestsTable != null)
                 requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
+        }catch(EmptyFieldException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+        } catch(NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
+        } catch(QuantityFormatException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.WARNING_MESSAGE);
+        }
+
         }
 
     }
@@ -161,5 +191,7 @@ public class RequestMenuController {
         requestImage.setText(text);
     }
 
-
+    public void setRemoveCurrentImageStatus(boolean value) {
+        removeCurrentImage.setVisible(value);
+    }
 }
