@@ -19,13 +19,13 @@
         <VBox.margin>
             <Insets bottom="40.0" />
         </VBox.margin></Text>
-   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Offer name:" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Offer name*:" />
    <TextField fx:id="offerName"/>
-   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category*:" />
    <ComboBox prefWidth="150.0" fx:id="offerCategory"/>
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplies:" />
    <TextArea prefHeight="200.0" prefWidth="200.0" fx:id="offerSupplies"/>
-   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity:" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity*:" />
    <TextField fx:id="offerQuantity"/>
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Image:" />
    <Hyperlink text="Select image" onAction="#handleAddImageAction" fx:id="offerImage"/>

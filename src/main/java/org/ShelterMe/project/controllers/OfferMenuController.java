@@ -7,6 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
+import org.ShelterMe.project.exceptions.EmptyFieldException;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.VolunteerService;
 import org.apache.commons.io.FileUtils;
@@ -93,9 +94,19 @@ public class OfferMenuController {
     }
 
     public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
-        loggedInVolunteer.setOffersNo(loggedInVolunteer.getOffersNo() + 1);
-        VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
-        JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);
+        try {
+            String categoryAux;
+            if (offerCategory.getValue() == null)
+                categoryAux = "";
+            else categoryAux = (String) offerCategory.getValue();
+            loggedInVolunteer.setOffersNo(loggedInVolunteer.getOffersNo() + 1);
+            VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), categoryAux, offerSupplies.getText(), offerQuantity.getText(), base64Image);
+            JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);
+        } catch (EmptyFieldException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+        } catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private String imageToBase64(String filePath) throws IOException {

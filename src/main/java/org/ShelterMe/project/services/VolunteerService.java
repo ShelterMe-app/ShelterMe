@@ -38,8 +38,18 @@ public class VolunteerService {
         return null;
     }
 
-    public static void addItem(String username, String name, String categories, String supplies, float quantity, String imageBase64) {
-        volunteerItemsRepository.insert(new VolunteerItem(username, name, categories, supplies, quantity, imageBase64));
+    public static void addItem(String username, String name, String categories, String supplies, String quantity, String imageBase64) throws  EmptyFieldException{
+        chackItemEmptyFields(name, categories, quantity);
+        volunteerItemsRepository.insert(new VolunteerItem(username, name, categories, supplies,  Float.valueOf(quantity), imageBase64));
+    }
+
+    public static void chackItemEmptyFields(String name, String categories, String quantity) throws EmptyFieldException {
+        if (name.length() == 0)
+            throw new EmptyFieldException("name");
+        if(categories.length() == 0)
+            throw new EmptyFieldException("category");
+        if(quantity.length() == 0)
+            throw new EmptyFieldException("quantity");
     }
 
     public static int getCounter() {
