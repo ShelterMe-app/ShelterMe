@@ -19,7 +19,6 @@ import java.util.Objects;
 import java.util.Date;
 
 public class VolunteerService {
-
     private static ObjectRepository<VolunteerItem> volunteerItemsRepository;
 
     public static void initVolunteerItemsDatabase() {
@@ -44,9 +43,23 @@ public class VolunteerService {
     }
 
     public static int getCounter() {
-        if (volunteerItemsRepository != null)
-            return volunteerItemsRepository.find().toList().size();
-        else return 0;
+        int index = 0;
+        for (VolunteerItem item : volunteerItemsRepository.find()) {
+            if (item.getId() > index) {
+                index = item.getId();
+            }
+        }
+        return index;
+    }
+
+    public static int getVolunteerOffersNumber(String username){
+        int counter = 0;
+        for (VolunteerItem item : volunteerItemsRepository.find()) {
+            if (Objects.equals(username, item.getUsername())) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
 }

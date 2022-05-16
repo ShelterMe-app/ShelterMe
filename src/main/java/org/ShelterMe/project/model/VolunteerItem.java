@@ -6,7 +6,7 @@ import org.dizitart.no2.objects.Id;
 
 public class VolunteerItem {
     @Id
-    private int id;
+    public int id;
     private String username;
     private String name;
     private String category;
@@ -15,6 +15,7 @@ public class VolunteerItem {
     private String imageBase64;
 
     public VolunteerItem(String username, String name, String category, String supplies, float quantity, String imageBase64) {
+        System.out.println(VolunteerService.getCounter() + 1);
         this.id = VolunteerService.getCounter() + 1;
         this.username = username;
         this.name = name;
@@ -75,4 +76,7 @@ public class VolunteerItem {
         return imageBase64;
     }
 
+    public int getId() {
+        return id;
+    }
 }

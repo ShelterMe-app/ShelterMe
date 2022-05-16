@@ -30,7 +30,6 @@ import java.io.InputStream;
 public class OfferMenuController {
 
     private Volunteer loggedInVolunteer;
-
     @FXML
     private TextField offerName;
     @FXML
@@ -94,7 +93,7 @@ public class OfferMenuController {
     }
 
     public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
-
+        loggedInVolunteer.setOffersNo(loggedInVolunteer.getOffersNo() + 1);
         VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
         JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);
     }

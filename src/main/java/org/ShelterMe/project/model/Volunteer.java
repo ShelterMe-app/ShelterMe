@@ -14,9 +14,14 @@ import org.ShelterMe.project.services.VolunteerService;
 import java.io.IOException;
 
 public class Volunteer extends User {
+    private int offersNo;
 
     public Volunteer(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
         super(username, password, role, fullName, country, phoneNumber);
+    }
+
+    public void calculateValues(){
+        offersNo = VolunteerService.getVolunteerOffersNumber(username);
     }
 
     public void openMainUserPage() throws IOException {
@@ -33,5 +38,11 @@ public class Volunteer extends User {
         mainUserPage.requestFocus();
     }
 
+    public void setOffersNo(int offersNo) {
+        this.offersNo = offersNo;
+    }
 
+    public int getOffersNo() {
+        return offersNo;
+    }
 }

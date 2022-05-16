@@ -41,6 +41,12 @@ public class VolunteerPageController{
     @FXML
     private Label signedInAsLabel;
     @FXML
+    private Label signedInAsLabel1;
+    @FXML
+    private Label signedInAsLabel11;
+    @FXML
+    private Label signedInAsLabel111;
+    @FXML
     private JFXButton signOutButton;
     @FXML
     private JFXButton offersButton;
@@ -52,11 +58,11 @@ public class VolunteerPageController{
     private VBox offersTab;
     @FXML
     private VBox homeTab;
-    protected String username;
 
-    public void setSignedInAs(Volunteer loggedInAffected) {
-        this.loggedInVolunteer = loggedInAffected;
+    public void setSignedInAs(Volunteer loggedInVolunteer) {
+        this.loggedInVolunteer = loggedInVolunteer;
         signedInAsLabel.setText("Welcome, " + loggedInVolunteer.getFullName() + "!");
+        signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Requests list.");
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -64,6 +70,8 @@ public class VolunteerPageController{
         GotoLoginController.goToLogin(stage, event);
     }
     public void handleHomePage() {
+        loggedInVolunteer.calculateValues();
+        signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Requests list.");
         homeTab.setManaged(true);
         homeTab.setVisible(true);
         offersTab.setManaged(false);
