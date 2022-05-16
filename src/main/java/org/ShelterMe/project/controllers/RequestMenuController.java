@@ -1,10 +1,7 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import org.ShelterMe.project.services.AffectedService;
@@ -51,10 +48,16 @@ public class RequestMenuController {
     private Image selectedImage;
     private String base64Image;
 
+    private TableView requestsTable;
+
     private static ArrayList<String> categoryItems = new ArrayList<>();
 
     public void setLoggedInAffected(Affected signedInAffected) {
         this.loggedInAffected = signedInAffected;
+    }
+
+    public void setRequestsTable(TableView requestsTable) {
+        this.requestsTable = requestsTable;
     }
 
     private void itemParser() {
@@ -99,6 +102,8 @@ public class RequestMenuController {
 
         AffectedService.addItem(loggedInAffected.getUsername(), requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
         JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
+        if (requestsTable != null)
+            requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
     }
 
 

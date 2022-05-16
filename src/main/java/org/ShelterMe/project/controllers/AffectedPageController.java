@@ -127,6 +127,7 @@ public class AffectedPageController{
         Parent addRequest = loader.load();
         RequestMenuController newController = loader.getController();
         newController.setLoggedInAffected(loggedInAffected);
+        newController.setRequestsTable(requestsTable);
         Scene scene = new Scene(addRequest);
         Stage newStage = new Stage();
         newStage.setScene(scene);
@@ -136,15 +137,17 @@ public class AffectedPageController{
         newStage.getIcons().add(new Image("file:docs/Logo.png"));
         newStage.show();
         newStage.setResizable(false);
+
     }
 
-    public ObservableList<AffectedItem> getRequests(String username) {
+    public static ObservableList<AffectedItem> getRequests(String username) {
 
         return FXCollections.observableList(AffectedService.databaseToList(username));
     }
 
     public void handleTableClick(MouseEvent event) throws IOException  {
-        requestImage = AffectedService.base64ToImage(((AffectedItem)requestsTable.getSelectionModel().getSelectedItem()).getImageBase64());
+        if (requestsTable.getSelectionModel().getSelectedItem() != null)
+            requestImage = AffectedService.base64ToImage(((AffectedItem)requestsTable.getSelectionModel().getSelectedItem()).getImageBase64());
     }
 
     public void handleRequestImage(javafx.event.ActionEvent event) throws IOException {
