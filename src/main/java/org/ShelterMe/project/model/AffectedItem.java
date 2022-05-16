@@ -98,4 +98,6 @@ public class AffectedItem {
     public int getId() {
         return id;
     }
+
+
 }

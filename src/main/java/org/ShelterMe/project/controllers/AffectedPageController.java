@@ -103,5 +103,9 @@ public class AffectedPageController{
         newStage.setResizable(false);
     }
 
+    public void handleEditRequest(javafx.event.ActionEvent event) throws IOException {
+        
+    }
+
 
 }

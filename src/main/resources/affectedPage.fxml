@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedPageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedPageController">
    <children>
       <BorderPane fx:id="borderPane" prefHeight="500.0" prefWidth="750.0">
          <top>
@@ -126,15 +132,28 @@
 
                <VBox fx:id="requestsTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
                   <children>
-                     <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" text="New request" onAction="#handleAddRequest">
-                        <graphic>
-                           <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@Images/circle-plus.png" />
-                              </image>
-                           </ImageView>
-                        </graphic>
-                     </JFXButton>
+                     <HBox prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddRequest" text="New request">
+                              <graphic>
+                                 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@Images/circle-plus.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton id="InMenuButton" fx:id="editRequest" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddRequest" text="Edit Request" textAlignment="CENTER">
+                              <graphic>
+                                 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@Images/circle-plus.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                        </children>
+                     </HBox>
                   </children>
                   <padding>
                      <Insets bottom="50.0" />

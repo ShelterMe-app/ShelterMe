@@ -45,6 +45,21 @@ public class AffectedService {
             affectedItemsRepository.insert(new AffectedItem(username, name, categories, supplies, quantity, generalInformation, healthCondition, imageBase64));
     }
 
+    public static void editItem(String id, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) {
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            if (Objects.equals(id, item.getId())) {
+                item.setName(name);
+                item.setCategory(categories);
+                item.setSupplies(supplies);
+                item.setQuantity(quantity);
+                item.setGeneralInformation(generalInformation);
+                item.setHealthCondition(healthCondition);
+                affectedItemsRepository.update(item);
+                break;
+            }
+        }
+    }
+
     public static int getCounter() {
         if (affectedItemsRepository != null)
             return affectedItemsRepository.find().toList().size();
