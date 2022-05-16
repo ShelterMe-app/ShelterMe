@@ -171,7 +171,36 @@ public class AffectedPageController{
     }
 
     public void handleEditRequest(javafx.event.ActionEvent event) throws IOException {
-
+        if (requestsTable.getSelectionModel().getSelectedItem() != null) {
+            AffectedItem request = (AffectedItem)requestsTable.getSelectionModel().getSelectedItem();
+            int requestId = request.getId();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("addRequestForm.fxml"));
+            Parent editRequest = loader.load();
+            RequestMenuController newController = loader.getController();
+            newController.setLoggedInAffected(loggedInAffected);
+            newController.setRequestsTable(requestsTable);
+            newController.setRequestId(requestId);
+            newController.setRequestMenuWelcomeText("Edit Request");
+            newController.setAddRequestButtonText("Edit request");
+            newController.setRequestNamePlaceholder(request.getName());
+            newController.setRequestCategoryPlaceholder(request.getCategory());
+            newController.setRequestSuppliesPlaceholder(request.getSupplies());
+            newController.setRequestQuantityPlaceholder(Float.toString(request.getQuantity()));
+            newController.setGeneralInformationPlaceholder(request.getGeneralInformation());
+            newController.setHealthConditionPlaceholder(request.getHealthCondition());
+            newController.setRequestImagePlaceholder("Update image");
+            Scene scene = new Scene(editRequest);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(requestsTab.getScene().getWindow());
+            newStage.setTitle("ShelterMe - Edit a Request");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a request in order to edit", "Failed to edit request", 1);
+        }
     }
 
 

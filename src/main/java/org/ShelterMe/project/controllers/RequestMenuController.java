@@ -3,6 +3,7 @@ package org.ShelterMe.project.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import org.ShelterMe.project.services.AffectedService;
 import org.apache.commons.io.FileUtils;
@@ -30,6 +31,7 @@ public class RequestMenuController {
 
     private Affected loggedInAffected;
 
+
     @FXML
     private TextField requestName;
     @FXML
@@ -44,6 +46,10 @@ public class RequestMenuController {
     private TextArea healthCondition;
     @FXML
     private Hyperlink requestImage;
+    @FXML
+    private Button addRequestButton;
+    @FXML
+    private Text requestMenuWelcome;
 
     private Image selectedImage;
     private String base64Image;
@@ -52,12 +58,18 @@ public class RequestMenuController {
 
     private static ArrayList<String> categoryItems = new ArrayList<>();
 
+    private int requestId;
+
     public void setLoggedInAffected(Affected signedInAffected) {
         this.loggedInAffected = signedInAffected;
     }
 
     public void setRequestsTable(TableView requestsTable) {
         this.requestsTable = requestsTable;
+    }
+
+    public void setRequestId(int requestId) {
+        this.requestId = requestId;
     }
 
     private void itemParser() {
@@ -99,11 +111,54 @@ public class RequestMenuController {
     }
 
     public void handleAddRequestAction(javafx.event.ActionEvent event) throws IOException {
+        if (addRequestButton.getText().equals("Edit request")) {
+            AffectedService.editItem(requestId, requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
+            JOptionPane.showMessageDialog(null, "Request updated succesfully", "Success", 1);
+            if (requestsTable != null)
+                requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
+        } else {
+            AffectedService.addItem(loggedInAffected.getUsername(), requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
+            JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
+            if (requestsTable != null)
+                requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
+        }
 
-        AffectedService.addItem(loggedInAffected.getUsername(), requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
-        JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
-        if (requestsTable != null)
-            requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
+    }
+
+    public void setRequestMenuWelcomeText(String text) {
+        requestMenuWelcome.setText(text);
+    }
+
+    public void setAddRequestButtonText(String text) {
+        addRequestButton.setText(text);
+    }
+
+    public void setRequestNamePlaceholder(String text) {
+        requestName.setText(text);
+    }
+
+    public void setRequestCategoryPlaceholder(String text) {
+        requestCategory.getSelectionModel().select(text);
+    }
+
+    public void setRequestSuppliesPlaceholder(String text) {
+        requestSupplies.setText(text);
+    }
+
+    public void setRequestQuantityPlaceholder(String text) {
+        requestQuantity.setText(text);
+    }
+
+    public void setGeneralInformationPlaceholder(String text) {
+        generalInformation.setText(text);
+    }
+
+    public void setHealthConditionPlaceholder(String text) {
+        healthCondition.setText(text);
+    }
+
+    public void setRequestImagePlaceholder(String text) {
+        requestImage.setText(text);
     }
 
 
