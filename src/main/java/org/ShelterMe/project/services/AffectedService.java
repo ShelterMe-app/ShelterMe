@@ -77,14 +77,24 @@ public class AffectedService {
         }
     }
 
+    public static void removeItem(int id) {
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            if (Objects.equals(id, item.getId())) {
+                int itemId = item.getId();
+                affectedItemsRepository.remove(item);
+                break;
+            }
+        }
+    }
+
     public static List<AffectedItem> databaseToList(String username) {
         Predicate<AffectedItem> isUsername = affected -> affected.getUsername().equals(username);
         return affectedItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
     }
 
     public static int getCounter() {
-        if (affectedItemsRepository != null)
-            return affectedItemsRepository.find().toList().size();
+        if (affectedItemsRepository.find().toList().size() > 0)
+            return affectedItemsRepository.find().toList().get(affectedItemsRepository.find().toList().size() - 1).getId();
         else return 0;
     }
 
