@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import org.ShelterMe.project.exceptions.EmptyFieldException;
+import org.ShelterMe.project.exceptions.QuantityFormatException;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.VolunteerService;
 import org.apache.commons.io.FileUtils;
@@ -39,6 +40,8 @@ public class OfferMenuController {
     private TextField offerQuantity;
     @FXML
     private Hyperlink offerImage;
+    @FXML
+    private Hyperlink removeCurrentImage;
 
     @FXML
     private Button addOfferButton;
@@ -104,32 +107,45 @@ public class OfferMenuController {
         }
     }
 
-    public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
-        try {
-            /*String categoryAux;
-            if (offerCategory.getValue() == null)
-                categoryAux = "";
-            else categoryAux = (String) offerCategory.getValue();
-            loggedInVolunteer.setOffersNo(loggedInVolunteer.getOffersNo() + 1);
-            VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), categoryAux, offerSupplies.getText(), offerQuantity.getText(), base64Image);
-            JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);*/
-            if (addOfferButton.getText().equals("Edit offer")) {
-                VolunteerService.editItem(offerId, offerName.getText(), (String) offerCategory.getValue(),offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
-                JOptionPane.showMessageDialog(null, "Offer updated succesfully", "Success", 1);
-                if (offerTable != null)
-                    offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
-            } else {
-                VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), offerQuantity.getText(), base64Image);
-                JOptionPane.showMessageDialog(null, "Offer created succesfully", "Success", 1);
-                if (offerTable != null)
-                    offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
-            }
-        } catch (EmptyFieldException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
-        } catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
-        }
+    public void handleRemoveImageAction(javafx.event.ActionEvent event) throws IOException {
+        base64Image = null;
+        JOptionPane.showMessageDialog(null, "Image has been removed", "Success", 1);
+        setRemoveCurrentImageStatus(false);
     }
+
+    public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
+            if (addOfferButton.getText().equals("Edit Offer")) {
+                try {
+                    if (Float.valueOf(offerQuantity.getText()) <= 0)
+                        throw new QuantityFormatException();
+                    VolunteerService.editItem(offerId, offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
+                    JOptionPane.showMessageDialog(null, "Offer updated successfully", "Success", 1);
+                    if (offerTable != null)
+                        offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
+                } catch (EmptyFieldException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error", JOptionPane.WARNING_MESSAGE);
+                } catch (QuantityFormatException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                try {
+                    if (Float.valueOf(offerQuantity.getText()) <= 0)
+                        throw new QuantityFormatException();
+                    VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
+                    JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);
+                    if (offerTable != null)
+                        offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
+                } catch (EmptyFieldException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error", JOptionPane.WARNING_MESSAGE);
+                } catch (QuantityFormatException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        }
 
     public void setOfferMenuWelcomeText(String text) {
         offerMenuWelcome.setText(text);
@@ -157,6 +173,10 @@ public class OfferMenuController {
 
     public void setOfferImagePlaceholder(String text) {
         offerImage.setText(text);
+    }
+
+    public void setRemoveCurrentImageStatus(boolean value) {
+        removeCurrentImage.setVisible(value);
     }
 
 }

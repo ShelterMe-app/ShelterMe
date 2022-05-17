@@ -41,20 +41,18 @@ public class VolunteerService {
         return null;
     }
 
-    public static void addItem(String username, String name, String categories, String supplies, String quantity, String imageBase64) throws  EmptyFieldException{
-        checkItemEmptyFields(name, categories, supplies, quantity);
-        volunteerItemsRepository.insert(new VolunteerItem(username, name, categories, supplies,  Float.valueOf(quantity), imageBase64));
+    public static void addItem(String username, String name, String categories, String supplies, float quantity, String imageBase64) throws  EmptyFieldException{
+        checkItemEmptyFields(name, categories, supplies);
+        volunteerItemsRepository.insert(new VolunteerItem(username, name, categories, supplies,  quantity, imageBase64));
     }
 
-    public static void checkItemEmptyFields(String name, String categories, String supplies, String quantity) throws EmptyFieldException {
+    public static void checkItemEmptyFields(String name, String categories, String supplies) throws EmptyFieldException {
         if (name.length() == 0)
             throw new EmptyFieldException("name");
         if(categories.length() == 0)
             throw new EmptyFieldException("category");
         if(supplies.length() == 0)
             throw new EmptyFieldException("supplies");
-        if(quantity.length() == 0)
-            throw new EmptyFieldException("quantity");
     }
 
     public static List<VolunteerItem> databaseToList(String username) {
@@ -63,7 +61,7 @@ public class VolunteerService {
     }
 
     public static void editItem(int id, String name, String categories, String supplies, float quantity, String imageBase64) throws EmptyFieldException{
-        checkItemEmptyFields(name, categories, supplies, String.valueOf(quantity));
+        checkItemEmptyFields(name, categories, supplies);
         for (VolunteerItem item : volunteerItemsRepository.find()) {
             if (Objects.equals(id, item.getId())) {
                 if (name.length() > 0)
@@ -74,8 +72,7 @@ public class VolunteerService {
                     item.setSupplies(supplies);
                 if (quantity > 0)
                     item.setQuantity(quantity);
-                if (imageBase64 != null)
-                    item.setImageBase64(imageBase64);
+                item.setImageBase64(imageBase64);
                 volunteerItemsRepository.update(item);
                 break;
             }

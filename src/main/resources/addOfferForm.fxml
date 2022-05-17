@@ -27,5 +27,8 @@
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity*:" />
    <TextField fx:id="offerQuantity"/>
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Image:" />
-   <Hyperlink text="Select image" onAction="#handleAddImageAction" fx:id="offerImage"/><Button fx:id="addOfferButton" onAction="#handleAddOfferAction" text="Add offer" />
+   <Hyperlink text="Select image" onAction="#handleAddImageAction" fx:id="offerImage"/>
+    <Hyperlink fx:id="removeCurrentImage" onAction="#handleRemoveImageAction" text="Remove current image" />
+    <Button fx:id="addOfferButton" onAction="#handleAddOfferAction" text="Add offer" />
+
 </VBox>

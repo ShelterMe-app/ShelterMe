@@ -129,7 +129,7 @@
                                             </ImageView>
                                         </graphic>
                                     </JFXButton>
-                                    <JFXButton id="InMenuButton" fx:id="editOffer" alignment="CENTER" mnemonicParsing="false" onAction="#handleEditOffer" text="Edit Offer" textAlignment="CENTER">
+                                    <JFXButton id="InMenuButton" fx:id="editOffer" alignment="CENTER" mnemonicParsing="false" onAction="#handleEditOffer" text="Edit offer" textAlignment="CENTER">
                                         <graphic>
                                             <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                                 <image>

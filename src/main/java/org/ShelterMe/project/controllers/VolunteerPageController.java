@@ -22,6 +22,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.ShelterMe.project.services.VolunteerService;
 import org.ShelterMe.project.model.VolunteerItem;
+import org.ShelterMe.project.controllers.OfferMenuController;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -118,6 +119,7 @@ public class VolunteerPageController{
         OfferMenuController newController = loader.getController();
         newController.setLoggedInVolunteer(loggedInVolunteer);
         newController.setOffersTable(offersTable);
+        newController.setRemoveCurrentImageStatus(false);
         Scene scene = new Scene(addOffer);
         Stage newStage = new Stage();
         newStage.setScene(scene);
@@ -167,6 +169,10 @@ public class VolunteerPageController{
             OfferMenuController newController = loader.getController();
             newController.setLoggedInVolunteer(loggedInVolunteer);
             newController.setOffersTable(offersTable);
+            if (offer.getImageBase64() != null && offer.getImageBase64().length() > 0)
+                newController.setRemoveCurrentImageStatus(true);
+            else
+                newController.setRemoveCurrentImageStatus(false);
             newController.setOfferId(offerId);
             newController.setOfferMenuWelcomeText("Edit Offer");
             newController.setAddOfferButtonText("Edit Offer");

@@ -15,7 +15,6 @@ public class VolunteerItem {
     private String imageBase64;
 
     public VolunteerItem(String username, String name, String category, String supplies, float quantity, String imageBase64) {
-        System.out.println(VolunteerService.getCounter() + 1);
         this.id = VolunteerService.getCounter() + 1;
         this.username = username;
         this.name = name;
