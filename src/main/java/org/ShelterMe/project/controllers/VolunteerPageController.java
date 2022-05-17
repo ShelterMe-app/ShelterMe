@@ -187,4 +187,17 @@ public class VolunteerPageController{
             JOptionPane.showMessageDialog(null, "Select an offer in order to edit", "Failed to edit offer", 1);
         }
     }
+
+    public void handleRemoveOffer(javafx.event.ActionEvent event) throws IOException {
+        if (offersTable.getSelectionModel().getSelectedItem() != null) {
+            VolunteerItem offer = (VolunteerItem) offersTable.getSelectionModel().getSelectedItem();
+            int requestId = offer.getId();
+            VolunteerService.removeItem(requestId);
+            JOptionPane.showMessageDialog(null, "Selected offer has been removed", "Succesfully removed offer", 1);
+            if (offersTable != null)
+                offersTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
+        } else {
+            JOptionPane.showMessageDialog(null, "Select an offer in order to remove", "Failed to remove offer", 1);
+        }
+    }
 }

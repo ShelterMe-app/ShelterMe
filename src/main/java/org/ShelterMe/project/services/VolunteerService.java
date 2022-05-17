@@ -130,4 +130,13 @@ public class VolunteerService {
         return recoveredImage;
     }
 
+    public static void removeItem(int id) {
+        for (VolunteerItem item : volunteerItemsRepository.find()) {
+            if (Objects.equals(id, item.getId())) {
+                int itemId = item.getId();
+                volunteerItemsRepository.remove(item);
+                break;
+            }
+        }
+    }
 }
