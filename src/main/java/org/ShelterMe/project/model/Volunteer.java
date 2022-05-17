@@ -9,13 +9,19 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.ShelterMe.project.controllers.VolunteerPageController;
 import org.ShelterMe.project.controllers.RegistrationController;
+import org.ShelterMe.project.services.VolunteerService;
 
 import java.io.IOException;
 
 public class Volunteer extends User {
+    private int offersNo;
 
     public Volunteer(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
         super(username, password, role, fullName, country, phoneNumber);
+    }
+
+    public void calculateValues(){
+        offersNo = VolunteerService.getVolunteerOffersNumber(username);
     }
 
     public void openMainUserPage() throws IOException {
@@ -28,7 +34,15 @@ public class Volunteer extends User {
         stage.setScene(new Scene(mainUserPage, 750, 500));
         stage.show();
         stage.setResizable(false);
-        controller.setSignedInAs(getFullName());
+        controller.setSignedInAs(this);
         mainUserPage.requestFocus();
+    }
+
+    public void setOffersNo(int offersNo) {
+        this.offersNo = offersNo;
+    }
+
+    public int getOffersNo() {
+        return offersNo;
     }
 }

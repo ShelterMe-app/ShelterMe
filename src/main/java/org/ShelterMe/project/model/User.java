@@ -20,7 +20,7 @@ import java.util.Date;
 )
 abstract public class User {
     @Id
-    private String username;
+    protected String username;
     private String password;
     private String role;
     private String fullName;
@@ -128,4 +128,6 @@ abstract public class User {
     }
 
     abstract public void openMainUserPage() throws IOException;
+
+    abstract public void calculateValues();
 }

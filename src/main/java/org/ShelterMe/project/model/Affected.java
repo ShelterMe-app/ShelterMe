@@ -33,4 +33,7 @@ public class Affected extends User {
         controller.setSignedInAs(this);
         mainUserPage.requestFocus();
     }
+
+    public void calculateValues(){
+    }
 }

@@ -16,8 +16,10 @@ import org.ShelterMe.project.exceptions.EmptyFieldException;
 import org.ShelterMe.project.exceptions.IncorrectPasswordException;
 import org.ShelterMe.project.exceptions.LockedAccountException;
 import org.ShelterMe.project.exceptions.UsernameDoesNotExistException;
+import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.UserService;
 import org.ShelterMe.project.model.User;
+import org.ShelterMe.project.services.VolunteerService;
 
 import java.io.IOException;
 
@@ -43,6 +45,7 @@ public class LoginController {
             UserService.updateUserInDatabase(connectedUser);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.close();
+            connectedUser.calculateValues();
             connectedUser.openMainUserPage();
         } catch(IncorrectPasswordException e) {
             connectedUser = e.getUser();

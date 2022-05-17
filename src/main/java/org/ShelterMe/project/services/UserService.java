@@ -29,6 +29,8 @@ public class UserService {
                 .openOrCreate("test", "test");
 
         userRepository = database.getRepository(User.class);
+
+        VolunteerService.initVolunteerItemsDatabase();
     }
 
     public static void addUser(String username, String password, String role, String fullName, String country, String phoneNumber, String code) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
