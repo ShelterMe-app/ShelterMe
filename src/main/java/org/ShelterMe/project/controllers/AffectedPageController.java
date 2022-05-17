@@ -75,6 +75,12 @@ public class AffectedPageController{
     private TableView requestsTable;
     @FXML
     private TableView volunteersTable;
+    @FXML
+    private JFXButton viewVolunteerInfo;
+    @FXML
+    private Label signedInAsLabel1;
+    @FXML
+    private Label signedInAsLabel11;
 
     private Image requestImage;
 
@@ -83,6 +89,7 @@ public class AffectedPageController{
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
+        handleHomePage();
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -126,6 +133,9 @@ public class AffectedPageController{
 
 
     public void handleHomePage() {
+        loggedInAffected.calculateValues();
+        signedInAsLabel1.setText("There are currently " + volunteersTable.getItems().size() + " Volunteers available in your country.");
+        signedInAsLabel11.setText("You currently have: " + loggedInAffected.getRequestsNo() + " Requests in your Requests list.");
         homeTab.setVisible(true);
         homeTab.setManaged(true);
         requestsTab.setVisible(false);
@@ -272,6 +282,26 @@ public class AffectedPageController{
             newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select a Volunteer to contact", "Failed to contact Volunteer", 1);
+        }
+    }
+
+    public void handleVolunteerInfo() throws IOException {
+        if (volunteersTable.getSelectionModel().getSelectedItem() != null) {
+            Volunteer toBeContacted = (Volunteer)volunteersTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("viewVolunteerOffers.fxml"));
+            Parent imageDialog = loader.load();
+            ViewVolunteerOffersController controller = loader.getController();
+            controller.setVolunteer(toBeContacted);
+            Scene scene = new Scene(imageDialog);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.setTitle("ShelterMe - View " + toBeContacted.getFullName() + "'s info");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a Volunteer to view info", "Failed to view info of Volunteer", 1);
         }
     }
 

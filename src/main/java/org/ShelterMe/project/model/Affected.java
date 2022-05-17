@@ -13,8 +13,11 @@ import org.ShelterMe.project.controllers.RegistrationController;
 import java.io.IOException;
 
 import org.ShelterMe.project.services.AffectedService;
+import org.ShelterMe.project.services.VolunteerService;
 
 public class Affected extends User {
+
+    private int requestsNo;
 
     public Affected(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
         super(username, password, role, fullName, country, phoneNumber);
@@ -35,5 +38,10 @@ public class Affected extends User {
     }
 
     public void calculateValues(){
+        requestsNo = AffectedService.getAffectedRequestsNumber(username);
+    }
+
+    public int getRequestsNo() {
+        return requestsNo;
     }
 }

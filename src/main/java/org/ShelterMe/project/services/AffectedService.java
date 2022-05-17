@@ -1,10 +1,7 @@
 package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.exceptions.*;
-import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.model.AffectedItem;
-import org.ShelterMe.project.model.User;
-import org.ShelterMe.project.model.Volunteer;
+import org.ShelterMe.project.model.*;
 import org.ShelterMe.project.model.AffectedItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -127,5 +124,15 @@ public class AffectedService {
         InputStream stream = new ByteArrayInputStream(decodedBytes);
         Image recoveredImage = new Image(stream);
         return recoveredImage;
+    }
+
+    public static int getAffectedRequestsNumber(String username) {
+        int counter = 0;
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            if (Objects.equals(username, item.getUsername())) {
+                counter++;
+            }
+        }
+        return counter;
     }
 }

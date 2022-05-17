@@ -179,7 +179,7 @@
                      <Insets bottom="50.0" />
                   </padding>
                </VBox>
-               <VBox fx:id="volunteersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
+               <VBox fx:id="volunteersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" visible="false">
                   <children>
                      <TableView fx:id="volunteersTable" prefHeight="291.0" prefWidth="750.0" />
                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -189,6 +189,15 @@
                                  <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@Images/pencil.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton id="InMenuButton" fx:id="viewVolunteerInfo" alignment="CENTER" mnemonicParsing="false" onAction="#handleVolunteerInfo" text="View Volunteer Info">
+                              <graphic>
+                                 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@Images/eye.png" />
                                     </image>
                                  </ImageView>
                               </graphic>
