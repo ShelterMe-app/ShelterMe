@@ -60,6 +60,8 @@ public class VolunteerPageController{
     @FXML
     private JFXButton offersButton;
     @FXML
+    private JFXButton requestsInboxButton;
+    @FXML
     private  JFXButton homeButton;
     @FXML
     private BorderPane borderPane;
@@ -71,6 +73,13 @@ public class VolunteerPageController{
     private TableView offersTable;
 
     private Image offerImage;
+
+    @FXML
+    private VBox requestsInboxTab;
+    @FXML
+    private TableView requestsInboxTable;
+    @FXML
+    private JFXButton showRequestInbox;
 
     public void setSignedInAs(Volunteer loggedInVolunteer) {
         this.loggedInVolunteer = loggedInVolunteer;
@@ -105,12 +114,25 @@ public class VolunteerPageController{
         homeTab.setVisible(true);
         offersTab.setManaged(false);
         offersTab.setVisible(false);
+        requestsInboxTab.setManaged(false);
+        requestsInboxTab.setVisible(false);
     }
     public void handleOffersPage() {
         homeTab.setManaged(false);
         homeTab.setVisible(false);
         offersTab.setManaged(true);
         offersTab.setVisible(true);
+        requestsInboxTab.setManaged(false);
+        requestsInboxTab.setVisible(false);
+    }
+
+    public void handleRequestsInboxPage() {
+        homeTab.setManaged(false);
+        homeTab.setVisible(false);
+        offersTab.setManaged(false);
+        offersTab.setVisible(false);
+        requestsInboxTab.setManaged(true);
+        requestsInboxTab.setVisible(true);
     }
 
     public void handleAddOffer(javafx.event.ActionEvent event) throws IOException {
@@ -206,5 +228,10 @@ public class VolunteerPageController{
         } else {
             JOptionPane.showMessageDialog(null, "Select an offer in order to remove", "Failed to remove offer", 1);
         }
+    }
+
+
+    public void handleRequestInbox() {
+
     }
 }

@@ -42,6 +42,15 @@
                                         </ImageView>
                                     </graphic>
                                 </JFXButton>
+                                <JFXButton id="requestsButton" fx:id="requestsInboxButton"  onAction="#handleRequestsInboxPage" prefHeight="60.0" prefWidth="102.0" text="Requests">
+                                    <graphic>
+                                        <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@Images/right-to-bracket.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </JFXButton>
                                 <JFXButton id="affectedButton" fx:id="affectedButton" prefHeight="60.0" prefWidth="102.0" text="Affected">
                                     <graphic>
                                         <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
@@ -162,9 +171,28 @@
                         <padding>
                             <Insets bottom="50.0" />
                         </padding>
-                  <padding>
-                     <Insets bottom="50.0" />
-                  </padding>
+                    </VBox>
+
+                    <VBox fx:id="requestsInboxTab" alignment="BOTTOM_CENTER" managed="false" stylesheets="@menu.css" visible="false">
+                        <children>
+                            <TableView fx:id="requestsInboxTable" prefHeight="291.0" prefWidth="750" />
+                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                <children>
+                                    <JFXButton id="InMenuButton" fx:id="showRequestInbox" alignment="CENTER" mnemonicParsing="false" onAction="#handleRequestInbox" text="Show Message">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/eye.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                </children>
+                            </HBox>
+                        </children>
+                        <padding>
+                            <Insets bottom="50.0" />
+                        </padding>
                     </VBox>
                 </StackPane>
 
