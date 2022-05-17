@@ -255,9 +255,21 @@ public class AffectedPageController{
         }
     }
 
-    public void handleContactVolunteer() {
+    public void handleContactVolunteer() throws IOException {
         if (volunteersTable.getSelectionModel().getSelectedItem() != null) {
-
+            Volunteer toBeContacted = (Volunteer)volunteersTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("contactVolunteerForm.fxml"));
+            Parent imageDialog = loader.load();
+            VolunteerContactController controller = loader.getController();
+            controller.setLoggedInAffected(this.loggedInAffected, toBeContacted);
+            Scene scene = new Scene(imageDialog);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.setTitle("ShelterMe - Contact " + toBeContacted.getFullName());
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select a Volunteer to contact", "Failed to contact Volunteer", 1);
         }

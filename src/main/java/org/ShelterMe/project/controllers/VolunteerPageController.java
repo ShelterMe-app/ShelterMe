@@ -81,7 +81,9 @@ public class VolunteerPageController{
         signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Requests list.");
         offersTable.setItems(getOffers(loggedInVolunteer.getUsername()));
         if (this.loggedInVolunteer.isNewOffer() == true) {
-            requestsButton.setStyle("-fx-background-color: #14493f;");
+            requestsButton.setStyle("-fx-background-color: #44919c;");
+            requestsButton.setPrefWidth(115);
+            requestsButton.setText("Requests (new)");
             UserService.updateUserInDatabase(loggedInVolunteer);
         }
     }
@@ -218,7 +220,10 @@ public class VolunteerPageController{
     public void handleRequestsAction(javafx.event.ActionEvent event) throws IOException {
         if (loggedInVolunteer.isNewOffer() == true) {
             this.loggedInVolunteer.setNewOffer(false);
-            requestsButton.setStyle("-fx-background-color: #2a937f;");
+            requestsButton.setStyle("-fx-background-color: #d6eaed;");
+            requestsButton.setPrefWidth(102);
+            requestsButton.setText("Requests");
+            UserService.updateUserInDatabase(this.loggedInVolunteer);
         }
     }
 }
