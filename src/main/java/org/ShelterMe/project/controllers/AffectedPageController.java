@@ -34,6 +34,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.ShelterMe.project.model.User;
+import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.model.AffectedItem;
 
@@ -44,6 +46,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Affected;
+import org.ShelterMe.project.services.UserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -63,9 +66,12 @@ public class AffectedPageController{
     @FXML
     private BorderPane borderPane;
     @FXML
+    private VBox homeTab;
+    @FXML
     private VBox requestsTab;
     @FXML
-    private VBox homeTab;
+    private VBox volunteersTab;
+
 
     @FXML
     private TableView requestsTable;
@@ -112,14 +118,26 @@ public class AffectedPageController{
         homeTab.setVisible(true);
         homeTab.setManaged(true);
         requestsTab.setVisible(false);
-        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
     }
     public void handleRequestsPage() {
         homeTab.setVisible(false);
         homeTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
         requestsTab.setVisible(true);
         requestsTab.setManaged(true);
+    }
 
+    public void handleVolunteersPage() {
+        homeTab.setVisible(false);
+        homeTab.setManaged(false);
+        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(true);
+        volunteersTab.setManaged(true);
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
@@ -144,6 +162,10 @@ public class AffectedPageController{
     public static ObservableList<AffectedItem> getRequests(String username) {
 
         return FXCollections.observableList(AffectedService.databaseToList(username));
+    }
+
+    public static ObservableList<Volunteer> getVolunteers(String country) {
+        return FXCollections.observableList(UserService.volunteersToList(country));
     }
 
     public void handleTableClick(MouseEvent event) throws IOException  {

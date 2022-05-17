@@ -130,4 +130,5 @@ abstract public class User {
     abstract public void openMainUserPage() throws IOException;
 
     abstract public void calculateValues();
+
 }
