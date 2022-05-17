@@ -117,6 +117,7 @@ public class VolunteerPageController{
         Parent addOffer = loader.load();
         OfferMenuController newController = loader.getController();
         newController.setLoggedInVolunteer(loggedInVolunteer);
+        newController.setOffersTable(offersTable);
         Scene scene = new Scene(addOffer);
         Stage newStage = new Stage();
         newStage.setScene(scene);

@@ -22,7 +22,7 @@
    <TextField fx:id="offerName"/>
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category*:" />
    <ComboBox prefWidth="150.0" fx:id="offerCategory"/>
-   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplies:" />
+   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Supplies*:" />
    <TextArea prefHeight="200.0" prefWidth="200.0" fx:id="offerSupplies"/>
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity*:" />
    <TextField fx:id="offerQuantity"/>
