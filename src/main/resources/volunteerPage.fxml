@@ -42,15 +42,6 @@
                                         </ImageView>
                                     </graphic>
                                 </JFXButton>
-                                <JFXButton id="requestsButton" fx:id="requestsButton" prefHeight="60.0" prefWidth="102.0" text="Requests">
-                                    <graphic>
-                                        <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@Images/right-to-bracket.png" />
-                                            </image>
-                                        </ImageView>
-                                    </graphic>
-                                </JFXButton>
                                 <JFXButton id="volunteersButton" fx:id="affectedButton" prefHeight="60.0" prefWidth="102.0" text="Affected">
                                     <graphic>
                                         <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">

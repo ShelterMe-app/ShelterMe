@@ -72,6 +72,25 @@ public class VolunteerService {
         return volunteerItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
     }
 
+    public static void editItem(int id, String name, String categories, String supplies, float quantity, String imageBase64) {
+        for (VolunteerItem item : volunteerItemsRepository.find()) {
+            if (Objects.equals(id, item.getId())) {
+                if (name.length() > 0)
+                    item.setName(name);
+                if (categories.length() > 0)
+                    item.setCategory(categories);
+                if (supplies.length() > 0)
+                    item.setSupplies(supplies);
+                if (quantity > 0)
+                    item.setQuantity(quantity);
+                if (imageBase64 != null)
+                    item.setImageBase64(imageBase64);
+                volunteerItemsRepository.update(item);
+                break;
+            }
+        }
+    }
+
     public static int getCounter() {
         int index = 0;
         for (VolunteerItem item : volunteerItemsRepository.find()) {

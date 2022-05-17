@@ -128,13 +128,14 @@ public class VolunteerPageController{
         newStage.setResizable(false);
     }
 
-    public ObservableList<VolunteerItem> getOffers(String username) {
+    public static ObservableList<VolunteerItem> getOffers(String username) {
 
         return FXCollections.observableList(VolunteerService.databaseToList(username));
     }
 
     public void handleTableClick(MouseEvent event) throws IOException  {
-        offerImage = VolunteerService.base64ToImage(((VolunteerItem)offersTable.getSelectionModel().getSelectedItem()).getImageBase64());
+        if (offersTable.getSelectionModel().getSelectedItem() != null)
+            offerImage = VolunteerService.base64ToImage(((VolunteerItem)offersTable.getSelectionModel().getSelectedItem()).getImageBase64());
     }
 
     public void handleOfferImage(javafx.event.ActionEvent event) throws IOException {
@@ -157,5 +158,33 @@ public class VolunteerPageController{
     }
 
     public void handleEditOffer(javafx.event.ActionEvent event) throws IOException {
+        if (offersTable.getSelectionModel().getSelectedItem() != null) {
+            VolunteerItem request = (VolunteerItem)offersTable.getSelectionModel().getSelectedItem();
+            int requestId = request.getId();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("addOfferForm.fxml"));
+            Parent editRequest = loader.load();
+            OfferMenuController newController = loader.getController();
+            newController.setLoggedInVolunteer(loggedInVolunteer);
+            newController.setOffersTable(offersTable);
+            newController.setOfferId(requestId);
+            newController.setOfferMenuWelcomeText("Edit Offer");
+            newController.setAddOfferButtonText("Edit Offer");
+            newController.setOfferNamePlaceholder(request.getName());
+            newController.setOfferCategoryPlaceholder(request.getCategory());
+            newController.setOfferSuppliesPlaceholder(request.getSupplies());
+            newController.setOfferQuantityPlaceholder(Float.toString(request.getQuantity()));
+            newController.setOfferImagePlaceholder("Update image");
+            Scene scene = new Scene(editRequest);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(offersTab.getScene().getWindow());
+            newStage.setTitle("ShelterMe - Edit an Offer");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select an offer in order to edit", "Failed to edit offer", 1);
+        }
     }
 }

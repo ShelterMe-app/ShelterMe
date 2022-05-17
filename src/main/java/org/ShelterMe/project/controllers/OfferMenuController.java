@@ -1,11 +1,9 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import org.ShelterMe.project.exceptions.EmptyFieldException;
 import org.ShelterMe.project.model.Volunteer;
@@ -40,19 +38,32 @@ public class OfferMenuController {
     @FXML
     private TextField offerQuantity;
     @FXML
-    private TextArea generalInformation;
-    @FXML
-    private TextArea healthCondition;
-    @FXML
     private Hyperlink offerImage;
+
+    @FXML
+    private Button addOfferButton;
+    @FXML
+    private Text offerMenuWelcome;
 
     private Image selectedImage;
     private String base64Image;
 
+    private TableView offerTable;
+
     private static ArrayList<String> categoryItems = new ArrayList<>();
+
+    private int offerId;
 
     public void setLoggedInVolunteer(Volunteer signedInVolunteer) {
         this.loggedInVolunteer = signedInVolunteer;
+    }
+
+    public void setOfferId(int offerId) {
+        this.offerId = offerId;
+    }
+
+    public void setOffersTable(TableView offersTable) {
+        this.offerTable = offersTable;
     }
 
     private void itemParser() {
@@ -95,17 +106,57 @@ public class OfferMenuController {
 
     public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
         try {
-            String categoryAux;
+            /*String categoryAux;
             if (offerCategory.getValue() == null)
                 categoryAux = "";
             else categoryAux = (String) offerCategory.getValue();
             loggedInVolunteer.setOffersNo(loggedInVolunteer.getOffersNo() + 1);
             VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), categoryAux, offerSupplies.getText(), offerQuantity.getText(), base64Image);
-            JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);
+            JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);*/
+            if (addOfferButton.getText().equals("Edit request")) {
+                VolunteerService.editItem(offerId, offerName.getText(), (String) offerCategory.getValue(),offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
+                JOptionPane.showMessageDialog(null, "Offer updated succesfully", "Success", 1);
+                if (offerTable != null)
+                    offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
+            } else {
+                VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), offerQuantity.getText(), base64Image);
+                JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
+                if (offerTable != null)
+                    offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
+            }
         } catch (EmptyFieldException e) {
             JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
         }
     }
+
+    public void setOfferMenuWelcomeText(String text) {
+        offerMenuWelcome.setText(text);
+    }
+
+    public void setAddOfferButtonText(String text) {
+        addOfferButton.setText(text);
+    }
+
+    public void setOfferNamePlaceholder(String text) {
+        offerName.setText(text);
+    }
+
+    public void setOfferCategoryPlaceholder(String text) {
+        offerCategory.getSelectionModel().select(text);
+    }
+
+    public void setOfferSuppliesPlaceholder(String text) {
+        offerSupplies.setText(text);
+    }
+
+    public void setOfferQuantityPlaceholder(String text) {
+        offerQuantity.setText(text);
+    }
+
+    public void setOfferImagePlaceholder(String text) {
+        offerImage.setText(text);
+    }
+
 }
