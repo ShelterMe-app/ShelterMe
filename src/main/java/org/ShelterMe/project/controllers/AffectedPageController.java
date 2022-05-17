@@ -71,10 +71,10 @@ public class AffectedPageController{
     private VBox requestsTab;
     @FXML
     private VBox volunteersTab;
-
-
     @FXML
     private TableView requestsTable;
+    @FXML
+    private TableView volunteersTable;
 
     private Image requestImage;
 
@@ -82,6 +82,7 @@ public class AffectedPageController{
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
+        volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -110,6 +111,16 @@ public class AffectedPageController{
         healthConditionColumn.setMinWidth(200);
         healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
         requestsTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn, generalInformationColumn, healthConditionColumn);
+        TableColumn<Volunteer, String> volunteerUsernameColumn = new TableColumn<>("Username");
+        volunteerUsernameColumn.setMinWidth(200);
+        volunteerUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        TableColumn<Volunteer, String> volunteerFullNameColumn = new TableColumn<>("Full Name");
+        volunteerFullNameColumn.setMinWidth(200);
+        volunteerFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));;
+        TableColumn<Volunteer, String> volunteerCountryColumn = new TableColumn<>("Country");
+        volunteerCountryColumn.setMinWidth(200);
+        volunteerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        volunteersTable.getColumns().addAll(volunteerUsernameColumn, volunteerFullNameColumn, volunteerCountryColumn);
     }
 
 
@@ -244,6 +255,13 @@ public class AffectedPageController{
         }
     }
 
+    public void handleContactVolunteer() {
+        if (volunteersTable.getSelectionModel().getSelectedItem() != null) {
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a Volunteer to contact", "Failed to contact Volunteer", 1);
+        }
+    }
 
 
 }
