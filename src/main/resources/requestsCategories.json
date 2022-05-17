@@ -1,0 +1,14 @@
+[
+  {"description": "Clean useful goods"},
+  {"description": "Clothing"},
+  {"description": "Donation"},
+  {"description": "Electrical goods"},
+  {"description": "Food"},
+  {"description": "Furniture"},
+  {"description": "Housing"},
+  {"description": "Technology"},
+  {"description": "Toys"},
+  {"description": "Vehicles"},
+  {"description": "White goods"},
+  {"description": "Other"}
+]
