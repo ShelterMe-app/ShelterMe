@@ -1,6 +1,8 @@
 package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.model.Communication;
+import org.ShelterMe.project.model.User;
+import org.ShelterMe.project.model.Volunteer;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
@@ -17,6 +19,11 @@ public class CommunicationService {
 
     public static void addCommunication(char type, String sourceUsername, String destinationUsername, int id) {
         communicationRepository.insert(new Communication(type, sourceUsername, destinationUsername, id));
+        User destination = UserService.getUser(destinationUsername);
+        if (destination instanceof Volunteer) {
+            Volunteer destinationVolunteer = (Volunteer) destination;
+            destinationVolunteer.setNewOffer(true);
+        }
     }
 
     public static int getCounter() {

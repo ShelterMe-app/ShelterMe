@@ -195,4 +195,12 @@ public class UserService {
         Predicate<User> availableVolunteer = volunteer -> volunteer.getCountry().equals(country) && volunteer.getRole().equals("Volunteer");
         return userRepository.find().toList().stream().filter(availableVolunteer).collect(Collectors.toList());
     }
+
+    public static User getUser(String username) {
+        for (User user : userRepository.find()) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
+    }
 }
