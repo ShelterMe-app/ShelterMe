@@ -113,14 +113,14 @@ public class OfferMenuController {
             loggedInVolunteer.setOffersNo(loggedInVolunteer.getOffersNo() + 1);
             VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), categoryAux, offerSupplies.getText(), offerQuantity.getText(), base64Image);
             JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);*/
-            if (addOfferButton.getText().equals("Edit request")) {
+            if (addOfferButton.getText().equals("Edit offer")) {
                 VolunteerService.editItem(offerId, offerName.getText(), (String) offerCategory.getValue(),offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
                 JOptionPane.showMessageDialog(null, "Offer updated succesfully", "Success", 1);
                 if (offerTable != null)
                     offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
             } else {
                 VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), offerQuantity.getText(), base64Image);
-                JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
+                JOptionPane.showMessageDialog(null, "Offer created succesfully", "Success", 1);
                 if (offerTable != null)
                     offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
             }

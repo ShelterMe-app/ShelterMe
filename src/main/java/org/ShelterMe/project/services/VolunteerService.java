@@ -1,13 +1,8 @@
 package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.exceptions.*;
-import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.model.User;
-import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.model.VolunteerItem;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
@@ -18,18 +13,10 @@ import java.io.InputStream;
 
 import javafx.scene.image.Image;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 
-import java.util.Date;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -44,6 +31,7 @@ public class VolunteerService {
         volunteerItemsRepository = database.getRepository(VolunteerItem.class);
     }
 
+
     public static VolunteerItem getVolunteerItems(String username) {
         for (VolunteerItem item : volunteerItemsRepository.find()) {
             if (Objects.equals(username, item.getUsername())) {
@@ -54,15 +42,17 @@ public class VolunteerService {
     }
 
     public static void addItem(String username, String name, String categories, String supplies, String quantity, String imageBase64) throws  EmptyFieldException{
-        chackItemEmptyFields(name, categories, quantity);
+        checkItemEmptyFields(name, categories, supplies, quantity);
         volunteerItemsRepository.insert(new VolunteerItem(username, name, categories, supplies,  Float.valueOf(quantity), imageBase64));
     }
 
-    public static void chackItemEmptyFields(String name, String categories, String quantity) throws EmptyFieldException {
+    public static void checkItemEmptyFields(String name, String categories, String supplies, String quantity) throws EmptyFieldException {
         if (name.length() == 0)
             throw new EmptyFieldException("name");
         if(categories.length() == 0)
             throw new EmptyFieldException("category");
+        if(supplies.length() == 0)
+            throw new EmptyFieldException("supplies");
         if(quantity.length() == 0)
             throw new EmptyFieldException("quantity");
     }
@@ -72,7 +62,8 @@ public class VolunteerService {
         return volunteerItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
     }
 
-    public static void editItem(int id, String name, String categories, String supplies, float quantity, String imageBase64) {
+    public static void editItem(int id, String name, String categories, String supplies, float quantity, String imageBase64) throws EmptyFieldException{
+        checkItemEmptyFields(name, categories, supplies, String.valueOf(quantity));
         for (VolunteerItem item : volunteerItemsRepository.find()) {
             if (Objects.equals(id, item.getId())) {
                 if (name.length() > 0)
@@ -133,7 +124,6 @@ public class VolunteerService {
     public static void removeItem(int id) {
         for (VolunteerItem item : volunteerItemsRepository.find()) {
             if (Objects.equals(id, item.getId())) {
-                int itemId = item.getId();
                 volunteerItemsRepository.remove(item);
                 break;
             }

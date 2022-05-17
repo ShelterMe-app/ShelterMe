@@ -159,22 +159,22 @@ public class VolunteerPageController{
 
     public void handleEditOffer(javafx.event.ActionEvent event) throws IOException {
         if (offersTable.getSelectionModel().getSelectedItem() != null) {
-            VolunteerItem request = (VolunteerItem)offersTable.getSelectionModel().getSelectedItem();
-            int requestId = request.getId();
+            VolunteerItem offer = (VolunteerItem)offersTable.getSelectionModel().getSelectedItem();
+            int offerId = offer.getId();
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("addOfferForm.fxml"));
-            Parent editRequest = loader.load();
+            Parent editOffer = loader.load();
             OfferMenuController newController = loader.getController();
             newController.setLoggedInVolunteer(loggedInVolunteer);
             newController.setOffersTable(offersTable);
-            newController.setOfferId(requestId);
+            newController.setOfferId(offerId);
             newController.setOfferMenuWelcomeText("Edit Offer");
             newController.setAddOfferButtonText("Edit Offer");
-            newController.setOfferNamePlaceholder(request.getName());
-            newController.setOfferCategoryPlaceholder(request.getCategory());
-            newController.setOfferSuppliesPlaceholder(request.getSupplies());
-            newController.setOfferQuantityPlaceholder(Float.toString(request.getQuantity()));
+            newController.setOfferNamePlaceholder(offer.getName());
+            newController.setOfferCategoryPlaceholder(offer.getCategory());
+            newController.setOfferSuppliesPlaceholder(offer.getSupplies());
+            newController.setOfferQuantityPlaceholder(Float.toString(offer.getQuantity()));
             newController.setOfferImagePlaceholder("Update image");
-            Scene scene = new Scene(editRequest);
+            Scene scene = new Scene(editOffer);
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.initModality(Modality.WINDOW_MODAL);
@@ -191,8 +191,8 @@ public class VolunteerPageController{
     public void handleRemoveOffer(javafx.event.ActionEvent event) throws IOException {
         if (offersTable.getSelectionModel().getSelectedItem() != null) {
             VolunteerItem offer = (VolunteerItem) offersTable.getSelectionModel().getSelectedItem();
-            int requestId = offer.getId();
-            VolunteerService.removeItem(requestId);
+            int offerId = offer.getId();
+            VolunteerService.removeItem(offerId);
             JOptionPane.showMessageDialog(null, "Selected offer has been removed", "Succesfully removed offer", 1);
             if (offersTable != null)
                 offersTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));

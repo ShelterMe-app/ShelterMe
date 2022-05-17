@@ -45,7 +45,6 @@ public class LoginController {
             UserService.updateUserInDatabase(connectedUser);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.close();
-            VolunteerService.initVolunteerItemsDatabase();
             connectedUser.calculateValues();
             connectedUser.openMainUserPage();
         } catch(IncorrectPasswordException e) {

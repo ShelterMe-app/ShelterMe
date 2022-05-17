@@ -42,7 +42,7 @@
                                         </ImageView>
                                     </graphic>
                                 </JFXButton>
-                                <JFXButton id="volunteersButton" fx:id="affectedButton" prefHeight="60.0" prefWidth="102.0" text="Affected">
+                                <JFXButton id="affectedButton" fx:id="affectedButton" prefHeight="60.0" prefWidth="102.0" text="Affected">
                                     <graphic>
                                         <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -102,7 +102,7 @@
                             </Label>
                             <BorderPane prefHeight="200.0" prefWidth="200.0">
                                 <center>
-                                    <ImageView id="affectedHomePhoto" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" translateY="20.0" BorderPane.alignment="CENTER">
+                                    <ImageView id="volunteerHomePhoto" fitHeight="160.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" translateY="20.0" BorderPane.alignment="CENTER">
                                         <viewport>
                                             <Rectangle2D />
                                         </viewport>
@@ -133,7 +133,16 @@
                                         <graphic>
                                             <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                                 <image>
-                                                    <Image url="@Images/circle-plus.png" />
+                                                    <Image url="@Images/file-pen.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="InMenuButton" fx:id="removeOffer" alignment="CENTER" mnemonicParsing="false" onAction="#handleRemoveOffer" text="Remove offer" textAlignment="CENTER">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/circle-minus.png" />
                                                 </image>
                                             </ImageView>
                                         </graphic>
@@ -142,7 +151,7 @@
                                         <graphic>
                                             <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                                 <image>
-                                                    <Image url="@Images/circle-plus.png" />
+                                                    <Image url="@Images/eye.png" />
                                                 </image>
                                             </ImageView>
                                         </graphic>
