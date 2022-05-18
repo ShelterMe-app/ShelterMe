@@ -1,10 +1,19 @@
 package org.ShelterMe.project.services;
 
+import javafx.scene.image.Image;
 import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.User;
 import org.ShelterMe.project.model.Volunteer;
+import org.apache.commons.io.FileUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Base64;
 
 public class CommunicationService {
     private static ObjectRepository<Communication> communicationRepository;
@@ -31,5 +40,34 @@ public class CommunicationService {
         if (communicationRepository.find().toList().size() > 0)
             return communicationRepository.find().toList().get(communicationRepository.find().toList().size() - 1).getCommunicationId();
         else return 0;
+    }
+
+    public static String imageToBase64(String filePath) throws IOException {
+        byte[] fileContent = FileUtils.readFileToByteArray(new File(filePath));
+        String encodedString = Base64
+                .getEncoder()
+                .encodeToString(fileContent);
+        return encodedString;
+    }
+
+    public static Image base64ToImage(String base64) throws IOException {
+        if (base64 == null)
+            return null;
+        byte[] decodedBytes = Base64
+                .getDecoder()
+                .decode(base64);
+        InputStream stream = new ByteArrayInputStream(decodedBytes);
+        Image recoveredImage = new Image(stream);
+        return recoveredImage;
+    }
+
+    public static ArrayList<Integer> getSourceIDs(String destination) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (Communication item : communicationRepository.find()) {
+            if (destination.equals(item.getDestinationUsername()) && !ids.contains(item.getId())) {
+                ids.add(item.getId());
+            }
+        }
+        return ids;
     }
 }

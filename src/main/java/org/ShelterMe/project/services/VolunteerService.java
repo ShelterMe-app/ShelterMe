@@ -13,6 +13,7 @@ import java.io.InputStream;
 
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
@@ -125,5 +126,10 @@ public class VolunteerService {
                 break;
             }
         }
+    }
+
+    public static List<VolunteerItem> databaseToListInbox(ArrayList<Integer> ids) {
+        Predicate<VolunteerItem> isUsername = volunteer -> ids.contains(volunteer.getId());
+        return volunteerItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
     }
 }

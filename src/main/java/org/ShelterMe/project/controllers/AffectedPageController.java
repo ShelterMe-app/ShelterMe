@@ -52,6 +52,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import org.ShelterMe.project.model.VolunteerItem;
+import org.ShelterMe.project.services.VolunteerService;
+import org.ShelterMe.project.services.CommunicationService;
+
 public class AffectedPageController{
     private Affected loggedInAffected;
 
@@ -72,9 +76,13 @@ public class AffectedPageController{
     @FXML
     private VBox volunteersTab;
     @FXML
+    private VBox offersTab;
+    @FXML
     private TableView requestsTable;
     @FXML
     private TableView volunteersTable;
+    @FXML
+    private TableView offersInboxTable;
     @FXML
     private JFXButton viewVolunteerInfo;
     @FXML
@@ -89,6 +97,7 @@ public class AffectedPageController{
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
+        offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
         handleHomePage();
     }
 
@@ -128,6 +137,25 @@ public class AffectedPageController{
         volunteerCountryColumn.setMinWidth(200);
         volunteerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         volunteersTable.getColumns().addAll(volunteerUsernameColumn, volunteerFullNameColumn, volunteerCountryColumn);
+        TableColumn<AffectedItem, String> nameColumnVolunteer = new TableColumn<>("Name");
+        nameColumn.setMinWidth(200);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<VolunteerItem, String> categoryColumnVolunteer = new TableColumn<>("Category");
+        categoryColumn.setMinWidth(200);
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        TableColumn<VolunteerItem, String> suppliesColumnVolunteer = new TableColumn<>("Supplies");
+        suppliesColumn.setMinWidth(200);
+        suppliesColumn.setCellValueFactory(new PropertyValueFactory<>("supplies"));
+        TableColumn<VolunteerItem, Float> quantityColumnVolunteer = new TableColumn<>("Quantity");
+        quantityColumn.setMinWidth(200);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        TableColumn<VolunteerItem, String> generalInformationColumnVolunteer = new TableColumn<>("General Information");
+        generalInformationColumn.setMinWidth(200);
+        generalInformationColumn.setCellValueFactory(new PropertyValueFactory<>("generalInformation"));
+        TableColumn<VolunteerItem, String> healthConditionColumnVolunteer = new TableColumn<>("Health Condition");
+        healthConditionColumn.setMinWidth(200);
+        healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
+        offersInboxTable.getColumns().addAll(nameColumnVolunteer, categoryColumnVolunteer, suppliesColumnVolunteer, quantityColumnVolunteer, generalInformationColumnVolunteer, healthConditionColumnVolunteer);
     }
 
 
@@ -142,12 +170,16 @@ public class AffectedPageController{
         requestsTab.setManaged(false);
         volunteersTab.setVisible(false);
         volunteersTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
     }
     public void handleRequestsPage() {
         homeTab.setVisible(false);
         homeTab.setManaged(false);
         volunteersTab.setVisible(false);
         volunteersTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
         requestsTab.setVisible(true);
         requestsTab.setManaged(true);
     }
@@ -157,8 +189,21 @@ public class AffectedPageController{
         homeTab.setManaged(false);
         requestsTab.setVisible(false);
         requestsTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
         volunteersTab.setVisible(true);
         volunteersTab.setManaged(true);
+    }
+
+    public void handleOffersPage() {
+        homeTab.setVisible(false);
+        homeTab.setManaged(false);
+        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
+        offersTab.setVisible(true);
+        offersTab.setManaged(true);
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
@@ -188,6 +233,11 @@ public class AffectedPageController{
     public static ObservableList<Volunteer> getVolunteers(String country) {
         return FXCollections.observableList(UserService.volunteersToList(country));
     }
+
+    public static ObservableList<VolunteerItem> getOffersInbox(String username) {
+        return FXCollections.observableList(VolunteerService.databaseToListInbox(CommunicationService.getSourceIDs(username)));
+    }
+
 
     public void handleTableClick(MouseEvent event) throws IOException  {
         if (requestsTable.getSelectionModel().getSelectedItem() != null)
@@ -304,6 +354,11 @@ public class AffectedPageController{
             JOptionPane.showMessageDialog(null, "Select a Volunteer to view info", "Failed to view info of Volunteer", 1);
         }
     }
+
+    public void handleOfferInboxTableClick(MouseEvent event) throws IOException  {
+    }
+
+
 
 
 }
