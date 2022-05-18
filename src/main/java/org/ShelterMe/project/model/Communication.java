@@ -17,7 +17,6 @@ public class Communication {
     private String destinationContactMethods;
     private Boolean isInHistory;
 
-
     public Communication(char type, String sourceUsername, String destinationUsername, int id, char status, String sourceMessage, String destinationMessage, String sourceContactMethods, String destinationContactMethods) {
         this.communicationId = CommunicationService.getCounter() + 1;
         this.type = type;
@@ -114,5 +113,9 @@ public class Communication {
 
     public void setInHistory(Boolean inHistory) {
         isInHistory = inHistory;
+    }
+
+    public int getCommunicationId() {
+        return communicationId;
     }
 }

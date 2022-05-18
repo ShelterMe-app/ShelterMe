@@ -7,7 +7,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.CommunicationService;
+import org.ShelterMe.project.services.AffectedService;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class VolunteerReplyController {
@@ -59,6 +61,7 @@ public class VolunteerReplyController {
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) approveRequestButton.getScene().getWindow();
         stage.close();
+        JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request approved", "Successfully approved request", 1);
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
@@ -67,5 +70,6 @@ public class VolunteerReplyController {
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) rejectRequestButton.getScene().getWindow();
         stage.close();
+        JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request rejected", "Successfully rejected request", 1);
     }
 }

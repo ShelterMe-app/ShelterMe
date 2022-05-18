@@ -99,12 +99,12 @@
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Offers in your Requests list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
+                            <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Offers in your Offer list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
                                 <font>
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Requests in your Offers list." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
+                            <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Requests in your Request inbox." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
                                 <font>
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>

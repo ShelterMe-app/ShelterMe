@@ -131,4 +131,11 @@ public class AffectedService {
         Image recoveredImage = new Image(stream);
         return recoveredImage;
     }
+
+    public static String getRequestName(int id) {
+        for (AffectedItem item:affectedItemsRepository.find())
+            if(id == item.getId())
+                return item.getName();
+        return "";
+    }
 }

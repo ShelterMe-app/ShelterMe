@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -34,8 +35,8 @@ public class CommunicationService {
     public static int getCounter() {
         int index = 0;
         for (Communication item : communicationRepository.find()) {
-            if (item.getId() > index) {
-                index = item.getId();
+            if (item.getCommunicationId() > index) {
+                index = item.getCommunicationId();
             }
         }
         return index;
@@ -104,5 +105,15 @@ public class CommunicationService {
                 break;
             }
         }
+    }
+
+    public static int getActiveRequestsNumber(String destination){
+        int activeRequestNumber = 0;
+        for (Communication item : communicationRepository.find()) {
+            if (destination.equals(item.getDestinationUsername()) && !item.getInHistory()) {
+                activeRequestNumber++;
+            }
+        }
+        return activeRequestNumber;
     }
 }

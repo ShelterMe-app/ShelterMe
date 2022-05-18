@@ -90,7 +90,8 @@ public class VolunteerPageController{
     public void setSignedInAs(Volunteer loggedInVolunteer) {
         this.loggedInVolunteer = loggedInVolunteer;
         signedInAsLabel.setText("Welcome, " + loggedInVolunteer.getFullName() + "!");
-        signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Requests list.");
+        signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Offer list.");
+        signedInAsLabel111.setText(loggedInVolunteer.getActiveRequestsNo() + " Requests in your Request inbox.");
         offersTable.setItems(getOffers(loggedInVolunteer.getUsername()));
         requestsInboxTable.setItems(getRequestsInbox(loggedInVolunteer.getUsername()));
     }
@@ -140,7 +141,8 @@ public class VolunteerPageController{
     }
     public void handleHomePage() {
         loggedInVolunteer.calculateValues();
-        signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Requests list.");
+        signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Offer list.");
+        signedInAsLabel111.setText(loggedInVolunteer.getActiveRequestsNo() + " Requests in your Request inbox.");
         homeTab.setManaged(true);
         homeTab.setVisible(true);
         offersTab.setManaged(false);
