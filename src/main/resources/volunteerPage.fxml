@@ -175,7 +175,7 @@
 
                     <VBox fx:id="requestsInboxTab" alignment="BOTTOM_CENTER" managed="false" stylesheets="@menu.css" visible="false">
                         <children>
-                            <TableView fx:id="requestsInboxTable" prefHeight="291.0" prefWidth="750" />
+                            <TableView fx:id="requestsInboxTable" prefHeight="291.0" prefWidth="750" onMouseClicked="#handleRequestInboxTableClick" />
                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                 <children>
                                     <JFXButton id="InMenuButton" fx:id="showRequestInbox" alignment="CENTER" mnemonicParsing="false" onAction="#handleRequestInbox" text="Show Message">

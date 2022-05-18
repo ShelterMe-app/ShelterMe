@@ -4,9 +4,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import org.ShelterMe.project.exceptions.*;
-import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.model.User;
-import org.ShelterMe.project.model.Volunteer;
+import org.ShelterMe.project.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
@@ -32,7 +30,8 @@ public class UserService {
 
         VolunteerService.initVolunteerItemsDatabase();
         AffectedService.initAffectedItemsDatabase();
-    }
+        CommunicationService.initCommunicationDatabase();
+        }
 
     public static void addUser(String username, String password, String role, String fullName, String country, String phoneNumber, String code) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
         checkEmptyFields(username, password, role, fullName, country, phoneNumber);

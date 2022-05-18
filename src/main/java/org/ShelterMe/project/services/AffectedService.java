@@ -19,11 +19,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-import java.util.Date;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -101,6 +98,11 @@ public class AffectedService {
 
     public static List<AffectedItem> databaseToList(String username) {
         Predicate<AffectedItem> isUsername = affected -> affected.getUsername().equals(username);
+        return affectedItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
+    }
+
+    public static List<AffectedItem> databaseToListInbox(ArrayList<Integer> ids) {
+        Predicate<AffectedItem> isUsername = affected -> ids.contains(affected.getId());
         return affectedItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
     }
 

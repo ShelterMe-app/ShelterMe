@@ -20,6 +20,9 @@ import javafx.scene.shape.*;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.ShelterMe.project.model.AffectedItem;
+import org.ShelterMe.project.services.AffectedService;
+import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.VolunteerService;
 import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.controllers.OfferMenuController;
@@ -86,6 +89,7 @@ public class VolunteerPageController{
         signedInAsLabel.setText("Welcome, " + loggedInVolunteer.getFullName() + "!");
         signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Requests list.");
         offersTable.setItems(getOffers(loggedInVolunteer.getUsername()));
+        requestsInboxTable.setItems(getRequestsInbox(loggedInVolunteer.getUsername()));
     }
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) signOutButton.getScene().getWindow();
@@ -106,6 +110,27 @@ public class VolunteerPageController{
         quantityColumn.setMinWidth(187);
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         offersTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn);
+
+        TableColumn<AffectedItem, String> nameColumnInbox = new TableColumn<>("Name");
+        nameColumnInbox.setMinWidth(200);
+        nameColumnInbox.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<AffectedItem, String> categoryColumnInbox = new TableColumn<>("Category");
+        categoryColumnInbox.setMinWidth(200);
+        categoryColumnInbox.setCellValueFactory(new PropertyValueFactory<>("category"));
+        TableColumn<AffectedItem, String> suppliesColumnInbox = new TableColumn<>("Supplies");
+        suppliesColumnInbox.setMinWidth(200);
+        suppliesColumnInbox.setCellValueFactory(new PropertyValueFactory<>("supplies"));
+        TableColumn<AffectedItem, Float> quantityColumnInbox = new TableColumn<>("Quantity");
+        quantityColumnInbox.setMinWidth(200);
+        quantityColumnInbox.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        TableColumn<AffectedItem, String> generalInformationColumnInbox = new TableColumn<>("General Information");
+        generalInformationColumnInbox.setMinWidth(200);
+        generalInformationColumnInbox.setCellValueFactory(new PropertyValueFactory<>("generalInformation"));
+        TableColumn<AffectedItem, String> healthConditionColumnInbox = new TableColumn<>("Health Condition");
+        healthConditionColumnInbox.setMinWidth(200);
+        healthConditionColumnInbox.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
+        requestsInboxTable.getColumns().addAll(nameColumnInbox, categoryColumnInbox, suppliesColumnInbox, quantityColumnInbox, generalInformationColumnInbox, healthConditionColumnInbox);
+
     }
     public void handleHomePage() {
         loggedInVolunteer.calculateValues();
@@ -156,6 +181,10 @@ public class VolunteerPageController{
     public static ObservableList<VolunteerItem> getOffers(String username) {
 
         return FXCollections.observableList(VolunteerService.databaseToList(username));
+    }
+
+    public static ObservableList<AffectedItem> getRequestsInbox(String username) {
+        return FXCollections.observableList(AffectedService.databaseToListInbox(CommunicationService.getSourceIDs(username)));
     }
 
     public void handleTableClick(MouseEvent event) throws IOException  {
@@ -222,7 +251,7 @@ public class VolunteerPageController{
             VolunteerItem offer = (VolunteerItem) offersTable.getSelectionModel().getSelectedItem();
             int offerId = offer.getId();
             VolunteerService.removeItem(offerId);
-            JOptionPane.showMessageDialog(null, "Selected offer has been removed", "Succesfully removed offer", 1);
+            JOptionPane.showMessageDialog(null, "Selected offer has been removed", "Successfully removed offer", 1);
             if (offersTable != null)
                 offersTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
         } else {
@@ -233,5 +262,8 @@ public class VolunteerPageController{
 
     public void handleRequestInbox() {
 
+    }
+
+    public void handleRequestInboxTableClick(MouseEvent event) throws IOException  {
     }
 }

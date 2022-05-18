@@ -22,6 +22,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         initDirectory();
         UserService.initDatabase();
+
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         primaryStage.setTitle("ShelterMe");
         primaryStage.setScene(new Scene(root, 700, 500));
