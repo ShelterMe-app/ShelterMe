@@ -15,9 +15,11 @@ import java.io.IOException;
 
 public class Volunteer extends User {
     private int offersNo;
+    private boolean newOffer;
 
     public Volunteer(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
         super(username, password, role, fullName, country, phoneNumber);
+        this.newOffer = false;
     }
 
     public void calculateValues(){
@@ -44,5 +46,13 @@ public class Volunteer extends User {
 
     public int getOffersNo() {
         return offersNo;
+    }
+
+    public boolean isNewOffer() {
+        return newOffer;
+    }
+
+    public void setNewOffer(boolean newOffer) {
+        this.newOffer = newOffer;
     }
 }

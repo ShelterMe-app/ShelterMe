@@ -4,9 +4,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import org.ShelterMe.project.exceptions.*;
-import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.model.User;
-import org.ShelterMe.project.model.Volunteer;
+import org.ShelterMe.project.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
@@ -15,9 +13,12 @@ import org.dizitart.no2.objects.ObjectRepository;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Objects;
 
 import java.util.Date;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -31,6 +32,9 @@ public class UserService {
         userRepository = database.getRepository(User.class);
 
         VolunteerService.initVolunteerItemsDatabase();
+        AffectedService.initAffectedItemsDatabase();
+        CommunicationService.initCommunicationDatabase();
+
     }
 
     public static void addUser(String username, String password, String role, String fullName, String country, String phoneNumber, String code) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
@@ -185,5 +189,18 @@ public class UserService {
 
     public static void updateUserInDatabase(User user) {
         userRepository.update(user);
+    }
+
+    public static List volunteersToList(String country) {
+        Predicate<User> availableVolunteer = volunteer -> volunteer.getCountry().equals(country) && volunteer.getRole().equals("Volunteer");
+        return userRepository.find().toList().stream().filter(availableVolunteer).collect(Collectors.toList());
+    }
+
+    public static User getUser(String username) {
+        for (User user : userRepository.find()) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
     }
 }
