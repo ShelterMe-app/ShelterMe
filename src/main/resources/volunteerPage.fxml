@@ -187,6 +187,15 @@
                                             </ImageView>
                                         </graphic>
                                     </JFXButton>
+                                    <JFXButton id="InMenuButton" fx:id="showRequestInboxImage" alignment="CENTER" mnemonicParsing="false" onAction="#handlerequestInboxImage" text="Show Request Image">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/eye.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
                                 </children>
                             </HBox>
                         </children>

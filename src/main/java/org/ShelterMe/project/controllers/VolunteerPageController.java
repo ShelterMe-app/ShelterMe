@@ -84,6 +84,8 @@ public class VolunteerPageController{
     @FXML
     private JFXButton showRequestInbox;
 
+    private Image requestInboxImage;
+
     public void setSignedInAs(Volunteer loggedInVolunteer) {
         this.loggedInVolunteer = loggedInVolunteer;
         signedInAsLabel.setText("Welcome, " + loggedInVolunteer.getFullName() + "!");
@@ -265,5 +267,26 @@ public class VolunteerPageController{
     }
 
     public void handleRequestInboxTableClick(MouseEvent event) throws IOException  {
+        if (requestsInboxTable.getSelectionModel().getSelectedItem() != null)
+            requestInboxImage = VolunteerService.base64ToImage(((AffectedItem)requestsInboxTable.getSelectionModel().getSelectedItem()).getImageBase64());
+    }
+
+    public void handlerequestInboxImage(javafx.event.ActionEvent event) throws IOException {
+        if (requestInboxImage == null) {
+            JOptionPane.showMessageDialog(null, "This request has no image", "Failed to open image", 1);
+            return;
+        }
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("offerImageDialog.fxml"));
+        Parent imageDialog = loader.load();
+        OfferImageDialogController controller = loader.getController();
+        controller.setOfferImage(requestInboxImage);
+        Scene scene = new Scene(imageDialog);
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.setTitle("ShelterMe - Request image");
+        newStage.getIcons().add(new Image("file:docs/Logo.png"));
+        newStage.show();
+        newStage.setResizable(false);
     }
 }
