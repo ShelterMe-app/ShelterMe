@@ -56,6 +56,8 @@ import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.VolunteerService;
 import org.ShelterMe.project.services.CommunicationService;
 
+import org.ShelterMe.project.model.Communication;
+
 public class AffectedPageController{
     private Affected loggedInAffected;
 
@@ -377,8 +379,28 @@ public class AffectedPageController{
         newStage.setResizable(false);
     }
 
-    public void handleShowMessage() {
-
+    public void handleShowMessage() throws IOException {
+        if (offersInboxTable.getSelectionModel().getSelectedItem() != null)
+        {
+            VolunteerItem connection = (VolunteerItem) offersInboxTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("affectedReplyForm.fxml"));
+            Parent viewRequestInbox = loader.load();
+            AffectedReplyController newController = loader.getController();
+            newController.setLoggedInAffected(loggedInAffected);
+            newController.setOffersInboxTable(offersInboxTable);
+            newController.setRequestId(connection.getId());
+            Scene scene = new Scene(viewRequestInbox);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(offersTab.getScene().getWindow());
+            newStage.setTitle("ShelterMe - Inbox");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
+        }
     }
 
 }

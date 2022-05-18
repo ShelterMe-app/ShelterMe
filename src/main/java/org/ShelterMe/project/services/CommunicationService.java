@@ -70,4 +70,30 @@ public class CommunicationService {
         }
         return ids;
     }
+
+    public static String getSourceDescription(int id){
+        for (Communication item:communicationRepository.find()){
+            if(id == item.getId())
+                return item.getSourceMessage();
+        }
+        return "";
+    }
+
+    public static String getSourceInfo(int id){
+        for (Communication item:communicationRepository.find()){
+            if(id == item.getId())
+                return item.getSourceContactMethods();
+        }
+        return "";
+    }
+
+    public static String getSourceName(int id){
+        for (Communication item:communicationRepository.find()){
+            if(id == item.getId()) {
+                System.out.println(item.getSourceUsername());
+                return item.getSourceUsername();
+            }
+        }
+        return "";
+    }
 }
