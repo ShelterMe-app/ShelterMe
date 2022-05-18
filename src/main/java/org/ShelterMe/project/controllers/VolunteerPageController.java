@@ -21,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.ShelterMe.project.model.AffectedItem;
+import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.VolunteerService;
@@ -113,6 +114,9 @@ public class VolunteerPageController{
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         offersTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn);
 
+        TableColumn<AffectedItem, String> usernameColumnInbox = new TableColumn<>("Username");
+        usernameColumnInbox.setMinWidth(200);
+        usernameColumnInbox.setCellValueFactory(new PropertyValueFactory<>("username"));
         TableColumn<AffectedItem, String> nameColumnInbox = new TableColumn<>("Name");
         nameColumnInbox.setMinWidth(200);
         nameColumnInbox.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -131,7 +135,7 @@ public class VolunteerPageController{
         TableColumn<AffectedItem, String> healthConditionColumnInbox = new TableColumn<>("Health Condition");
         healthConditionColumnInbox.setMinWidth(200);
         healthConditionColumnInbox.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
-        requestsInboxTable.getColumns().addAll(nameColumnInbox, categoryColumnInbox, suppliesColumnInbox, quantityColumnInbox, generalInformationColumnInbox, healthConditionColumnInbox);
+        requestsInboxTable.getColumns().addAll(usernameColumnInbox, nameColumnInbox, categoryColumnInbox, suppliesColumnInbox, quantityColumnInbox, generalInformationColumnInbox, healthConditionColumnInbox);
 
     }
     public void handleHomePage() {
@@ -261,22 +265,17 @@ public class VolunteerPageController{
         }
     }
 
-
-    public void handleRequestInbox() {
-
-    }
-
     public void handleRequestInboxTableClick(MouseEvent event) throws IOException  {
         if (requestsInboxTable.getSelectionModel().getSelectedItem() != null)
             requestInboxImage = VolunteerService.base64ToImage(((AffectedItem)requestsInboxTable.getSelectionModel().getSelectedItem()).getImageBase64());
     }
 
-    public void handlerequestInboxImage(javafx.event.ActionEvent event) throws IOException {
+    public void handleRequestInboxImage(javafx.event.ActionEvent event) throws IOException {
         if (requestInboxImage == null) {
             JOptionPane.showMessageDialog(null, "This request has no image", "Failed to open image", 1);
             return;
         }
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("offerImageDialog.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("requestImageDialog.fxml"));
         Parent imageDialog = loader.load();
         OfferImageDialogController controller = loader.getController();
         controller.setOfferImage(requestInboxImage);
@@ -288,5 +287,29 @@ public class VolunteerPageController{
         newStage.getIcons().add(new Image("file:docs/Logo.png"));
         newStage.show();
         newStage.setResizable(false);
+    }
+
+    public void handleRequestInbox(javafx.event.ActionEvent event) throws IOException {
+        if (requestsInboxTable.getSelectionModel().getSelectedItem() != null)
+        {
+            AffectedItem connection = (AffectedItem) requestsInboxTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("volunteerReplyForm.fxml"));
+            Parent viewRequestInbox = loader.load();
+            VolunteerReplyController newController = loader.getController();
+            newController.setLoggedInVolunteer(loggedInVolunteer);
+            newController.setRequestsInboxTable(requestsInboxTable);
+            newController.setRequestId(connection.getId());
+            Scene scene = new Scene(viewRequestInbox);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(offersTab.getScene().getWindow());
+            newStage.setTitle("ShelterMe - Inbox");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a request in order to see it", "Failed to open request", 1);
+        }
     }
 }
