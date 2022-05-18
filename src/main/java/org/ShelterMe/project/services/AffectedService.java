@@ -138,4 +138,11 @@ public class AffectedService {
                 return item.getName();
         return "";
     }
+
+    public static String getRequestDestinationUsername(int id) {
+        for (AffectedItem item:affectedItemsRepository.find())
+            if(id == item.getId())
+                return item.getUsername();
+        return "";
+    }
 }

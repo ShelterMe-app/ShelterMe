@@ -96,9 +96,9 @@ public class CommunicationService {
         return "";
     }
 
-    public static void closeRequest(int id, char status){
+    public static void closeRequest(String source, String destination, int id, char status){
         for (Communication item:communicationRepository.find()){
-            if(id == item.getId()) {
+            if(id == item.getId() && item.getInHistory() == false && item.getSourceUsername().equals(source) && item.getDestinationUsername().equals(destination)) {
                 item.setStatus(status);
                 item.setInHistory(true);
                 communicationRepository.update(item);
