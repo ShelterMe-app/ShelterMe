@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.CommunicationService;
 
@@ -54,9 +55,17 @@ public class VolunteerReplyController {
 
     public void handleApproveRequest(javafx.event.ActionEvent event) {
         CommunicationService.closeRequest(requestId, 'a');
+        if (requestsInboxTable != null)
+            requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
+        Stage stage = (Stage) approveRequestButton.getScene().getWindow();
+        stage.close();
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
         CommunicationService.closeRequest(requestId, 'r');
+        if (requestsInboxTable != null)
+            requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
+        Stage stage = (Stage) rejectRequestButton.getScene().getWindow();
+        stage.close();
     }
 }
