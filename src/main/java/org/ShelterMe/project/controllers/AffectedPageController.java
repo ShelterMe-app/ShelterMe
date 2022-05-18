@@ -92,6 +92,8 @@ public class AffectedPageController{
 
     private Image requestImage;
 
+    private Image offerInboxImage;
+
     public void setSignedInAs(Affected loggedInAffected) {
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
@@ -137,25 +139,22 @@ public class AffectedPageController{
         volunteerCountryColumn.setMinWidth(200);
         volunteerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         volunteersTable.getColumns().addAll(volunteerUsernameColumn, volunteerFullNameColumn, volunteerCountryColumn);
-        TableColumn<AffectedItem, String> nameColumnVolunteer = new TableColumn<>("Name");
-        nameColumn.setMinWidth(200);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<VolunteerItem, String> usernameColumnVolunteer = new TableColumn<>("Username");
+        usernameColumnVolunteer.setMinWidth(200);
+        usernameColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("username"));
+        TableColumn<VolunteerItem, String> nameColumnVolunteer = new TableColumn<>("Name");
+        nameColumnVolunteer.setMinWidth(200);
+        nameColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("name"));
         TableColumn<VolunteerItem, String> categoryColumnVolunteer = new TableColumn<>("Category");
-        categoryColumn.setMinWidth(200);
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        categoryColumnVolunteer.setMinWidth(200);
+        categoryColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("category"));
         TableColumn<VolunteerItem, String> suppliesColumnVolunteer = new TableColumn<>("Supplies");
-        suppliesColumn.setMinWidth(200);
-        suppliesColumn.setCellValueFactory(new PropertyValueFactory<>("supplies"));
+        suppliesColumnVolunteer.setMinWidth(200);
+        suppliesColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("supplies"));
         TableColumn<VolunteerItem, Float> quantityColumnVolunteer = new TableColumn<>("Quantity");
-        quantityColumn.setMinWidth(200);
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        TableColumn<VolunteerItem, String> generalInformationColumnVolunteer = new TableColumn<>("General Information");
-        generalInformationColumn.setMinWidth(200);
-        generalInformationColumn.setCellValueFactory(new PropertyValueFactory<>("generalInformation"));
-        TableColumn<VolunteerItem, String> healthConditionColumnVolunteer = new TableColumn<>("Health Condition");
-        healthConditionColumn.setMinWidth(200);
-        healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
-        offersInboxTable.getColumns().addAll(nameColumnVolunteer, categoryColumnVolunteer, suppliesColumnVolunteer, quantityColumnVolunteer, generalInformationColumnVolunteer, healthConditionColumnVolunteer);
+        quantityColumnVolunteer.setMinWidth(200);
+        quantityColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        offersInboxTable.getColumns().addAll(usernameColumnVolunteer, nameColumnVolunteer, categoryColumnVolunteer, suppliesColumnVolunteer, quantityColumnVolunteer);
     }
 
 
@@ -356,9 +355,30 @@ public class AffectedPageController{
     }
 
     public void handleOfferInboxTableClick(MouseEvent event) throws IOException  {
+        if (offersInboxTable.getSelectionModel().getSelectedItem() != null)
+            offerInboxImage = VolunteerService.base64ToImage(((VolunteerItem)offersInboxTable.getSelectionModel().getSelectedItem()).getImageBase64());
+    }
+    public void handleOfferInboxImage(javafx.event.ActionEvent event) throws IOException {
+        if (offerInboxImage == null) {
+            JOptionPane.showMessageDialog(null, "This offer has no image", "Failed to open image", 1);
+            return;
+        }
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("offerImageDialog.fxml"));
+        Parent imageDialog = loader.load();
+        OfferImageDialogController controller = loader.getController();
+        controller.setOfferImage(offerInboxImage);
+        Scene scene = new Scene(imageDialog);
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.setTitle("ShelterMe - Offer image");
+        newStage.getIcons().add(new Image("file:docs/Logo.png"));
+        newStage.show();
+        newStage.setResizable(false);
     }
 
+    public void handleShowMessage() {
 
-
+    }
 
 }

@@ -129,7 +129,8 @@ public class VolunteerService {
     }
 
     public static List<VolunteerItem> databaseToListInbox(ArrayList<Integer> ids) {
-        Predicate<VolunteerItem> isUsername = volunteer -> ids.contains(volunteer.getId());
-        return volunteerItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
+        Predicate<VolunteerItem> isId = offer -> ids.contains(offer.getId());
+        System.out.println(volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList()).size());
+        return volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
     }
 }
