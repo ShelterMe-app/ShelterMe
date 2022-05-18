@@ -53,10 +53,10 @@ public class VolunteerReplyController {
     }
 
     public void handleApproveRequest(javafx.event.ActionEvent event) {
-
+        CommunicationService.closeRequest(requestId, 'a');
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
-
+        CommunicationService.closeRequest(requestId, 'r');
     }
 }

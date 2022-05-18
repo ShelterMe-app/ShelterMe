@@ -63,7 +63,7 @@ public class CommunicationService {
     public static ArrayList<Integer> getSourceIDs(String destination) {
         ArrayList<Integer> ids = new ArrayList<>();
         for (Communication item : communicationRepository.find()) {
-            if (destination.equals(item.getDestinationUsername()) && !ids.contains(item.getId())) {
+            if (destination.equals(item.getDestinationUsername()) && !ids.contains(item.getId()) && !item.getInHistory()) {
                 ids.add(item.getId());
             }
         }
@@ -89,10 +89,20 @@ public class CommunicationService {
     public static String getSourceName(int id){
         for (Communication item:communicationRepository.find()){
             if(id == item.getId()) {
-                System.out.println(item.getSourceUsername());
                 return item.getSourceUsername();
             }
         }
         return "";
+    }
+
+    public static void closeRequest(int id, char status){
+        for (Communication item:communicationRepository.find()){
+            if(id == item.getId()) {
+                item.setStatus(status);
+                item.setInHistory(true);
+                communicationRepository.update(item);
+                break;
+            }
+        }
     }
 }

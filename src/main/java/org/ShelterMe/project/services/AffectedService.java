@@ -36,6 +36,7 @@ public class AffectedService {
                 .openOrCreate("test", "test");
 
         affectedItemsRepository = database.getRepository(AffectedItem.class);
+
     }
 
     public static AffectedItem getAffectedItems(String username) {
