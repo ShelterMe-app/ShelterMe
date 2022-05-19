@@ -133,7 +133,7 @@
 
                <VBox fx:id="requestsTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" visible="false">
                   <children>
-                     <TableView fx:id="requestsTable" onMouseClicked="#handleTableClick" prefHeight="291.0" prefWidth="750.0" />
+                     <TableView fx:id="requestsTable" onMouseClicked="#handleTableClick" prefHeight="291.0" maxWidth="720.0" tableMenuButtonVisible="true" />
                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddRequest" text="New request">
@@ -181,7 +181,7 @@
                </VBox>
                <VBox fx:id="volunteersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" visible="false">
                   <children>
-                     <TableView fx:id="volunteersTable" prefHeight="291.0" prefWidth="750.0" />
+                     <TableView fx:id="volunteersTable" prefHeight="291.0" maxWidth="720.0" tableMenuButtonVisible="true" />
                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <JFXButton id="InMenuButton" fx:id="contactVolunteer" alignment="CENTER" mnemonicParsing="false" onAction="#handleContactVolunteer" text="Contact Volunteer">
@@ -211,7 +211,7 @@
                </VBox>
                <VBox fx:id="offersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" visible="false">
                   <children>
-                     <TableView fx:id="offersInboxTable" onMouseClicked="#handleOfferInboxTableClick" prefHeight="291.0" prefWidth="750.0" />
+                     <TableView fx:id="offersInboxTable" onMouseClicked="#handleOfferInboxTableClick" prefHeight="291.0" maxWidth="720.0" tableMenuButtonVisible="true" />
                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                         <children>
                            <JFXButton id="InMenuButton" fx:id="showMessageButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleShowMessage" text="Show Message">

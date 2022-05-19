@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="AddForm" alignment="CENTER" prefHeight="450.0" prefWidth="450.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.ViewAffectedRequestsController">
+    <padding>
+        <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+    </padding>
+
+    <Text id="title-text" fx:id="infoAffectedWelcome" styleClass="text-id" text="Info about selected Affected" textAlignment="CENTER" wrappingWidth="200.0">
+        <VBox.margin>
+            <Insets bottom="40.0" />
+        </VBox.margin></Text>
+    <Text fx:id="infoAffectedDetail" strokeType="OUTSIDE" strokeWidth="0.0" text="The Affected's requests" />
+    <TableView fx:id="affectedRequestsTable" cache="true" prefHeight="200.0" prefWidth="617.0" tableMenuButtonVisible="true" />
+</VBox>

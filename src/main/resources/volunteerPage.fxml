@@ -58,7 +58,7 @@
                                         </ImageView>
                                     </graphic>
                                 </JFXButton>
-                                <JFXButton id="affectedButton" fx:id="affectedButton" prefHeight="60.0" prefWidth="102.0" text="Affected">
+                                <JFXButton id="affectedButton" fx:id="affectedButton" onAction="#handleAffectedPage" prefHeight="60.0" prefWidth="102.0" text="Affected">
                                     <graphic>
                                         <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -133,7 +133,7 @@
 
                     <VBox fx:id="offersTab" alignment="BOTTOM_CENTER" managed="false" stylesheets="@menu.css" visible="false">
                         <children>
-                            <TableView fx:id="offersTable" onMouseClicked="#handleTableClick" prefHeight="291.0" prefWidth="750" />
+                            <TableView fx:id="offersTable" onMouseClicked="#handleTableClick" prefHeight="291.0" maxWidth="720.0" tableMenuButtonVisible="true" />
                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                 <children>
                                     <JFXButton id="InMenuButton" fx:id="InMenuButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleAddOffer" text="New offer">
@@ -182,7 +182,7 @@
 
                     <VBox fx:id="requestsInboxTab" alignment="BOTTOM_CENTER" managed="false" stylesheets="@menu.css" visible="false">
                         <children>
-                            <TableView fx:id="requestsInboxTable" prefHeight="291.0" prefWidth="750" onMouseClicked="#handleRequestInboxTableClick" />
+                            <TableView fx:id="requestsInboxTable" prefHeight="291.0" maxWidth="720.0" tableMenuButtonVisible="true" onMouseClicked="#handleRequestInboxTableClick" />
                             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                 <children>
                                     <JFXButton id="InMenuButton" fx:id="showRequestInbox" alignment="CENTER" mnemonicParsing="false" onAction="#handleRequestInbox" text="Show Message">
@@ -195,6 +195,36 @@
                                         </graphic>
                                     </JFXButton>
                                     <JFXButton id="InMenuButton" fx:id="showRequestInboxImage" alignment="CENTER" mnemonicParsing="false" onAction="#handleRequestInboxImage" text="Show Request Image">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/eye.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                </children>
+                            </HBox>
+                        </children>
+                        <padding>
+                            <Insets bottom="50.0" />
+                        </padding>
+                    </VBox>
+                    <VBox fx:id="affectedTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" visible="false">
+                        <children>
+                            <TableView fx:id="affectedTable" prefHeight="291.0" maxWidth="720.0" tableMenuButtonVisible="true"/>
+                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                <children>
+                                    <JFXButton id="InMenuButton" fx:id="contactAffected" alignment="CENTER" mnemonicParsing="false" onAction="#handleContactAffected" text="Contact Affected">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/pencil.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="InMenuButton" fx:id="viewAffectedInfo" alignment="CENTER" mnemonicParsing="false" onAction="#handleAffectedInfo" text="View Affected Info">
                                         <graphic>
                                             <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                                 <image>

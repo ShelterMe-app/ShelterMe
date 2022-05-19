@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.ShelterMe.project.services.UserService;
 
 import java.io.IOException;
 
@@ -50,6 +51,8 @@ public class AffectedPageController{
     private JFXButton historyButton;
     @FXML
     private  JFXButton homeButton;
+    @FXML
+    private JFXButton offersButton;
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -99,6 +102,12 @@ public class AffectedPageController{
             UserService.updateUserInDatabase(loggedInAffected);
         }
         handleHomePage();
+        if (this.loggedInAffected.isNewRequest() == true) {
+            offersButton.setStyle("-fx-background-color: #44919c;");
+            offersButton.setPrefWidth(115);
+            offersButton.setText("Offers (new)");
+            UserService.updateUserInDatabase(loggedInAffected);
+        }
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -127,6 +136,7 @@ public class AffectedPageController{
         healthConditionColumn.setMinWidth(200);
         healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
         requestsTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn, generalInformationColumn, healthConditionColumn);
+
         TableColumn<Volunteer, String> volunteerUsernameColumn = new TableColumn<>("Username");
         volunteerUsernameColumn.setMinWidth(200);
         volunteerUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -246,6 +256,13 @@ public class AffectedPageController{
         historyTab.setManaged(false);
         offersTab.setVisible(true);
         offersTab.setManaged(true);
+        if (loggedInAffected.isNewRequest() == true) {
+            this.loggedInAffected.setNewRequest(false);
+            offersButton.setStyle("-fx-background-color: #d6eaed;");
+            offersButton.setPrefWidth(102);
+            offersButton.setText("Requests");
+            UserService.updateUserInDatabase(this.loggedInAffected);
+        }
     }
 
     public void handleHistoryPage() {

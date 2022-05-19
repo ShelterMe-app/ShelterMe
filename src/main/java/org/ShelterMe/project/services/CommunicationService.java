@@ -5,6 +5,7 @@ import org.ShelterMe.project.exceptions.CommunicationExistsException;
 import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.User;
 import org.ShelterMe.project.model.Volunteer;
+import org.ShelterMe.project.model.Affected;
 import org.apache.commons.io.FileUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
@@ -36,11 +37,16 @@ public class CommunicationService {
 
     public static void addCommunication(char type, String sourceUsername, String destinationUsername, int id, char status, String sourceMessage, String destinationMessage, String sourceContactMethods, String destinationContactMethods) {
         communicationRepository.insert(new Communication(type, sourceUsername, destinationUsername, id, status, sourceMessage, destinationMessage, sourceContactMethods, destinationContactMethods));
-      User destination = UserService.getUser(destinationUsername);
+        User destination = UserService.getUser(destinationUsername);
         if (destination instanceof Volunteer) {
             Volunteer destinationVolunteer = (Volunteer) destination;
             destinationVolunteer.setNewOffer(true);
             UserService.updateUserInDatabase(destinationVolunteer);
+        }
+        if (destination instanceof Affected) {
+            Affected destinationAffected = (Affected) destination;
+            destinationAffected.setNewRequest(true);
+            UserService.updateUserInDatabase(destinationAffected);
         }
     }
   
