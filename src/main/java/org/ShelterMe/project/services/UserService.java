@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
+import org.ShelterMe.project.model.VolunteerItem;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -201,5 +202,10 @@ public class UserService {
                 return user;
         }
         return null;
+    }
+
+    public static List affectedToList(String country) {
+        Predicate<User> availableAffected = affected -> affected.getCountry().equals(country) && affected.getRole().equals("Affected");
+        return userRepository.find().toList().stream().filter(availableAffected).collect(Collectors.toList());
     }
 }

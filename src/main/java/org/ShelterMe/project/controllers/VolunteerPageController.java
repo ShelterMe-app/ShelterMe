@@ -34,6 +34,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import org.ShelterMe.project.model.User;
+import org.ShelterMe.project.model.Affected;
+import org.ShelterMe.project.services.UserService;
+
 import java.awt.*;
 import java.awt.Rectangle;
 import java.io.IOException;
@@ -74,6 +78,8 @@ public class VolunteerPageController{
     private VBox offersTab;
     @FXML
     private VBox homeTab;
+    @FXML
+    private VBox affectedTab;
     @FXML
     private TableView offersTable;
 
@@ -156,6 +162,8 @@ public class VolunteerPageController{
         offersTab.setVisible(false);
         requestsInboxTab.setManaged(false);
         requestsInboxTab.setVisible(false);
+        affectedTab.setVisible(false);
+        affectedTab.setManaged(false);
     }
     public void handleOffersPage() {
         homeTab.setManaged(false);
@@ -164,7 +172,10 @@ public class VolunteerPageController{
         offersTab.setVisible(true);
         requestsInboxTab.setManaged(false);
         requestsInboxTab.setVisible(false);
+        affectedTab.setVisible(false);
+        affectedTab.setManaged(false);
     }
+
 
     public void handleRequestsInboxPage() {
         homeTab.setManaged(false);
@@ -173,6 +184,8 @@ public class VolunteerPageController{
         offersTab.setVisible(false);
         requestsInboxTab.setManaged(true);
         requestsInboxTab.setVisible(true);
+        affectedTab.setVisible(false);
+        affectedTab.setManaged(false);
         if (loggedInVolunteer.isNewOffer() == true) {
             this.loggedInVolunteer.setNewOffer(false);
             requestsButton.setStyle("-fx-background-color: #d6eaed;");
@@ -181,6 +194,17 @@ public class VolunteerPageController{
             UserService.updateUserInDatabase(this.loggedInVolunteer);
 
         }
+    }
+
+    public void handleAffectedPage() {
+        homeTab.setManaged(false);
+        homeTab.setVisible(false);
+        offersTab.setManaged(false);
+        offersTab.setVisible(false);
+        requestsInboxTab.setManaged(false);
+        requestsInboxTab.setVisible(false);
+        affectedTab.setVisible(true);
+        affectedTab.setManaged(true);
     }
 
     public void handleAddOffer(javafx.event.ActionEvent event) throws IOException {
@@ -204,6 +228,10 @@ public class VolunteerPageController{
     public static ObservableList<VolunteerItem> getOffers(String username) {
 
         return FXCollections.observableList(VolunteerService.databaseToList(username));
+    }
+
+    public static ObservableList<Affected> getAffected(String country) {
+        return FXCollections.observableList(UserService.affectedToList(country));
     }
 
     public static ObservableList<AffectedItem> getRequestsInbox(String username) {
