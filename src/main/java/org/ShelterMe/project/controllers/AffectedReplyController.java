@@ -2,19 +2,24 @@ package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.model.Volunteer;
+import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
+import javafx.stage.Stage;
+import org.ShelterMe.project.services.VolunteerService;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class AffectedReplyController {
 
     private Affected loggedInAffected;
     private TableView offersInboxTable;
-    private int requestId;
+    private int offerId;
     @FXML
     private Text affectedReplyName;
     @FXML
@@ -22,15 +27,19 @@ public class AffectedReplyController {
     @FXML
     private Text contactToAffected;
     @FXML
+    private TextArea affectedReplyMessage;
+    @FXML
+    private TextArea affectedContactInfo;
+    @FXML
     private Button approveOfferButton;
     @FXML
     private Button rejectOfferButton;
 
-    public void setRequestId(int requestId) {
-        this.requestId = requestId;
-        affectedReplyName.setText(CommunicationService.getSourceName(requestId) + "'s offer");
-        messageToAffected.setText(CommunicationService.getSourceDescription(requestId));
-        contactToAffected.setText(CommunicationService.getSourceInfo(requestId));
+    public void setOfferId(int offerId) {
+        this.offerId = offerId;
+        affectedReplyName.setText(CommunicationService.getSourceName(offerId) + "'s offer");
+        messageToAffected.setText(CommunicationService.getSourceDescription(offerId));
+        contactToAffected.setText(CommunicationService.getSourceInfo(offerId));
     }
 
     public void setLoggedInAffected(Affected loggedInAffected) {
@@ -54,10 +63,22 @@ public class AffectedReplyController {
     }
 
     public void handleApproveOffer(javafx.event.ActionEvent event) {
+        CommunicationService.closeRequest(VolunteerService.getOfferSourceUsername(offerId),loggedInAffected.getUsername(),  offerId, 'a', affectedReplyMessage.getText(), affectedContactInfo.getText());
+        if (offersInboxTable != null)
+            offersInboxTable.setItems(AffectedPageController.getOffersInbox(loggedInAffected.getUsername()));
 
+        Stage stage = (Stage) approveOfferButton.getScene().getWindow();
+        stage.close();
+        JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer approved", "Successfully approved offer", 1);
     }
 
     public void handleRejectOffer(javafx.event.ActionEvent event){
-
+        CommunicationService.closeRequest(VolunteerService.getOfferSourceUsername(offerId),loggedInAffected.getUsername(), offerId, 'r', affectedReplyMessage.getText(), affectedContactInfo.getText());
+        if (offersInboxTable != null)
+            offersInboxTable.setItems(AffectedPageController.getOffersInbox(loggedInAffected.getUsername()));
+        Stage stage = (Stage) rejectOfferButton.getScene().getWindow();
+        stage.close();
+        JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer rejected", "Successfully rejected offer", 1);
     }
+
 }

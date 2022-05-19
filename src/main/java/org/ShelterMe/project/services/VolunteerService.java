@@ -1,6 +1,7 @@
 package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.exceptions.*;
+import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.model.VolunteerItem;
 import org.apache.commons.io.FileUtils;
 import org.dizitart.no2.Nitrite;
@@ -130,7 +131,20 @@ public class VolunteerService {
 
     public static List<VolunteerItem> databaseToListInbox(ArrayList<Integer> ids) {
         Predicate<VolunteerItem> isId = offer -> ids.contains(offer.getId());
-        System.out.println(volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList()).size());
         return volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
+    }
+
+    public static String getOfferSourceUsername(int id) {
+        for (VolunteerItem item:volunteerItemsRepository.find())
+            if(id == item.getId())
+                return item.getUsername();
+        return "";
+    }
+
+    public static String getOfferName(int id) {
+        for (VolunteerItem item:volunteerItemsRepository.find())
+            if(id == item.getId())
+                return item.getName();
+        return "";
     }
 }

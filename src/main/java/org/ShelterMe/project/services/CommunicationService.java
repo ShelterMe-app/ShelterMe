@@ -1,6 +1,7 @@
 package org.ShelterMe.project.services;
 
 import javafx.scene.image.Image;
+import org.ShelterMe.project.exceptions.CommunicationExistsException;
 import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.User;
 import org.ShelterMe.project.model.Volunteer;
@@ -37,9 +38,13 @@ public class CommunicationService {
     }
 
     public static int getCounter() {
-        if (communicationRepository.find().toList().size() > 0)
-            return communicationRepository.find().toList().get(communicationRepository.find().toList().size() - 1).getCommunicationId();
-        else return 0;
+        int index = 0;
+        for (Communication item : communicationRepository.find()) {
+            if (item.getCommunicationId() > index) {
+                index = item.getCommunicationId();
+            }
+        }
+        return index;
     }
 
     public static String imageToBase64(String filePath) throws IOException {
@@ -64,7 +69,7 @@ public class CommunicationService {
     public static ArrayList<Integer> getSourceIDs(String destination) {
         ArrayList<Integer> ids = new ArrayList<>();
         for (Communication item : communicationRepository.find()) {
-            if (destination.equals(item.getDestinationUsername()) && !ids.contains(item.getId())) {
+            if (destination.equals(item.getDestinationUsername()) && !ids.contains(item.getId()) && !item.getInHistory()) {
                 ids.add(item.getId());
             }
         }
@@ -90,10 +95,30 @@ public class CommunicationService {
     public static String getSourceName(int id){
         for (Communication item:communicationRepository.find()){
             if(id == item.getId()) {
-                System.out.println(item.getSourceUsername());
                 return item.getSourceUsername();
             }
         }
         return "";
+    }
+
+    public static void closeRequest(String source, String destination, int id, char status, String destinationMessage, String destinationContactMethods){
+        for (Communication item:communicationRepository.find()){
+            if(id == item.getId() && item.getInHistory() == false && item.getSourceUsername().equals(source) && item.getDestinationUsername().equals(destination)) {
+                item.setStatus(status);
+                item.setInHistory(true);
+                item.setDestinationMessage(destinationMessage);
+                item.setDestinationContactMethods(destinationContactMethods);
+                communicationRepository.update(item);
+                break;
+            }
+        }
+    }
+
+    public static boolean existsCommunication(int id, String source, String destination, String type, String destinationType) throws CommunicationExistsException {
+        for (Communication com : communicationRepository.find()) {
+            if (com.getId() == id && com.getSourceUsername().equals(source) && com.getDestinationUsername().equals(destination))
+                throw new CommunicationExistsException(type, destinationType);
+        }
+        return false;
     }
 }

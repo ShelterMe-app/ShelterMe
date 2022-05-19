@@ -91,6 +91,8 @@ public class AffectedPageController{
     private Label signedInAsLabel1;
     @FXML
     private Label signedInAsLabel11;
+    @FXML
+    private Label signedInAsLabel111;
 
     private Image requestImage;
 
@@ -165,6 +167,7 @@ public class AffectedPageController{
         loggedInAffected.calculateValues();
         signedInAsLabel1.setText("There are currently " + volunteersTable.getItems().size() + " Volunteers available in your country.");
         signedInAsLabel11.setText("You currently have: " + loggedInAffected.getRequestsNo() + " Requests in your Requests list.");
+        signedInAsLabel111.setText(offersInboxTable.getItems().size() + " Offers in your Offers list.");
         homeTab.setVisible(true);
         homeTab.setManaged(true);
         requestsTab.setVisible(false);
@@ -388,7 +391,7 @@ public class AffectedPageController{
             AffectedReplyController newController = loader.getController();
             newController.setLoggedInAffected(loggedInAffected);
             newController.setOffersInboxTable(offersInboxTable);
-            newController.setRequestId(connection.getId());
+            newController.setOfferId(connection.getId());
             Scene scene = new Scene(viewRequestInbox);
             Stage newStage = new Stage();
             newStage.setScene(scene);
