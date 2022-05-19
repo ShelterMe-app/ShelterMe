@@ -127,6 +127,7 @@ public class CommunicationService {
                 throw new CommunicationExistsException(type, destinationType);
         }
         return false;
+    }
 
     public static int getActiveRequestsNumber(String destination){
         int activeRequestNumber = 0;

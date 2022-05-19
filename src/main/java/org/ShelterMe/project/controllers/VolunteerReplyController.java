@@ -2,6 +2,7 @@ package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -23,6 +24,10 @@ public class VolunteerReplyController {
     private Text messageToVolunteer;
     @FXML
     private Text contactToVolunteer;
+    @FXML
+    private TextArea volunteerReplyMessage;
+    @FXML
+    private TextArea volunteerContactInfo;
     @FXML
     private Button approveRequestButton;
     @FXML
@@ -56,7 +61,7 @@ public class VolunteerReplyController {
     }
 
     public void handleApproveRequest(javafx.event.ActionEvent event) {
-        CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'a');
+        CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'a', volunteerReplyMessage.getText(), volunteerContactInfo.getText());
         if (requestsInboxTable != null)
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) approveRequestButton.getScene().getWindow();
@@ -65,7 +70,7 @@ public class VolunteerReplyController {
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
-        CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'r');
+        CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'r', volunteerReplyMessage.getText(), volunteerContactInfo.getText());
         if (requestsInboxTable != null)
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) rejectRequestButton.getScene().getWindow();
