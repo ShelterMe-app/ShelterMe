@@ -56,6 +56,7 @@ public class Affected extends User {
 
     public void setNewHistory(boolean newHistory) {
         this.newHistory = newHistory;
+    }
 
     public boolean isNewRequest() {
         return newRequest;
