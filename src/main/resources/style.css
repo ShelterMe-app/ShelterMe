@@ -18,6 +18,10 @@
     -fx-font-size: 14pt;
 }
 
+#text-bold{
+    -fx-font-weight: bold;
+}
+
 .text-id {
     -fx-font-size: 12pt;
     -fx-font-family: "Segoe UI";
@@ -81,4 +85,20 @@
 #AddForm{
     -fx-background-image: url("Images/BackgroundImage_colorised.jpg");
     -fx-background-size: 400%;
+}
+
+#approve {
+    -fx-background-color: #33b249;
+}
+
+#approve:hover{
+    -fx-background-color: #91df9f;
+}
+
+#reject {
+    -fx-background-color: #dd7973;
+}
+
+#reject:hover{
+    -fx-background-color: #eebbb8;
 }

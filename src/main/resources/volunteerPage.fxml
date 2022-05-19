@@ -49,7 +49,7 @@
                                         </ImageView>
                                     </graphic>
                                 </JFXButton>
-                                <JFXButton id="requestsButton" fx:id="requestsButton" onAction="#handleRequestsAction" prefHeight="60.0" prefWidth="102.0" text="Requests">
+                                <JFXButton id="requestsButton" fx:id="requestsInboxButton"  onAction="#handleRequestsInboxPage" prefHeight="60.0" prefWidth="102.0" text="Requests">
                                     <graphic>
                                         <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
@@ -106,12 +106,12 @@
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Offers in your Requests list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
+                            <Label fx:id="signedInAsLabel11" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="690.0" text="You currently have: x Offers in your Offer list." textFill="#44919c" translateX="20.0" translateY="20.0" wrapText="true">
                                 <font>
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Requests in your Offers list." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
+                            <Label fx:id="signedInAsLabel111" alignment="TOP_LEFT" prefHeight="45.0" prefWidth="470.0" text="x Requests in your Request inbox." textFill="#44919c" translateX="242.0" translateY="20.0" wrapText="true">
                                 <font>
                                     <Font name="Gill Sans MT" size="27.0" />
                                 </font>
@@ -178,9 +178,37 @@
                         <padding>
                             <Insets bottom="50.0" />
                         </padding>
-                  <padding>
-                     <Insets bottom="50.0" />
-                  </padding>
+                    </VBox>
+
+                    <VBox fx:id="requestsInboxTab" alignment="BOTTOM_CENTER" managed="false" stylesheets="@menu.css" visible="false">
+                        <children>
+                            <TableView fx:id="requestsInboxTable" prefHeight="291.0" prefWidth="750" onMouseClicked="#handleRequestInboxTableClick" />
+                            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                <children>
+                                    <JFXButton id="InMenuButton" fx:id="showRequestInbox" alignment="CENTER" mnemonicParsing="false" onAction="#handleRequestInbox" text="Show Message">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/envelope-open.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                    <JFXButton id="InMenuButton" fx:id="showRequestInboxImage" alignment="CENTER" mnemonicParsing="false" onAction="#handleRequestInboxImage" text="Show Request Image">
+                                        <graphic>
+                                            <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@Images/eye.png" />
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </JFXButton>
+                                </children>
+                            </HBox>
+                        </children>
+                        <padding>
+                            <Insets bottom="50.0" />
+                        </padding>
                     </VBox>
                 </StackPane>
 
