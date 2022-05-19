@@ -82,6 +82,8 @@ public class VolunteerPageController{
     private VBox affectedTab;
     @FXML
     private TableView offersTable;
+    @FXML
+    private TableView affectedTable;
 
     private Image offerImage;
 
@@ -100,6 +102,7 @@ public class VolunteerPageController{
         signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Offer list.");
         signedInAsLabel111.setText(loggedInVolunteer.getActiveRequestsNo() + " Requests in your Request inbox.");
         offersTable.setItems(getOffers(loggedInVolunteer.getUsername()));
+        affectedTable.setItems(getAffected(loggedInVolunteer.getCountry()));
         requestsInboxTable.setItems(getRequestsInbox(loggedInVolunteer.getUsername()));
         if (this.loggedInVolunteer.isNewOffer() == true) {
             requestsButton.setStyle("-fx-background-color: #44919c;");
@@ -151,6 +154,16 @@ public class VolunteerPageController{
         healthConditionColumnInbox.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
         requestsInboxTable.getColumns().addAll(usernameColumnInbox, nameColumnInbox, categoryColumnInbox, suppliesColumnInbox, quantityColumnInbox, generalInformationColumnInbox, healthConditionColumnInbox);
 
+        TableColumn<Affected, String> affectedUsernameColumn = new TableColumn<>("Username");
+        affectedUsernameColumn.setMinWidth(200);
+        affectedUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        TableColumn<Affected, String> affectedFullNameColumn = new TableColumn<>("Full Name");
+        affectedFullNameColumn.setMinWidth(200);
+        affectedFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));;
+        TableColumn<Affected, String> affectedCountryColumn = new TableColumn<>("Country");
+        affectedCountryColumn.setMinWidth(200);
+        affectedCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        affectedTable.getColumns().addAll(affectedUsernameColumn, affectedFullNameColumn, affectedCountryColumn);
     }
     public void handleHomePage() {
         loggedInVolunteer.calculateValues();
@@ -355,6 +368,14 @@ public class VolunteerPageController{
             newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select a request in order to see it", "Failed to open request", 1);
+        }
+    }
+
+    public void handleContactAffected() {
+        if (affectedTable.getSelectionModel().getSelectedItem() != null) {
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Select an Affected person to contact", "Failed to contact Affected", 1);
         }
     }
 }
