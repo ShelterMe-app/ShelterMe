@@ -56,7 +56,7 @@ public class VolunteerReplyController {
     }
 
     public void handleApproveRequest(javafx.event.ActionEvent event) {
-        CommunicationService.closeRequest(loggedInVolunteer.getUsername(), AffectedService.getRequestDestinationUsername(requestId), requestId, 'a');
+        CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'a');
         if (requestsInboxTable != null)
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) approveRequestButton.getScene().getWindow();
@@ -65,7 +65,7 @@ public class VolunteerReplyController {
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
-        CommunicationService.closeRequest(loggedInVolunteer.getUsername(), AffectedService.getRequestDestinationUsername(requestId), requestId, 'r');
+        CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'r');
         if (requestsInboxTable != null)
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) rejectRequestButton.getScene().getWindow();

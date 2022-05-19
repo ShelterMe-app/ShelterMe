@@ -26,6 +26,7 @@ public class CommunicationService {
                 .openOrCreate("test", "test");
 
         communicationRepository = database.getRepository(Communication.class);
+
     }
 
     public static void addCommunication(char type, String sourceUsername, String destinationUsername, int id, char status, String sourceMessage, String destinationMessage, String sourceContactMethods, String destinationContactMethods) {
@@ -64,7 +65,7 @@ public class CommunicationService {
     public static ArrayList<Integer> getSourceIDs(String destination) {
         ArrayList<Integer> ids = new ArrayList<>();
         for (Communication item : communicationRepository.find()) {
-            if (destination.equals(item.getDestinationUsername()) && !ids.contains(item.getId()) && !item.getInHistory()) {
+            if (destination.equals(item.getDestinationUsername()) && !item.getInHistory()) {
                 ids.add(item.getId());
             }
         }
