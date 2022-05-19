@@ -16,11 +16,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-import java.util.Date;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -36,6 +33,7 @@ public class AffectedService {
                 .openOrCreate("test", "test");
 
         affectedItemsRepository = database.getRepository(AffectedItem.class);
+
     }
 
     public static AffectedItem getAffectedItems(String username) {
@@ -101,6 +99,11 @@ public class AffectedService {
         return affectedItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
     }
 
+    public static List<AffectedItem> databaseToListInbox(ArrayList<Integer> ids) {
+        Predicate<AffectedItem> isUsername = affected -> ids.contains(affected.getId());
+        return affectedItemsRepository.find().toList().stream().filter(isUsername).collect(Collectors.toList());
+    }
+
     public static int getCounter() {
         if (affectedItemsRepository.find().toList().size() > 0)
             return affectedItemsRepository.find().toList().get(affectedItemsRepository.find().toList().size() - 1).getId();
@@ -124,6 +127,21 @@ public class AffectedService {
         InputStream stream = new ByteArrayInputStream(decodedBytes);
         Image recoveredImage = new Image(stream);
         return recoveredImage;
+    }
+
+
+    public static String getRequestName(int id) {
+        for (AffectedItem item:affectedItemsRepository.find())
+            if(id == item.getId())
+                return item.getName();
+        return "";
+    }
+
+    public static String getRequestDestinationUsername(int id) {
+        for (AffectedItem item : affectedItemsRepository.find())
+            if (id == item.getId())
+                return item.getUsername();
+        return "";
     }
 
     public static int getAffectedRequestsNumber(String username) {

@@ -405,5 +405,4 @@ public class AffectedPageController{
             JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
         }
     }
-
 }

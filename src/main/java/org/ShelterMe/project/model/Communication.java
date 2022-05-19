@@ -107,6 +107,14 @@ public class Communication {
         this.destinationContactMethods = destinationContactMethods;
     }
 
+    public Boolean getInHistory() {
+        return isInHistory;
+    }
+
+    public void setInHistory(Boolean inHistory) {
+        isInHistory = inHistory;
+    }
+  
     public int getCommunicationId() {
         return communicationId;
     }

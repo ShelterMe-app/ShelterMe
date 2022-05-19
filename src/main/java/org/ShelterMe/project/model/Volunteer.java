@@ -9,12 +9,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.ShelterMe.project.controllers.VolunteerPageController;
 import org.ShelterMe.project.controllers.RegistrationController;
+import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.VolunteerService;
 
 import java.io.IOException;
 
 public class Volunteer extends User {
     private int offersNo;
+    private int activeRequestsNo;
     private boolean newOffer;
 
     public Volunteer(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
@@ -24,6 +26,7 @@ public class Volunteer extends User {
 
     public void calculateValues(){
         offersNo = VolunteerService.getVolunteerOffersNumber(username);
+        activeRequestsNo = CommunicationService.getActiveRequestsNumber(username);
     }
 
     public void openMainUserPage() throws IOException {
@@ -48,11 +51,16 @@ public class Volunteer extends User {
         return offersNo;
     }
 
+    public int getActiveRequestsNo() {
+        return activeRequestsNo;
+    }
+
     public boolean isNewOffer() {
         return newOffer;
     }
 
     public void setNewOffer(boolean newOffer) {
         this.newOffer = newOffer;
+
     }
 }

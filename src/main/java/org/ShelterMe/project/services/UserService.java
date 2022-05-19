@@ -34,7 +34,6 @@ public class UserService {
         VolunteerService.initVolunteerItemsDatabase();
         AffectedService.initAffectedItemsDatabase();
         CommunicationService.initCommunicationDatabase();
-
     }
 
     public static void addUser(String username, String password, String role, String fullName, String country, String phoneNumber, String code) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
