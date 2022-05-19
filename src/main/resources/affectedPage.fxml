@@ -67,7 +67,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton id="historyButton" fx:id="historyButton" prefHeight="60.0" prefWidth="102.0" text="History">
+                        <JFXButton id="historyButton" fx:id="historyButton" onAction="#handleHistoryPage" prefHeight="60.0" prefWidth="102.0" text="History">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -224,6 +224,27 @@
                               </graphic>
                            </JFXButton>
                            <JFXButton id="InMenuButton" fx:id="showOfferInboxImage" alignment="CENTER" mnemonicParsing="false" onAction="#handleOfferInboxImage" text="Show Offer Image">
+                              <graphic>
+                                 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@Images/eye.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                        </children>
+                     </HBox>
+                  </children>
+                  <padding>
+                     <Insets bottom="50.0" />
+                  </padding>
+               </VBox>
+               <VBox fx:id="historyTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
+                  <children>
+                     <TableView fx:id="historyTable" onMouseClicked="#handleOfferInboxTableClick" prefHeight="270.0" prefWidth="750.0" />
+                     <HBox alignment="CENTER" prefHeight="120.0" prefWidth="750.0">
+                        <children>
+                           <JFXButton id="InMenuButton" fx:id="showItem" alignment="CENTER" mnemonicParsing="false" onAction="#handleShowItem" text="Show Item">
                               <graphic>
                                  <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

@@ -80,11 +80,15 @@ public class AffectedPageController{
     @FXML
     private VBox offersTab;
     @FXML
+    private VBox historyTab;
+    @FXML
     private TableView requestsTable;
     @FXML
     private TableView volunteersTable;
     @FXML
     private TableView offersInboxTable;
+    @FXML
+    private TableView historyTable;
     @FXML
     private JFXButton viewVolunteerInfo;
     @FXML
@@ -104,6 +108,7 @@ public class AffectedPageController{
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
         offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
+        historyTable.setItems(getHistory(loggedInAffected.getUsername()));
         handleHomePage();
     }
 
@@ -159,6 +164,35 @@ public class AffectedPageController{
         quantityColumnVolunteer.setMinWidth(200);
         quantityColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         offersInboxTable.getColumns().addAll(usernameColumnVolunteer, nameColumnVolunteer, categoryColumnVolunteer, suppliesColumnVolunteer, quantityColumnVolunteer);
+        TableColumn<Communication, Character> communicationType = new TableColumn<>("Type (Request / Offer)");
+        communicationType.setMinWidth(200);
+        communicationType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        TableColumn<Communication, Integer> communicationSource = new TableColumn<>("Source");
+        communicationSource.setMinWidth(100);
+        communicationSource.setCellValueFactory(new PropertyValueFactory<>("sourceUsername"));
+        TableColumn<Communication, Integer> communicationDestination = new TableColumn<>("Destination");
+        communicationDestination.setMinWidth(100);
+        communicationDestination.setCellValueFactory(new PropertyValueFactory<>("destinationUsername"));
+        TableColumn<Communication, Integer> communicationId = new TableColumn<>("ID");
+        communicationId.setMinWidth(100);
+        communicationId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        TableColumn<Communication, Character> communicationStatus = new TableColumn<>("Status (Accepted / Rejected)");
+        communicationStatus.setMinWidth(200);
+        communicationStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Your message");
+        communicationSourceMessage.setMinWidth(200);
+        communicationSourceMessage.setCellValueFactory(new PropertyValueFactory<>("sourceMessage"));
+        TableColumn<Communication, Character> communicationSourceContactMethods = new TableColumn<>("Your contact methods");
+        communicationSourceContactMethods.setMinWidth(200);
+        communicationSourceContactMethods.setCellValueFactory(new PropertyValueFactory<>("sourceContactMethods"));
+        TableColumn<Communication, Character> communicationDestinationMessage = new TableColumn<>("Volunteer's message");
+        communicationDestinationMessage.setMinWidth(200);
+        communicationDestinationMessage.setCellValueFactory(new PropertyValueFactory<>("destinationMessage"));
+        TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Volunteer's contact methods");
+        communicationDestinationContactMethods.setMinWidth(200);
+        communicationDestinationContactMethods.setCellValueFactory(new PropertyValueFactory<>("destinationContactMethods"));
+        historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationId, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
+
     }
 
 
@@ -176,6 +210,8 @@ public class AffectedPageController{
         volunteersTab.setManaged(false);
         offersTab.setVisible(false);
         offersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
     }
     public void handleRequestsPage() {
         homeTab.setVisible(false);
@@ -184,6 +220,8 @@ public class AffectedPageController{
         volunteersTab.setManaged(false);
         offersTab.setVisible(false);
         offersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
         requestsTab.setVisible(true);
         requestsTab.setManaged(true);
     }
@@ -195,6 +233,8 @@ public class AffectedPageController{
         requestsTab.setManaged(false);
         offersTab.setVisible(false);
         offersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
         volunteersTab.setVisible(true);
         volunteersTab.setManaged(true);
     }
@@ -206,8 +246,23 @@ public class AffectedPageController{
         requestsTab.setManaged(false);
         volunteersTab.setVisible(false);
         volunteersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
         offersTab.setVisible(true);
         offersTab.setManaged(true);
+    }
+
+    public void handleHistoryPage() {
+        homeTab.setVisible(false);
+        homeTab.setManaged(false);
+        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
+        historyTab.setVisible(true);
+        historyTab.setManaged(true);
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
@@ -240,6 +295,10 @@ public class AffectedPageController{
 
     public static ObservableList<VolunteerItem> getOffersInbox(String username) {
         return FXCollections.observableList(VolunteerService.databaseToListInbox(CommunicationService.getSourceIDs(username)));
+    }
+
+    public static ObservableList<Communication> getHistory(String username) {
+        return FXCollections.observableList(CommunicationService.getHistory(username));
     }
 
 
@@ -408,5 +467,13 @@ public class AffectedPageController{
         } else {
             JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
         }
+    }
+
+    public void handleShowMessageHistory() {
+
+    }
+
+    public void handleShowItem() {
+
     }
 }
