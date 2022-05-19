@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -13,46 +12,26 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.Node;
-import javafx.scene.paint.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.ShelterMe.project.services.UserService;
 import org.ShelterMe.project.model.AffectedItem;
-import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.VolunteerService;
 import org.ShelterMe.project.model.VolunteerItem;
-import org.ShelterMe.project.controllers.OfferMenuController;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import org.ShelterMe.project.model.User;
 import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.services.UserService;
 
-import java.awt.*;
-import java.awt.Rectangle;
 import java.io.IOException;
 
-import java.io.FileReader;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Volunteer;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class VolunteerPageController{
     private Volunteer loggedInVolunteer;
@@ -95,6 +74,8 @@ public class VolunteerPageController{
     private JFXButton showRequestInbox;
 
     private Image requestInboxImage;
+    @FXML
+    private JFXButton viewAffectedInfo;
 
     public void setSignedInAs(Volunteer loggedInVolunteer) {
         this.loggedInVolunteer = loggedInVolunteer;
@@ -388,6 +369,26 @@ public class VolunteerPageController{
             newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select an Affected person to contact", "Failed to contact Affected", 1);
+        }
+    }
+
+    public void handleAffectedInfo() throws IOException {
+        if (affectedTable.getSelectionModel().getSelectedItem() != null) {
+            Affected toBeContacted = (Affected) affectedTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("viewAffectedRequests.fxml"));
+            Parent imageDialog = loader.load();
+            ViewAffectedRequestsController controller = loader.getController();
+            controller.setAffected(toBeContacted);
+            Scene scene = new Scene(imageDialog);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.setTitle("ShelterMe - View " + toBeContacted.getFullName() + "'s info");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select an Affected to view info", "Failed to view info of Affected", 1);
         }
     }
 }

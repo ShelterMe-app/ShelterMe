@@ -142,6 +142,7 @@ public class AffectedPageController{
         healthConditionColumn.setMinWidth(200);
         healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
         requestsTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn, generalInformationColumn, healthConditionColumn);
+
         TableColumn<Volunteer, String> volunteerUsernameColumn = new TableColumn<>("Username");
         volunteerUsernameColumn.setMinWidth(200);
         volunteerUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
