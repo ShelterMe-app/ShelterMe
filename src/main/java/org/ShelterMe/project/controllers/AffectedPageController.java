@@ -1,56 +1,35 @@
 package org.ShelterMe.project.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.Node;
-import javafx.scene.paint.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.awt.Rectangle;
-import java.awt.image.ImageFilter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import org.ShelterMe.project.model.User;
+import javafx.util.Callback;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.model.AffectedItem;
 
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.services.UserService;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.VolunteerService;
@@ -164,21 +143,28 @@ public class AffectedPageController{
         quantityColumnVolunteer.setMinWidth(200);
         quantityColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         offersInboxTable.getColumns().addAll(usernameColumnVolunteer, nameColumnVolunteer, categoryColumnVolunteer, suppliesColumnVolunteer, quantityColumnVolunteer);
-        TableColumn<Communication, Character> communicationType = new TableColumn<>("Type (Request / Offer)");
-        communicationType.setMinWidth(200);
-        communicationType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        TableColumn<Communication, String> communicationType = new TableColumn<>("Type");
+        communicationType.setMinWidth(100);
+        communicationType.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Communication, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Communication, String> p ) {
+                return new ReadOnlyStringWrapper(p.getValue().isType() == 'r' ? "Request" : "Offer");
+            }
+        });
         TableColumn<Communication, Integer> communicationSource = new TableColumn<>("Source");
         communicationSource.setMinWidth(100);
         communicationSource.setCellValueFactory(new PropertyValueFactory<>("sourceUsername"));
         TableColumn<Communication, Integer> communicationDestination = new TableColumn<>("Destination");
         communicationDestination.setMinWidth(100);
         communicationDestination.setCellValueFactory(new PropertyValueFactory<>("destinationUsername"));
-        TableColumn<Communication, Integer> communicationId = new TableColumn<>("ID");
-        communicationId.setMinWidth(100);
-        communicationId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Communication, Character> communicationStatus = new TableColumn<>("Status (Accepted / Rejected)");
-        communicationStatus.setMinWidth(200);
-        communicationStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        TableColumn<Communication, String> communicationStatus = new TableColumn<>("Status");
+        communicationStatus.setMinWidth(100);
+        communicationStatus.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Communication, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Communication, String> p ) {
+                return new ReadOnlyStringWrapper(p.getValue().getStatus() == 'a' ? "Accepted" : "Rejected");
+            }
+        });
         TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Your message");
         communicationSourceMessage.setMinWidth(200);
         communicationSourceMessage.setCellValueFactory(new PropertyValueFactory<>("sourceMessage"));
@@ -191,7 +177,7 @@ public class AffectedPageController{
         TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Volunteer's contact methods");
         communicationDestinationContactMethods.setMinWidth(200);
         communicationDestinationContactMethods.setCellValueFactory(new PropertyValueFactory<>("destinationContactMethods"));
-        historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationId, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
+        historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
 
     }
 
