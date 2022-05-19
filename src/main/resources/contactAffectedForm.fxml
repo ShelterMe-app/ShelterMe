@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="AddForm" alignment="CENTER" prefHeight="600.0" prefWidth="350.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedContactController">
+    <padding>
+        <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+    </padding>
+
+    <Text id="title-text" fx:id="contactAffectedWelcome" styleClass="text-id" text="Contact " textAlignment="CENTER" wrappingWidth="200.0">
+        <VBox.margin>
+            <Insets bottom="40.0" />
+        </VBox.margin></Text>
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select an Offer" />
+    <TableView fx:id="contactOffersView" prefHeight="200.0" prefWidth="200.0" />
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Methods" />
+    <TextField fx:id="contactMethods" />
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message" />
+    <TextArea fx:id="message" prefHeight="50.0" prefWidth="285.0" />
+    <Button fx:id="sendOffer" onAction="#handleSendOfferAction" text="Send" />
+</VBox>

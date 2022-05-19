@@ -109,7 +109,9 @@ public class AffectedPageController{
         offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
         handleHomePage();
         if (this.loggedInAffected.isNewRequest() == true) {
-            offersButton.setStyle("-fx-background-color: #14493f;");
+            offersButton.setStyle("-fx-background-color: #44919c;");
+            offersButton.setPrefWidth(115);
+            offersButton.setText("Offers (new)");
             UserService.updateUserInDatabase(loggedInAffected);
         }
     }
@@ -215,6 +217,13 @@ public class AffectedPageController{
         volunteersTab.setManaged(false);
         offersTab.setVisible(true);
         offersTab.setManaged(true);
+        if (loggedInAffected.isNewRequest() == true) {
+            this.loggedInAffected.setNewRequest(false);
+            offersButton.setStyle("-fx-background-color: #d6eaed;");
+            offersButton.setPrefWidth(102);
+            offersButton.setText("Requests");
+            UserService.updateUserInDatabase(this.loggedInAffected);
+        }
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
@@ -410,13 +419,6 @@ public class AffectedPageController{
             newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
-        }
-    }
-
-    public void handleOffersAction(javafx.event.ActionEvent event) throws IOException {
-        if (loggedInAffected.isNewRequest() == true) {
-            this.loggedInAffected.setNewRequest(false);
-            requestsButton.setStyle("-fx-background-color: #2a937f;");
         }
     }
 }
