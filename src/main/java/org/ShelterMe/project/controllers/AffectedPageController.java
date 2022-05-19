@@ -47,6 +47,8 @@ public class AffectedPageController{
     @FXML
     private JFXButton requestsButton;
     @FXML
+    private JFXButton historyButton;
+    @FXML
     private  JFXButton homeButton;
     @FXML
     private BorderPane borderPane;
@@ -90,6 +92,12 @@ public class AffectedPageController{
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
         offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
         historyTable.setItems(getHistory(loggedInAffected.getUsername()));
+        if (this.loggedInAffected.isNewHistory() == true) {
+            historyButton.setStyle("-fx-background-color: #44919c;");
+            historyButton.setPrefWidth(115);
+            historyButton.setText("History (new)");
+            UserService.updateUserInDatabase(loggedInAffected);
+        }
         handleHomePage();
     }
 
@@ -251,6 +259,14 @@ public class AffectedPageController{
         offersTab.setManaged(false);
         historyTab.setVisible(true);
         historyTab.setManaged(true);
+        if (loggedInAffected.isNewHistory() == true) {
+            this.loggedInAffected.setNewHistory(false);
+            historyButton.setStyle("-fx-background-color: #d6eaed;");
+            historyButton.setPrefWidth(102);
+            historyButton.setText("History");
+            UserService.updateUserInDatabase(this.loggedInAffected);
+
+        }
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
