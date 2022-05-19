@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
-import org.ShelterMe.project.model.VolunteerItem;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -46,7 +45,6 @@ public class UserService {
         if (role.equals("Affected"))
             userRepository.insert(new Affected(username, encodePassword(username, password), role, fullName, country, phoneNumber));
         else userRepository.insert(new Volunteer(username, encodePassword(username, password), role, fullName, country, phoneNumber));
-
     }
 
     private static void checkEmptyFields(String username, String password, String role, String fullName, String country, String phoneNumber) throws EmptyFieldException {

@@ -25,6 +25,7 @@ import javafx.scene.shape.*;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.ShelterMe.project.services.UserService;
 
 import java.awt.*;
 import java.awt.Rectangle;
@@ -70,6 +71,8 @@ public class AffectedPageController{
     @FXML
     private  JFXButton homeButton;
     @FXML
+    private JFXButton offersButton;
+    @FXML
     private BorderPane borderPane;
     @FXML
     private VBox homeTab;
@@ -105,6 +108,10 @@ public class AffectedPageController{
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
         offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
         handleHomePage();
+        if (this.loggedInAffected.isNewRequest() == true) {
+            offersButton.setStyle("-fx-background-color: #14493f;");
+            UserService.updateUserInDatabase(loggedInAffected);
+        }
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -403,6 +410,13 @@ public class AffectedPageController{
             newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
+        }
+    }
+
+    public void handleOffersAction(javafx.event.ActionEvent event) throws IOException {
+        if (loggedInAffected.isNewRequest() == true) {
+            this.loggedInAffected.setNewRequest(false);
+            requestsButton.setStyle("-fx-background-color: #2a937f;");
         }
     }
 }
