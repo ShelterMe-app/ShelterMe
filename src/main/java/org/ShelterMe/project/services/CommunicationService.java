@@ -143,6 +143,20 @@ public class CommunicationService {
             }
         }
         return activeRequestNumber;
+    }
 
+    public static List getHistory(String username) {
+        Predicate<Communication> user = communication -> (communication.getSourceUsername().equals(username) || communication.getDestinationUsername().equals(username)) && communication.getInHistory() == true;
+        return communicationRepository.find().toList().stream().filter(user).collect(Collectors.toList());
+    }
+
+    public static ArrayList<Integer> getOfferHistory(String username) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (Communication item : communicationRepository.find()) {
+            if (username.equals(item.getDestinationUsername()) || username.equals(item.getSourceUsername()) && item.isType() == '0') {
+                ids.add(item.getId());
+            }
+        }
+        return ids;
     }
 }

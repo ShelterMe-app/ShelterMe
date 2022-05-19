@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="AddForm" alignment="CENTER" prefHeight="600.0" prefWidth="350.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.HistoryItemViewController">
+
+    <padding>
+        <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+    </padding>
+
+    <Text id="title-text" fx:id="historyItemViewWelcome" styleClass="text-id" text="X's " textAlignment="CENTER" wrappingWidth="200.0">
+        <VBox.margin>
+            <Insets bottom="40.0" />
+        </VBox.margin></Text>
+   <Text id="text-bold" strokeType="OUTSIDE" strokeWidth="2.0" text="Name" />
+    <Text fx:id="itemName" strokeType="OUTSIDE" strokeWidth="0.0" />
+    <Text id="text-bold" strokeType="OUTSIDE" strokeWidth="2.0" text="Category" />
+   <Text fx:id="itemCategory" strokeType="OUTSIDE" strokeWidth="0.0" />
+   <Text id="text-bold" strokeType="OUTSIDE" strokeWidth="2.0" text="Supplies" />
+    <Text fx:id="itemSupplies" strokeType="OUTSIDE" strokeWidth="0.0" />
+   <Text id="text-bold" strokeType="OUTSIDE" strokeWidth="2.0" text="Quantity" />
+   <Text fx:id="itemQuantity" strokeType="OUTSIDE" strokeWidth="0.0" />
+   <Text id="text-bold" fx:id="historyGeneralInformationMessage" strokeType="OUTSIDE" strokeWidth="2.0" text="General Information" />
+   <Text fx:id="itemGeneralInformation" strokeType="OUTSIDE" strokeWidth="0.0" />
+    <Text id="text-bold" fx:id="historyHealthConditionMessage" strokeType="OUTSIDE" strokeWidth="2.0" text="Health Condition">
+        <VBox.margin>
+            <Insets />
+        </VBox.margin></Text>
+   <Text fx:id="itemHealthCondition" strokeType="OUTSIDE" strokeWidth="0.0" />
+    <HBox alignment="CENTER" spacing="30" />
+   <JFXButton fx:id="itemViewImage" onAction="#handleItemViewImage" text="View Image" />
+
+</VBox>

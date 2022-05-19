@@ -6,9 +6,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.ShelterMe.project.model.Affected;
+import org.ShelterMe.project.model.AffectedItem;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.AffectedService;
+import org.ShelterMe.project.services.UserService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,19 +65,25 @@ public class VolunteerReplyController {
 
     public void handleApproveRequest(javafx.event.ActionEvent event) {
         CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'a', volunteerReplyMessage.getText(), volunteerContactInfo.getText());
+        Affected destination = (Affected) UserService.getUser(((AffectedItem)requestsInboxTable.getSelectionModel().getSelectedItem()).getUsername());
         if (requestsInboxTable != null)
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) approveRequestButton.getScene().getWindow();
         stage.close();
+        destination.setNewHistory(true);
+        UserService.updateUserInDatabase(destination);
         JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request approved", "Successfully approved request", 1);
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
         CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'r', volunteerReplyMessage.getText(), volunteerContactInfo.getText());
+        Affected destination = (Affected) UserService.getUser(((AffectedItem)requestsInboxTable.getSelectionModel().getSelectedItem()).getUsername());
         if (requestsInboxTable != null)
             requestsInboxTable.setItems(VolunteerPageController.getRequestsInbox(loggedInVolunteer.getUsername()));
         Stage stage = (Stage) rejectRequestButton.getScene().getWindow();
         stage.close();
+        destination.setNewHistory(true);
+        UserService.updateUserInDatabase(destination);
         JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request rejected", "Successfully rejected request", 1);
     }
 }

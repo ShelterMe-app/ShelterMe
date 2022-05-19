@@ -56,6 +56,10 @@
     -fx-background-color: derive(-fx-focus-color,30%);
 }
 
+
+#historyTable .table-column {
+    -fx-alignment: CENTER;
+
 .table-view {
     -fx-background-color: transparent;
 }

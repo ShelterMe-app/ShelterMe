@@ -1,57 +1,36 @@
 package org.ShelterMe.project.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.Node;
-import javafx.scene.paint.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.ShelterMe.project.services.UserService;
 
-import java.awt.*;
-import java.awt.Rectangle;
-import java.awt.image.ImageFilter;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
-import org.ShelterMe.project.model.User;
+import javafx.util.Callback;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.model.AffectedItem;
 
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.services.UserService;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.VolunteerService;
@@ -69,6 +48,8 @@ public class AffectedPageController{
     @FXML
     private JFXButton requestsButton;
     @FXML
+    private JFXButton historyButton;
+    @FXML
     private  JFXButton homeButton;
     @FXML
     private JFXButton offersButton;
@@ -83,11 +64,15 @@ public class AffectedPageController{
     @FXML
     private VBox offersTab;
     @FXML
+    private VBox historyTab;
+    @FXML
     private TableView requestsTable;
     @FXML
     private TableView volunteersTable;
     @FXML
     private TableView offersInboxTable;
+    @FXML
+    private TableView historyTable;
     @FXML
     private JFXButton viewVolunteerInfo;
     @FXML
@@ -101,12 +86,21 @@ public class AffectedPageController{
 
     private Image offerInboxImage;
 
+    private Image historyImage;
+
     public void setSignedInAs(Affected loggedInAffected) {
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
         offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
+        historyTable.setItems(getHistory(loggedInAffected.getUsername()));
+        if (this.loggedInAffected.isNewHistory() == true) {
+            historyButton.setStyle("-fx-background-color: #44919c;");
+            historyButton.setPrefWidth(115);
+            historyButton.setText("History (new)");
+            UserService.updateUserInDatabase(loggedInAffected);
+        }
         handleHomePage();
         if (this.loggedInAffected.isNewRequest() == true) {
             offersButton.setStyle("-fx-background-color: #44919c;");
@@ -169,6 +163,42 @@ public class AffectedPageController{
         quantityColumnVolunteer.setMinWidth(200);
         quantityColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         offersInboxTable.getColumns().addAll(usernameColumnVolunteer, nameColumnVolunteer, categoryColumnVolunteer, suppliesColumnVolunteer, quantityColumnVolunteer);
+        TableColumn<Communication, String> communicationType = new TableColumn<>("Type");
+        communicationType.setMinWidth(100);
+        communicationType.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Communication, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Communication, String> p ) {
+                return new ReadOnlyStringWrapper(p.getValue().isType() == 'r' ? "Request" : "Offer");
+            }
+        });
+        TableColumn<Communication, Integer> communicationSource = new TableColumn<>("Source");
+        communicationSource.setMinWidth(100);
+        communicationSource.setCellValueFactory(new PropertyValueFactory<>("sourceUsername"));
+        TableColumn<Communication, Integer> communicationDestination = new TableColumn<>("Destination");
+        communicationDestination.setMinWidth(100);
+        communicationDestination.setCellValueFactory(new PropertyValueFactory<>("destinationUsername"));
+        TableColumn<Communication, String> communicationStatus = new TableColumn<>("Status");
+        communicationStatus.setMinWidth(100);
+        communicationStatus.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Communication, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Communication, String> p ) {
+                return new ReadOnlyStringWrapper(p.getValue().getStatus() == 'a' ? "Accepted" : "Rejected");
+            }
+        });
+        TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Your message");
+        communicationSourceMessage.setMinWidth(200);
+        communicationSourceMessage.setCellValueFactory(new PropertyValueFactory<>("sourceMessage"));
+        TableColumn<Communication, Character> communicationSourceContactMethods = new TableColumn<>("Your contact methods");
+        communicationSourceContactMethods.setMinWidth(200);
+        communicationSourceContactMethods.setCellValueFactory(new PropertyValueFactory<>("sourceContactMethods"));
+        TableColumn<Communication, Character> communicationDestinationMessage = new TableColumn<>("Volunteer's message");
+        communicationDestinationMessage.setMinWidth(200);
+        communicationDestinationMessage.setCellValueFactory(new PropertyValueFactory<>("destinationMessage"));
+        TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Volunteer's contact methods");
+        communicationDestinationContactMethods.setMinWidth(200);
+        communicationDestinationContactMethods.setCellValueFactory(new PropertyValueFactory<>("destinationContactMethods"));
+        historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
+
     }
 
 
@@ -186,6 +216,8 @@ public class AffectedPageController{
         volunteersTab.setManaged(false);
         offersTab.setVisible(false);
         offersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
     }
     public void handleRequestsPage() {
         homeTab.setVisible(false);
@@ -194,6 +226,8 @@ public class AffectedPageController{
         volunteersTab.setManaged(false);
         offersTab.setVisible(false);
         offersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
         requestsTab.setVisible(true);
         requestsTab.setManaged(true);
     }
@@ -205,6 +239,8 @@ public class AffectedPageController{
         requestsTab.setManaged(false);
         offersTab.setVisible(false);
         offersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
         volunteersTab.setVisible(true);
         volunteersTab.setManaged(true);
     }
@@ -216,6 +252,8 @@ public class AffectedPageController{
         requestsTab.setManaged(false);
         volunteersTab.setVisible(false);
         volunteersTab.setManaged(false);
+        historyTab.setVisible(false);
+        historyTab.setManaged(false);
         offersTab.setVisible(true);
         offersTab.setManaged(true);
         if (loggedInAffected.isNewRequest() == true) {
@@ -224,6 +262,27 @@ public class AffectedPageController{
             offersButton.setPrefWidth(102);
             offersButton.setText("Requests");
             UserService.updateUserInDatabase(this.loggedInAffected);
+        }
+    }
+
+    public void handleHistoryPage() {
+        homeTab.setVisible(false);
+        homeTab.setManaged(false);
+        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
+        historyTab.setVisible(true);
+        historyTab.setManaged(true);
+        if (loggedInAffected.isNewHistory() == true) {
+            this.loggedInAffected.setNewHistory(false);
+            historyButton.setStyle("-fx-background-color: #d6eaed;");
+            historyButton.setPrefWidth(102);
+            historyButton.setText("History");
+            UserService.updateUserInDatabase(this.loggedInAffected);
+
         }
     }
 
@@ -257,6 +316,10 @@ public class AffectedPageController{
 
     public static ObservableList<VolunteerItem> getOffersInbox(String username) {
         return FXCollections.observableList(VolunteerService.databaseToListInbox(CommunicationService.getSourceIDs(username)));
+    }
+
+    public static ObservableList<Communication> getHistory(String username) {
+        return FXCollections.observableList(CommunicationService.getHistory(username));
     }
 
 
@@ -381,7 +444,11 @@ public class AffectedPageController{
             offerInboxImage = VolunteerService.base64ToImage(((VolunteerItem)offersInboxTable.getSelectionModel().getSelectedItem()).getImageBase64());
     }
     public void handleOfferInboxImage(javafx.event.ActionEvent event) throws IOException {
-        if (offerInboxImage == null) {
+        if (offersInboxTable.getSelectionModel().getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Select an offer in order to view image", "Failed to open image", 1);
+            return;
+        }
+        else if (offerInboxImage == null) {
             JOptionPane.showMessageDialog(null, "This offer has no image", "Failed to open image", 1);
             return;
         }
@@ -421,5 +488,36 @@ public class AffectedPageController{
         } else {
             JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
         }
+    }
+
+    public void handleShowItem() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("historyItemView.fxml"));
+        Parent history = loader.load();
+        HistoryItemViewController newController = loader.getController();
+        newController.setLoggedInUser(loggedInAffected);
+        newController.setHistoryImage(historyImage);
+        newController.setHistoryTable(historyTable);
+        Scene scene = new Scene(history);
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(requestsTab.getScene().getWindow());
+        newStage.setTitle("ShelterMe - History View");
+        newStage.getIcons().add(new Image("file:docs/Logo.png"));
+        newStage.show();
+        newStage.setResizable(false);
+    }
+
+    public void handleHistoryTableClick(MouseEvent event) throws IOException {
+        if (historyTable.getSelectionModel().getSelectedItem() != null) {
+            Communication com = ((Communication)historyTable.getSelectionModel().getSelectedItem());
+            if (com.isType() == 'r') {
+                AffectedItem item = AffectedService.getItemWithId(com.getId());
+                historyImage = AffectedService.base64ToImage(item.getImageBase64());
+            } else {
+                VolunteerItem item = VolunteerService.getItemWithId(com.getId());
+                historyImage = VolunteerService.base64ToImage(item.getImageBase64());
+            }
+        } else historyImage = null;
     }
 }
