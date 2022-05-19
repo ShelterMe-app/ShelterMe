@@ -164,5 +164,13 @@ public class AffectedService {
         return affectedItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
     }
 
+    public static AffectedItem getItemWithId(int id) {
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            if (Objects.equals(id, item.getId()))
+                return item;
+        }
+        return null;
+    }
+
 
 }
