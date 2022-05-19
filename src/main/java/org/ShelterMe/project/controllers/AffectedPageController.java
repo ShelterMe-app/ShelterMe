@@ -25,6 +25,7 @@ import javafx.scene.shape.*;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.ShelterMe.project.services.UserService;
 
 import java.awt.*;
 import java.awt.Rectangle;
@@ -70,6 +71,8 @@ public class AffectedPageController{
     @FXML
     private  JFXButton homeButton;
     @FXML
+    private JFXButton offersButton;
+    @FXML
     private BorderPane borderPane;
     @FXML
     private VBox homeTab;
@@ -105,6 +108,12 @@ public class AffectedPageController{
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
         offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
         handleHomePage();
+        if (this.loggedInAffected.isNewRequest() == true) {
+            offersButton.setStyle("-fx-background-color: #44919c;");
+            offersButton.setPrefWidth(115);
+            offersButton.setText("Offers (new)");
+            UserService.updateUserInDatabase(loggedInAffected);
+        }
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -133,6 +142,7 @@ public class AffectedPageController{
         healthConditionColumn.setMinWidth(200);
         healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
         requestsTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn, generalInformationColumn, healthConditionColumn);
+
         TableColumn<Volunteer, String> volunteerUsernameColumn = new TableColumn<>("Username");
         volunteerUsernameColumn.setMinWidth(200);
         volunteerUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -208,6 +218,13 @@ public class AffectedPageController{
         volunteersTab.setManaged(false);
         offersTab.setVisible(true);
         offersTab.setManaged(true);
+        if (loggedInAffected.isNewRequest() == true) {
+            this.loggedInAffected.setNewRequest(false);
+            offersButton.setStyle("-fx-background-color: #d6eaed;");
+            offersButton.setPrefWidth(102);
+            offersButton.setText("Requests");
+            UserService.updateUserInDatabase(this.loggedInAffected);
+        }
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {

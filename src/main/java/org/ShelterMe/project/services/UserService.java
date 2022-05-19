@@ -45,7 +45,6 @@ public class UserService {
         if (role.equals("Affected"))
             userRepository.insert(new Affected(username, encodePassword(username, password), role, fullName, country, phoneNumber));
         else userRepository.insert(new Volunteer(username, encodePassword(username, password), role, fullName, country, phoneNumber));
-
     }
 
     private static void checkEmptyFields(String username, String password, String role, String fullName, String country, String phoneNumber) throws EmptyFieldException {
@@ -201,5 +200,10 @@ public class UserService {
                 return user;
         }
         return null;
+    }
+
+    public static List affectedToList(String country) {
+        Predicate<User> availableAffected = affected -> affected.getCountry().equals(country) && affected.getRole().equals("Affected");
+        return userRepository.find().toList().stream().filter(availableAffected).collect(Collectors.toList());
     }
 }

@@ -15,5 +15,5 @@
             <Insets bottom="40.0" />
         </VBox.margin></Text>
     <Text fx:id="infoVolunteerDetail" strokeType="OUTSIDE" strokeWidth="0.0" text="The Volunteer's offers" />
-    <TableView fx:id="volunteerOffersTable" prefHeight="200.0" prefWidth="200.0" />
+    <TableView fx:id="volunteerOffersTable" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true"/>
 </VBox>

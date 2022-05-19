@@ -19,9 +19,11 @@ public class Affected extends User {
 
     private int requestsNo;
     private int offersNo;
+    private boolean newRequest;
 
     public Affected(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
         super(username, password, role, fullName, country, phoneNumber);
+        this.newRequest = false;
     }
 
     public void openMainUserPage() throws IOException {
@@ -44,5 +46,12 @@ public class Affected extends User {
 
     public int getRequestsNo() {
         return requestsNo;
+    }
+    public boolean isNewRequest() {
+        return newRequest;
+    }
+
+    public void setNewRequest(boolean newRequest) {
+        this.newRequest = newRequest;
     }
 }
