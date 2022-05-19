@@ -105,9 +105,13 @@ public class AffectedService {
     }
 
     public static int getCounter() {
-        if (affectedItemsRepository.find().toList().size() > 0)
-            return affectedItemsRepository.find().toList().get(affectedItemsRepository.find().toList().size() - 1).getId();
-        else return 0;
+        int index = 0;
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            if (item.getId() > index) {
+                index = item.getId();
+            }
+        }
+        return index;
     }
 
     public static String imageToBase64(String filePath) throws IOException {
@@ -152,6 +156,12 @@ public class AffectedService {
             }
         }
         return counter;
+    }
+
+
+    public static List<AffectedItem> databaseToRequestHistory(ArrayList<Integer> ids) {
+        Predicate<AffectedItem> isId = affected -> ids.contains(affected.getId());
+        return affectedItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
     }
 
 

@@ -364,7 +364,11 @@ public class AffectedPageController{
             offerInboxImage = VolunteerService.base64ToImage(((VolunteerItem)offersInboxTable.getSelectionModel().getSelectedItem()).getImageBase64());
     }
     public void handleOfferInboxImage(javafx.event.ActionEvent event) throws IOException {
-        if (offerInboxImage == null) {
+        if (offersInboxTable.getSelectionModel().getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Select an offer in order to view image", "Failed to open image", 1);
+            return;
+        }
+        else if (offerInboxImage == null) {
             JOptionPane.showMessageDialog(null, "This offer has no image", "Failed to open image", 1);
             return;
         }

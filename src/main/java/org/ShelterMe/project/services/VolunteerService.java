@@ -1,6 +1,7 @@
 package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.exceptions.*;
+import org.ShelterMe.project.model.AffectedItem;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.model.VolunteerItem;
 import org.apache.commons.io.FileUtils;
@@ -146,5 +147,10 @@ public class VolunteerService {
             if(id == item.getId())
                 return item.getName();
         return "";
+    }
+
+    public static List<VolunteerItem> databaseToOfferHistory(ArrayList<Integer> ids) {
+        Predicate<VolunteerItem> isId = affected -> ids.contains(affected.getId());
+        return volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
     }
 }
