@@ -79,9 +79,6 @@ public class VolunteerPageController{
 
     public void setSignedInAs(Volunteer loggedInVolunteer) {
         this.loggedInVolunteer = loggedInVolunteer;
-        signedInAsLabel.setText("Welcome, " + loggedInVolunteer.getFullName() + "!");
-        signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Offer list.");
-        signedInAsLabel111.setText(loggedInVolunteer.getActiveRequestsNo() + " Requests in your Request inbox.");
         offersTable.setItems(getOffers(loggedInVolunteer.getUsername()));
         affectedTable.setItems(getAffected(loggedInVolunteer.getCountry()));
         requestsInboxTable.setItems(getRequestsInbox(loggedInVolunteer.getUsername()));
@@ -91,6 +88,7 @@ public class VolunteerPageController{
             requestsButton.setText("Requests (new)");
             UserService.updateUserInDatabase(loggedInVolunteer);
         }
+        handleHomePage();
     }
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) signOutButton.getScene().getWindow();
@@ -148,7 +146,9 @@ public class VolunteerPageController{
     }
     public void handleHomePage() {
         loggedInVolunteer.calculateValues();
+        signedInAsLabel.setText("Welcome, " + loggedInVolunteer.getFullName() + "!");
         signedInAsLabel11.setText("You currently have: " + loggedInVolunteer.getOffersNo() + " Offers in your Offer list.");
+        signedInAsLabel1.setText("There are currently " + affectedTable.getItems().size() + " Affected available in your country.");
         signedInAsLabel111.setText(loggedInVolunteer.getActiveRequestsNo() + " Requests in your Request inbox.");
         homeTab.setManaged(true);
         homeTab.setVisible(true);
@@ -391,4 +391,5 @@ public class VolunteerPageController{
             JOptionPane.showMessageDialog(null, "Select an Affected to view info", "Failed to view info of Affected", 1);
         }
     }
+
 }
