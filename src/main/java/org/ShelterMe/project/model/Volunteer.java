@@ -53,6 +53,7 @@ public class Volunteer extends User {
 
     public int getActiveRequestsNo() {
         return activeRequestsNo;
+    }
 
     public boolean isNewOffer() {
         return newOffer;

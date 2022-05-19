@@ -65,8 +65,6 @@ public class VolunteerPageController{
     @FXML
     private JFXButton offersButton;
     @FXML
-    private JFXButton requestsInboxButton;
-    @FXML
     private  JFXButton homeButton;
     @FXML
     private JFXButton requestsButton;
@@ -102,6 +100,7 @@ public class VolunteerPageController{
             requestsButton.setPrefWidth(115);
             requestsButton.setText("Requests (new)");
             UserService.updateUserInDatabase(loggedInVolunteer);
+        }
     }
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) signOutButton.getScene().getWindow();
@@ -174,6 +173,14 @@ public class VolunteerPageController{
         offersTab.setVisible(false);
         requestsInboxTab.setManaged(true);
         requestsInboxTab.setVisible(true);
+        if (loggedInVolunteer.isNewOffer() == true) {
+            this.loggedInVolunteer.setNewOffer(false);
+            requestsButton.setStyle("-fx-background-color: #d6eaed;");
+            requestsButton.setPrefWidth(102);
+            requestsButton.setText("Requests");
+            UserService.updateUserInDatabase(this.loggedInVolunteer);
+
+        }
     }
 
     public void handleAddOffer(javafx.event.ActionEvent event) throws IOException {
@@ -320,15 +327,6 @@ public class VolunteerPageController{
             newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select a request in order to see it", "Failed to open request", 1);
-
-    public void handleRequestsAction(javafx.event.ActionEvent event) throws IOException {
-        if (loggedInVolunteer.isNewOffer() == true) {
-            this.loggedInVolunteer.setNewOffer(false);
-            requestsButton.setStyle("-fx-background-color: #d6eaed;");
-            requestsButton.setPrefWidth(102);
-            requestsButton.setText("Requests");
-            UserService.updateUserInDatabase(this.loggedInVolunteer);
-
         }
     }
 }

@@ -138,10 +138,11 @@ public class AffectedService {
     }
 
     public static String getRequestDestinationUsername(int id) {
-        for (AffectedItem item:affectedItemsRepository.find())
-            if(id == item.getId())
+        for (AffectedItem item : affectedItemsRepository.find())
+            if (id == item.getId())
                 return item.getUsername();
         return "";
+    }
 
     public static int getAffectedRequestsNumber(String username) {
         int counter = 0;
