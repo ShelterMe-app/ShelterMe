@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="AddForm" alignment="CENTER" prefHeight="600.0" prefWidth="350.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.AffectedReplyController">
+
+    <padding>
+        <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+    </padding>
+
+    <Text id="title-text" fx:id="affectedReplyName" styleClass="text-id" text="X's Request" textAlignment="CENTER" wrappingWidth="200.0">
+        <VBox.margin>
+            <Insets bottom="40.0" />
+        </VBox.margin></Text>
+    <Text id="text-bold" strokeType="OUTSIDE" strokeWidth="2.0" text="Message:" />
+    <Text fx:id="messageToAffected" strokeType="OUTSIDE" strokeWidth="0.0" />
+    <Text id="text-bold" strokeType="OUTSIDE" strokeWidth="2.0" text="Contact information:">
+        <VBox.margin>
+            <Insets />
+        </VBox.margin></Text>
+    <Text fx:id="contactToAffected" strokeType="OUTSIDE" strokeWidth="0.0" />
+    <TextArea fx:id="affectedReplyMessage" prefHeight="100.0" prefWidth="200.0" promptText="Your message">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin></TextArea>
+    <TextArea fx:id="affectedContactInfo" prefHeight="50.0" prefWidth="200.0" promptText="Your contact information" />
+    <HBox alignment="CENTER" spacing="30">
+        <Button id="approve" fx:id="approveOfferButton" onAction="#handleApproveOffer" text="Approve" />
+        <Button id="reject" fx:id="rejectOfferButton" onAction="#handleRejectOffer" text="Reject" />
+    </HBox>
+
+</VBox>

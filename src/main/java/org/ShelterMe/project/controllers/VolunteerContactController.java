@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.ShelterMe.project.exceptions.CommunicationExistsException;
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.model.AffectedItem;
 import org.ShelterMe.project.model.Communication;
@@ -56,15 +57,21 @@ public class VolunteerContactController {
     }
 
     public void handleSendRequestAction(javafx.event.ActionEvent event) {
-        if (contactRequestsView.getSelectionModel().getSelectedItem() != null) {
-            CommunicationService.addCommunication('r', loggedInAffected.getUsername(), toBeContacted.getUsername(), ((AffectedItem)contactRequestsView.getSelectionModel().getSelectedItem()).getId(), 'p', message.getText(), "", contactMethods.getText(), "");
-            JOptionPane.showMessageDialog(null, "Request sent succesfully to Volunteer (" + toBeContacted.getFullName() + ")", "Request sent", 1);
-            Node source = (Node) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
+        try {
+            if (contactRequestsView.getSelectionModel().getSelectedItem() != null) {
+                CommunicationService.existsCommunication(((AffectedItem)contactRequestsView.getSelectionModel().getSelectedItem()).getId(), loggedInAffected.getUsername(), toBeContacted.getUsername(), "request", "Volunteer");
+                CommunicationService.addCommunication('r', loggedInAffected.getUsername(), toBeContacted.getUsername(), ((AffectedItem)contactRequestsView.getSelectionModel().getSelectedItem()).getId(), 'p', message.getText(), "", contactMethods.getText(), "");
+                JOptionPane.showMessageDialog(null, "Request sent succesfully to Volunteer (" + toBeContacted.getFullName() + ")", "Request sent", 1);
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
 
-        } else {
-            JOptionPane.showMessageDialog(null, "Select a request to send", "Failed to contact Volunteer", 1);
+            } else {
+                JOptionPane.showMessageDialog(null, "Select a request to send", "Failed to contact Volunteer", 1);
+            }
+        }catch(CommunicationExistsException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Failed to contact Volunteer", 1);
         }
+
     }
 }

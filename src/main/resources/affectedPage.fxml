@@ -49,7 +49,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton id="offersButton" fx:id="offersButton" prefHeight="60.0" prefWidth="102.0" text="Offers">
+                        <JFXButton id="offersButton" fx:id="offersButton" onAction="#handleOffersPage" prefHeight="60.0" prefWidth="102.0" text="Offers">
                            <graphic>
                               <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -194,6 +194,36 @@
                               </graphic>
                            </JFXButton>
                            <JFXButton id="InMenuButton" fx:id="viewVolunteerInfo" alignment="CENTER" mnemonicParsing="false" onAction="#handleVolunteerInfo" text="View Volunteer Info">
+                              <graphic>
+                                 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@Images/eye.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                        </children>
+                     </HBox>
+                  </children>
+                  <padding>
+                     <Insets bottom="50.0" />
+                  </padding>
+               </VBox>
+               <VBox fx:id="offersTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css" visible="false">
+                  <children>
+                     <TableView fx:id="offersInboxTable" onMouseClicked="#handleOfferInboxTableClick" prefHeight="291.0" prefWidth="750.0" />
+                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <children>
+                           <JFXButton id="InMenuButton" fx:id="showMessageButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleShowMessage" text="Show Message">
+                              <graphic>
+                                 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@Images/envelope-open.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </JFXButton>
+                           <JFXButton id="InMenuButton" fx:id="showOfferInboxImage" alignment="CENTER" mnemonicParsing="false" onAction="#handleOfferInboxImage" text="Show Offer Image">
                               <graphic>
                                  <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

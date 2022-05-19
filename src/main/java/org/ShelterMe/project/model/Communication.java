@@ -118,4 +118,12 @@ public class Communication {
     public int getCommunicationId() {
         return communicationId;
     }
+
+    public Boolean getInHistory() {
+        return isInHistory;
+    }
+
+    public void setInHistory(Boolean inHistory) {
+        isInHistory = inHistory;
+    }
 }

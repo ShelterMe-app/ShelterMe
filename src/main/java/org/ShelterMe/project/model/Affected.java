@@ -18,6 +18,7 @@ import org.ShelterMe.project.services.VolunteerService;
 public class Affected extends User {
 
     private int requestsNo;
+    private int offersNo;
 
     public Affected(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
         super(username, password, role, fullName, country, phoneNumber);

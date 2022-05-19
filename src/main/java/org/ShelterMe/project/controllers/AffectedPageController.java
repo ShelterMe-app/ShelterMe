@@ -52,6 +52,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import org.ShelterMe.project.model.VolunteerItem;
+import org.ShelterMe.project.services.VolunteerService;
+import org.ShelterMe.project.services.CommunicationService;
+
+import org.ShelterMe.project.model.Communication;
+
 public class AffectedPageController{
     private Affected loggedInAffected;
 
@@ -72,23 +78,32 @@ public class AffectedPageController{
     @FXML
     private VBox volunteersTab;
     @FXML
+    private VBox offersTab;
+    @FXML
     private TableView requestsTable;
     @FXML
     private TableView volunteersTable;
+    @FXML
+    private TableView offersInboxTable;
     @FXML
     private JFXButton viewVolunteerInfo;
     @FXML
     private Label signedInAsLabel1;
     @FXML
     private Label signedInAsLabel11;
+    @FXML
+    private Label signedInAsLabel111;
 
     private Image requestImage;
+
+    private Image offerInboxImage;
 
     public void setSignedInAs(Affected loggedInAffected) {
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
         volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
+        offersInboxTable.setItems(getOffersInbox(loggedInAffected.getUsername()));
         handleHomePage();
     }
 
@@ -128,6 +143,22 @@ public class AffectedPageController{
         volunteerCountryColumn.setMinWidth(200);
         volunteerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         volunteersTable.getColumns().addAll(volunteerUsernameColumn, volunteerFullNameColumn, volunteerCountryColumn);
+        TableColumn<VolunteerItem, String> usernameColumnVolunteer = new TableColumn<>("Username");
+        usernameColumnVolunteer.setMinWidth(200);
+        usernameColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("username"));
+        TableColumn<VolunteerItem, String> nameColumnVolunteer = new TableColumn<>("Name");
+        nameColumnVolunteer.setMinWidth(200);
+        nameColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<VolunteerItem, String> categoryColumnVolunteer = new TableColumn<>("Category");
+        categoryColumnVolunteer.setMinWidth(200);
+        categoryColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("category"));
+        TableColumn<VolunteerItem, String> suppliesColumnVolunteer = new TableColumn<>("Supplies");
+        suppliesColumnVolunteer.setMinWidth(200);
+        suppliesColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("supplies"));
+        TableColumn<VolunteerItem, Float> quantityColumnVolunteer = new TableColumn<>("Quantity");
+        quantityColumnVolunteer.setMinWidth(200);
+        quantityColumnVolunteer.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        offersInboxTable.getColumns().addAll(usernameColumnVolunteer, nameColumnVolunteer, categoryColumnVolunteer, suppliesColumnVolunteer, quantityColumnVolunteer);
     }
 
 
@@ -136,18 +167,23 @@ public class AffectedPageController{
         loggedInAffected.calculateValues();
         signedInAsLabel1.setText("There are currently " + volunteersTable.getItems().size() + " Volunteers available in your country.");
         signedInAsLabel11.setText("You currently have: " + loggedInAffected.getRequestsNo() + " Requests in your Requests list.");
+        signedInAsLabel111.setText(offersInboxTable.getItems().size() + " Offers in your Offers list.");
         homeTab.setVisible(true);
         homeTab.setManaged(true);
         requestsTab.setVisible(false);
         requestsTab.setManaged(false);
         volunteersTab.setVisible(false);
         volunteersTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
     }
     public void handleRequestsPage() {
         homeTab.setVisible(false);
         homeTab.setManaged(false);
         volunteersTab.setVisible(false);
         volunteersTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
         requestsTab.setVisible(true);
         requestsTab.setManaged(true);
     }
@@ -157,8 +193,21 @@ public class AffectedPageController{
         homeTab.setManaged(false);
         requestsTab.setVisible(false);
         requestsTab.setManaged(false);
+        offersTab.setVisible(false);
+        offersTab.setManaged(false);
         volunteersTab.setVisible(true);
         volunteersTab.setManaged(true);
+    }
+
+    public void handleOffersPage() {
+        homeTab.setVisible(false);
+        homeTab.setManaged(false);
+        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
+        offersTab.setVisible(true);
+        offersTab.setManaged(true);
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
@@ -188,6 +237,11 @@ public class AffectedPageController{
     public static ObservableList<Volunteer> getVolunteers(String country) {
         return FXCollections.observableList(UserService.volunteersToList(country));
     }
+
+    public static ObservableList<VolunteerItem> getOffersInbox(String username) {
+        return FXCollections.observableList(VolunteerService.databaseToListInbox(CommunicationService.getSourceIDs(username)));
+    }
+
 
     public void handleTableClick(MouseEvent event) throws IOException  {
         if (requestsTable.getSelectionModel().getSelectedItem() != null)
@@ -305,4 +359,50 @@ public class AffectedPageController{
         }
     }
 
+    public void handleOfferInboxTableClick(MouseEvent event) throws IOException  {
+        if (offersInboxTable.getSelectionModel().getSelectedItem() != null)
+            offerInboxImage = VolunteerService.base64ToImage(((VolunteerItem)offersInboxTable.getSelectionModel().getSelectedItem()).getImageBase64());
+    }
+    public void handleOfferInboxImage(javafx.event.ActionEvent event) throws IOException {
+        if (offerInboxImage == null) {
+            JOptionPane.showMessageDialog(null, "This offer has no image", "Failed to open image", 1);
+            return;
+        }
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("offerImageDialog.fxml"));
+        Parent imageDialog = loader.load();
+        OfferImageDialogController controller = loader.getController();
+        controller.setOfferImage(offerInboxImage);
+        Scene scene = new Scene(imageDialog);
+        Stage newStage = new Stage();
+        newStage.setScene(scene);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.setTitle("ShelterMe - Offer image");
+        newStage.getIcons().add(new Image("file:docs/Logo.png"));
+        newStage.show();
+        newStage.setResizable(false);
+    }
+
+    public void handleShowMessage() throws IOException {
+        if (offersInboxTable.getSelectionModel().getSelectedItem() != null)
+        {
+            VolunteerItem connection = (VolunteerItem) offersInboxTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("affectedReplyForm.fxml"));
+            Parent viewRequestInbox = loader.load();
+            AffectedReplyController newController = loader.getController();
+            newController.setLoggedInAffected(loggedInAffected);
+            newController.setOffersInboxTable(offersInboxTable);
+            newController.setOfferId(connection.getId());
+            Scene scene = new Scene(viewRequestInbox);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(offersTab.getScene().getWindow());
+            newStage.setTitle("ShelterMe - Inbox");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
+        }
+    }
 }

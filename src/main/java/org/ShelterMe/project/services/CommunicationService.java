@@ -1,8 +1,11 @@
 package org.ShelterMe.project.services;
 
+import javafx.scene.image.Image;
+import org.ShelterMe.project.exceptions.CommunicationExistsException;
 import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.User;
 import org.ShelterMe.project.model.Volunteer;
+import org.apache.commons.io.FileUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
@@ -73,7 +76,7 @@ public class CommunicationService {
     public static ArrayList<Integer> getSourceIDs(String destination) {
         ArrayList<Integer> ids = new ArrayList<>();
         for (Communication item : communicationRepository.find()) {
-            if (destination.equals(item.getDestinationUsername()) && !item.getInHistory()) {
+            if (destination.equals(item.getDestinationUsername()) && !ids.contains(item.getId()) && !item.getInHistory()) {
                 ids.add(item.getId());
             }
         }
@@ -105,16 +108,25 @@ public class CommunicationService {
         return "";
     }
 
-    public static void closeRequest(String source, String destination, int id, char status){
+    public static void closeRequest(String source, String destination, int id, char status, String destinationMessage, String destinationContactMethods){
         for (Communication item:communicationRepository.find()){
             if(id == item.getId() && item.getInHistory() == false && item.getSourceUsername().equals(source) && item.getDestinationUsername().equals(destination)) {
                 item.setStatus(status);
                 item.setInHistory(true);
+                item.setDestinationMessage(destinationMessage);
+                item.setDestinationContactMethods(destinationContactMethods);
                 communicationRepository.update(item);
                 break;
             }
         }
     }
+
+    public static boolean existsCommunication(int id, String source, String destination, String type, String destinationType) throws CommunicationExistsException {
+        for (Communication com : communicationRepository.find()) {
+            if (com.getId() == id && com.getSourceUsername().equals(source) && com.getDestinationUsername().equals(destination))
+                throw new CommunicationExistsException(type, destinationType);
+        }
+        return false;
 
     public static int getActiveRequestsNumber(String destination){
         int activeRequestNumber = 0;
@@ -124,5 +136,6 @@ public class CommunicationService {
             }
         }
         return activeRequestNumber;
+
     }
 }
