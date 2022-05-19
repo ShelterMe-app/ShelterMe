@@ -294,8 +294,8 @@ public class VolunteerPageController{
         }
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("requestImageDialog.fxml"));
         Parent imageDialog = loader.load();
-        OfferImageDialogController controller = loader.getController();
-        controller.setOfferImage(requestInboxImage);
+        RequestImageDialogController controller = loader.getController();
+        controller.setRequestImage(requestInboxImage);
         Scene scene = new Scene(imageDialog);
         Stage newStage = new Stage();
         newStage.setScene(scene);
