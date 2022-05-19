@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="AddForm" alignment="CENTER" prefHeight="450.0" prefWidth="450.0" spacing="10.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ShelterMe.project.controllers.ViewVolunteerOffersController">
+    <padding>
+        <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+    </padding>
+
+    <Text id="title-text" fx:id="infoVolunteerWelcome" styleClass="text-id" text="Info about selected Volunteer" textAlignment="CENTER" wrappingWidth="200.0">
+        <VBox.margin>
+            <Insets bottom="40.0" />
+        </VBox.margin></Text>
+    <Text fx:id="infoVolunteerDetail" strokeType="OUTSIDE" strokeWidth="0.0" text="The Volunteer's offers" />
+    <TableView fx:id="volunteerOffersTable" prefHeight="200.0" prefWidth="200.0" />
+</VBox>

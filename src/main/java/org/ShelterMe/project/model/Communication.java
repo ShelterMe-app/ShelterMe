@@ -114,7 +114,7 @@ public class Communication {
     public void setInHistory(Boolean inHistory) {
         isInHistory = inHistory;
     }
-
+  
     public int getCommunicationId() {
         return communicationId;
     }

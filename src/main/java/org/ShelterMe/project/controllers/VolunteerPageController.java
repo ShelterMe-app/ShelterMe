@@ -20,6 +20,7 @@ import javafx.scene.shape.*;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.ShelterMe.project.services.UserService;
 import org.ShelterMe.project.model.AffectedItem;
 import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.services.AffectedService;
@@ -68,6 +69,8 @@ public class VolunteerPageController{
     @FXML
     private  JFXButton homeButton;
     @FXML
+    private JFXButton requestsButton;
+    @FXML
     private BorderPane borderPane;
     @FXML
     private VBox offersTab;
@@ -94,6 +97,11 @@ public class VolunteerPageController{
         signedInAsLabel111.setText(loggedInVolunteer.getActiveRequestsNo() + " Requests in your Request inbox.");
         offersTable.setItems(getOffers(loggedInVolunteer.getUsername()));
         requestsInboxTable.setItems(getRequestsInbox(loggedInVolunteer.getUsername()));
+        if (this.loggedInVolunteer.isNewOffer() == true) {
+            requestsButton.setStyle("-fx-background-color: #44919c;");
+            requestsButton.setPrefWidth(115);
+            requestsButton.setText("Requests (new)");
+            UserService.updateUserInDatabase(loggedInVolunteer);
     }
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
         Stage stage = (Stage) signOutButton.getScene().getWindow();
@@ -312,6 +320,15 @@ public class VolunteerPageController{
             newStage.setResizable(false);
         } else {
             JOptionPane.showMessageDialog(null, "Select a request in order to see it", "Failed to open request", 1);
+
+    public void handleRequestsAction(javafx.event.ActionEvent event) throws IOException {
+        if (loggedInVolunteer.isNewOffer() == true) {
+            this.loggedInVolunteer.setNewOffer(false);
+            requestsButton.setStyle("-fx-background-color: #d6eaed;");
+            requestsButton.setPrefWidth(102);
+            requestsButton.setText("Requests");
+            UserService.updateUserInDatabase(this.loggedInVolunteer);
+
         }
     }
 }

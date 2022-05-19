@@ -13,9 +13,12 @@ import org.dizitart.no2.objects.ObjectRepository;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Objects;
 
 import java.util.Date;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -31,7 +34,7 @@ public class UserService {
         VolunteerService.initVolunteerItemsDatabase();
         AffectedService.initAffectedItemsDatabase();
         CommunicationService.initCommunicationDatabase();
-        }
+    }
 
     public static void addUser(String username, String password, String role, String fullName, String country, String phoneNumber, String code) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
         checkEmptyFields(username, password, role, fullName, country, phoneNumber);
@@ -185,5 +188,18 @@ public class UserService {
 
     public static void updateUserInDatabase(User user) {
         userRepository.update(user);
+    }
+
+    public static List volunteersToList(String country) {
+        Predicate<User> availableVolunteer = volunteer -> volunteer.getCountry().equals(country) && volunteer.getRole().equals("Volunteer");
+        return userRepository.find().toList().stream().filter(availableVolunteer).collect(Collectors.toList());
+    }
+
+    public static User getUser(String username) {
+        for (User user : userRepository.find()) {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+        return null;
     }
 }

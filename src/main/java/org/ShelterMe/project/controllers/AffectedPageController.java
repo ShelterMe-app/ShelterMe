@@ -34,6 +34,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.ShelterMe.project.model.User;
+import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.model.AffectedItem;
 
@@ -44,6 +46,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Affected;
+import org.ShelterMe.project.services.UserService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -63,12 +66,21 @@ public class AffectedPageController{
     @FXML
     private BorderPane borderPane;
     @FXML
+    private VBox homeTab;
+    @FXML
     private VBox requestsTab;
     @FXML
-    private VBox homeTab;
-
+    private VBox volunteersTab;
     @FXML
     private TableView requestsTable;
+    @FXML
+    private TableView volunteersTable;
+    @FXML
+    private JFXButton viewVolunteerInfo;
+    @FXML
+    private Label signedInAsLabel1;
+    @FXML
+    private Label signedInAsLabel11;
 
     private Image requestImage;
 
@@ -76,6 +88,8 @@ public class AffectedPageController{
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
+        volunteersTable.setItems(getVolunteers(loggedInAffected.getCountry()));
+        handleHomePage();
     }
 
     public void handleSignOut(javafx.event.ActionEvent event) throws IOException {
@@ -104,22 +118,47 @@ public class AffectedPageController{
         healthConditionColumn.setMinWidth(200);
         healthConditionColumn.setCellValueFactory(new PropertyValueFactory<>("healthCondition"));
         requestsTable.getColumns().addAll(nameColumn, categoryColumn, suppliesColumn, quantityColumn, generalInformationColumn, healthConditionColumn);
+        TableColumn<Volunteer, String> volunteerUsernameColumn = new TableColumn<>("Username");
+        volunteerUsernameColumn.setMinWidth(200);
+        volunteerUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        TableColumn<Volunteer, String> volunteerFullNameColumn = new TableColumn<>("Full Name");
+        volunteerFullNameColumn.setMinWidth(200);
+        volunteerFullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));;
+        TableColumn<Volunteer, String> volunteerCountryColumn = new TableColumn<>("Country");
+        volunteerCountryColumn.setMinWidth(200);
+        volunteerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        volunteersTable.getColumns().addAll(volunteerUsernameColumn, volunteerFullNameColumn, volunteerCountryColumn);
     }
 
 
 
     public void handleHomePage() {
+        loggedInAffected.calculateValues();
+        signedInAsLabel1.setText("There are currently " + volunteersTable.getItems().size() + " Volunteers available in your country.");
+        signedInAsLabel11.setText("You currently have: " + loggedInAffected.getRequestsNo() + " Requests in your Requests list.");
         homeTab.setVisible(true);
         homeTab.setManaged(true);
         requestsTab.setVisible(false);
-        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
     }
     public void handleRequestsPage() {
         homeTab.setVisible(false);
         homeTab.setManaged(false);
+        volunteersTab.setVisible(false);
+        volunteersTab.setManaged(false);
         requestsTab.setVisible(true);
         requestsTab.setManaged(true);
+    }
 
+    public void handleVolunteersPage() {
+        homeTab.setVisible(false);
+        homeTab.setManaged(false);
+        requestsTab.setVisible(false);
+        requestsTab.setManaged(false);
+        volunteersTab.setVisible(true);
+        volunteersTab.setManaged(true);
     }
 
     public void handleAddRequest(javafx.event.ActionEvent event) throws IOException {
@@ -144,6 +183,10 @@ public class AffectedPageController{
     public static ObservableList<AffectedItem> getRequests(String username) {
 
         return FXCollections.observableList(AffectedService.databaseToList(username));
+    }
+
+    public static ObservableList<Volunteer> getVolunteers(String country) {
+        return FXCollections.observableList(UserService.volunteersToList(country));
     }
 
     public void handleTableClick(MouseEvent event) throws IOException  {
@@ -222,5 +265,44 @@ public class AffectedPageController{
         }
     }
 
+    public void handleContactVolunteer() throws IOException {
+        if (volunteersTable.getSelectionModel().getSelectedItem() != null) {
+            Volunteer toBeContacted = (Volunteer)volunteersTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("contactVolunteerForm.fxml"));
+            Parent imageDialog = loader.load();
+            VolunteerContactController controller = loader.getController();
+            controller.setLoggedInAffected(this.loggedInAffected, toBeContacted);
+            Scene scene = new Scene(imageDialog);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.setTitle("ShelterMe - Contact " + toBeContacted.getFullName());
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a Volunteer to contact", "Failed to contact Volunteer", 1);
+        }
+    }
+
+    public void handleVolunteerInfo() throws IOException {
+        if (volunteersTable.getSelectionModel().getSelectedItem() != null) {
+            Volunteer toBeContacted = (Volunteer)volunteersTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("viewVolunteerOffers.fxml"));
+            Parent imageDialog = loader.load();
+            ViewVolunteerOffersController controller = loader.getController();
+            controller.setVolunteer(toBeContacted);
+            Scene scene = new Scene(imageDialog);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.setTitle("ShelterMe - View " + toBeContacted.getFullName() + "'s info");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a Volunteer to view info", "Failed to view info of Volunteer", 1);
+        }
+    }
 
 }
