@@ -491,21 +491,26 @@ public class AffectedPageController{
     }
 
     public void handleShowItem() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("historyItemView.fxml"));
-        Parent history = loader.load();
-        HistoryItemViewController newController = loader.getController();
-        newController.setLoggedInUser(loggedInAffected);
-        newController.setHistoryImage(historyImage);
-        newController.setHistoryTable(historyTable);
-        Scene scene = new Scene(history);
-        Stage newStage = new Stage();
-        newStage.setScene(scene);
-        newStage.initModality(Modality.WINDOW_MODAL);
-        newStage.initOwner(requestsTab.getScene().getWindow());
-        newStage.setTitle("ShelterMe - History View");
-        newStage.getIcons().add(new Image("file:docs/Logo.png"));
-        newStage.show();
-        newStage.setResizable(false);
+        if (historyTable.getSelectionModel().getSelectedItem() != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("historyItemView.fxml"));
+            Parent history = loader.load();
+            HistoryItemViewController newController = loader.getController();
+            newController.setLoggedInUser(loggedInAffected);
+            newController.setHistoryImage(historyImage);
+            newController.setHistoryTable(historyTable);
+            Scene scene = new Scene(history);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.initModality(Modality.WINDOW_MODAL);
+            newStage.initOwner(requestsTab.getScene().getWindow());
+            newStage.setTitle("ShelterMe - History View");
+            newStage.getIcons().add(new Image("file:docs/Logo.png"));
+            newStage.show();
+            newStage.setResizable(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Select an item to show first", "Failed to show item", 1);
+        }
+
     }
 
     public void handleHistoryTableClick(MouseEvent event) throws IOException {
