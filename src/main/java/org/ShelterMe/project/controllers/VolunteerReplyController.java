@@ -72,6 +72,8 @@ public class VolunteerReplyController {
         stage.close();
         destination.setNewHistory(true);
         UserService.updateUserInDatabase(destination);
+        loggedInVolunteer.setNewHistory(true);
+        UserService.updateUserInDatabase(loggedInVolunteer);
         JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request approved", "Successfully approved request", 1);
     }
 
@@ -84,6 +86,8 @@ public class VolunteerReplyController {
         stage.close();
         destination.setNewHistory(true);
         UserService.updateUserInDatabase(destination);
+        loggedInVolunteer.setNewHistory(true);
+        UserService.updateUserInDatabase(loggedInVolunteer);
         JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request rejected", "Successfully rejected request", 1);
     }
 }
