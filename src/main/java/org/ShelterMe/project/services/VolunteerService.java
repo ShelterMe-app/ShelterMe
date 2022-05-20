@@ -166,4 +166,5 @@ public class VolunteerService {
         Predicate<VolunteerItem> isId = volunteer -> ids.contains(volunteer.getId());
         return volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
     }
+
 }
