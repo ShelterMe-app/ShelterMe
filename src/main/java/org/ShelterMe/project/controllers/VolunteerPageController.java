@@ -310,7 +310,11 @@ public class VolunteerPageController{
     }
 
     public void handleRequestInboxImage(javafx.event.ActionEvent event) throws IOException {
-        if (requestInboxImage == null) {
+        if (requestsInboxTable.getSelectionModel().getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Select a request in order to view image", "Failed to open image", 1);
+            return;
+        }
+        else if (requestInboxImage == null) {
             JOptionPane.showMessageDialog(null, "This request has no image", "Failed to open image", 1);
             return;
         }

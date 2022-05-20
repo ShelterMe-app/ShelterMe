@@ -153,10 +153,11 @@ public class CommunicationService {
     public static ArrayList<Integer> getOfferHistory(String username) {
         ArrayList<Integer> ids = new ArrayList<>();
         for (Communication item : communicationRepository.find()) {
-            if (username.equals(item.getDestinationUsername()) || username.equals(item.getSourceUsername()) && item.isType() == '0') {
+            if (username.equals(item.getDestinationUsername()) || username.equals(item.getSourceUsername()) && item.isType() == 'o') {
                 ids.add(item.getId());
             }
         }
         return ids;
     }
+
 }

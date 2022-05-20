@@ -3,6 +3,7 @@ package org.ShelterMe.project.services;
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.*;
 import org.ShelterMe.project.model.AffectedItem;
+import org.ShelterMe.project.model.VolunteerItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -171,6 +172,4 @@ public class AffectedService {
         }
         return null;
     }
-
-
 }
