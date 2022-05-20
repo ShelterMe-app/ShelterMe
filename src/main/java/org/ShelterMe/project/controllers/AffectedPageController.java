@@ -185,16 +185,16 @@ public class AffectedPageController{
                 return new ReadOnlyStringWrapper(p.getValue().getStatus() == 'a' ? "Accepted" : "Rejected");
             }
         });
-        TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Your message");
+        TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Source message");
         communicationSourceMessage.setMinWidth(200);
         communicationSourceMessage.setCellValueFactory(new PropertyValueFactory<>("sourceMessage"));
-        TableColumn<Communication, Character> communicationSourceContactMethods = new TableColumn<>("Your contact methods");
+        TableColumn<Communication, Character> communicationSourceContactMethods = new TableColumn<>("Source contact methods");
         communicationSourceContactMethods.setMinWidth(200);
         communicationSourceContactMethods.setCellValueFactory(new PropertyValueFactory<>("sourceContactMethods"));
-        TableColumn<Communication, Character> communicationDestinationMessage = new TableColumn<>("Volunteer's message");
+        TableColumn<Communication, Character> communicationDestinationMessage = new TableColumn<>("Destination message");
         communicationDestinationMessage.setMinWidth(200);
         communicationDestinationMessage.setCellValueFactory(new PropertyValueFactory<>("destinationMessage"));
-        TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Volunteer's contact methods");
+        TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Destination contact methods");
         communicationDestinationContactMethods.setMinWidth(200);
         communicationDestinationContactMethods.setCellValueFactory(new PropertyValueFactory<>("destinationContactMethods"));
         historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
@@ -276,6 +276,8 @@ public class AffectedPageController{
         offersTab.setManaged(false);
         historyTab.setVisible(true);
         historyTab.setManaged(true);
+        if (historyTable != null)
+            historyTable.setItems(getHistory(loggedInAffected.getUsername()));
         if (loggedInAffected.isNewHistory() == true) {
             this.loggedInAffected.setNewHistory(false);
             historyButton.setStyle("-fx-background-color: #d6eaed;");

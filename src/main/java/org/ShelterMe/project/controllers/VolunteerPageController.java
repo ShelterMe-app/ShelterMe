@@ -179,16 +179,16 @@ public class VolunteerPageController{
                 return new ReadOnlyStringWrapper(p.getValue().getStatus() == 'a' ? "Accepted" : "Rejected");
             }
         });
-        TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Your message");
+        TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Source message");
         communicationSourceMessage.setMinWidth(200);
         communicationSourceMessage.setCellValueFactory(new PropertyValueFactory<>("sourceMessage"));
-        TableColumn<Communication, Character> communicationSourceContactMethods = new TableColumn<>("Your contact methods");
+        TableColumn<Communication, Character> communicationSourceContactMethods = new TableColumn<>("Source contact methods");
         communicationSourceContactMethods.setMinWidth(200);
         communicationSourceContactMethods.setCellValueFactory(new PropertyValueFactory<>("sourceContactMethods"));
-        TableColumn<Communication, Character> communicationDestinationMessage = new TableColumn<>("Volunteer's message");
+        TableColumn<Communication, Character> communicationDestinationMessage = new TableColumn<>("Destination message");
         communicationDestinationMessage.setMinWidth(200);
         communicationDestinationMessage.setCellValueFactory(new PropertyValueFactory<>("destinationMessage"));
-        TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Volunteer's contact methods");
+        TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Destination contact methods");
         communicationDestinationContactMethods.setMinWidth(200);
         communicationDestinationContactMethods.setCellValueFactory(new PropertyValueFactory<>("destinationContactMethods"));
         historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
@@ -267,17 +267,18 @@ public class VolunteerPageController{
         offersTab.setManaged(false);
         affectedTab.setVisible(false);
         affectedTab.setManaged(false);
-        offersTab.setVisible(false);
-        offersTab.setManaged(false);
+        requestsInboxTab.setVisible(false);
+        requestsInboxTab.setManaged(false);
         historyTab.setVisible(true);
         historyTab.setManaged(true);
+        if (historyTable != null)
+            historyTable.setItems(getHistory(loggedInVolunteer.getUsername()));
         if (loggedInVolunteer.isNewHistory() == true) {
             this.loggedInVolunteer.setNewHistory(false);
             historyButton.setStyle("-fx-background-color: #d6eaed;");
             historyButton.setPrefWidth(102);
             historyButton.setText("History");
             UserService.updateUserInDatabase(this.loggedInVolunteer);
-
         }
     }
 
@@ -482,21 +483,28 @@ public class VolunteerPageController{
 
     public void handleShowItem() throws IOException {
         if (historyTable.getSelectionModel().getSelectedItem() != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("historyItemView.fxml"));
-            Parent history = loader.load();
-            HistoryItemViewController newController = loader.getController();
-            newController.setLoggedInUser(loggedInVolunteer);
-            newController.setHistoryImage(historyImage);
-            newController.setHistoryTable(historyTable);
-            Scene scene = new Scene(history);
-            Stage newStage = new Stage();
-            newStage.setScene(scene);
-            newStage.initModality(Modality.WINDOW_MODAL);
-            newStage.initOwner(offersTab.getScene().getWindow());
-            newStage.setTitle("ShelterMe - History View");
-            newStage.getIcons().add(new Image("file:docs/Logo.png"));
-            newStage.show();
-            newStage.setResizable(false);
+            Object o = historyTable.getSelectionModel().getSelectedItem();
+            Communication com = (Communication)o;
+            Object item = (com.isType() == 'r' ? AffectedService.getItemWithId(com.getId()) : VolunteerService.getItemWithId(com.getId()));
+            if (item != null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("historyItemView.fxml"));
+                Parent history = loader.load();
+                HistoryItemViewController newController = loader.getController();
+                newController.setLoggedInUser(loggedInVolunteer);
+                newController.setHistoryImage(historyImage);
+                newController.setHistoryTable(historyTable);
+                Scene scene = new Scene(history);
+                Stage newStage = new Stage();
+                newStage.setScene(scene);
+                newStage.initModality(Modality.WINDOW_MODAL);
+                newStage.initOwner(offersTab.getScene().getWindow());
+                newStage.setTitle("ShelterMe - History View");
+                newStage.getIcons().add(new Image("file:docs/Logo.png"));
+                newStage.show();
+                newStage.setResizable(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Item has been deleted by it's owner", "Failed to show item", 1);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Select an item to show first", "Failed to show item", 1);
         }
@@ -507,10 +515,12 @@ public class VolunteerPageController{
             Communication com = ((Communication)historyTable.getSelectionModel().getSelectedItem());
             if (com.isType() == 'r') {
                 AffectedItem item = AffectedService.getItemWithId(com.getId());
-                historyImage = AffectedService.base64ToImage(item.getImageBase64());
+                if (item != null)
+                    historyImage = AffectedService.base64ToImage(item.getImageBase64());
             } else {
                 VolunteerItem item = VolunteerService.getItemWithId(com.getId());
-                historyImage = VolunteerService.base64ToImage(item.getImageBase64());
+                if (item != null)
+                    historyImage = VolunteerService.base64ToImage(item.getImageBase64());
             }
         } else historyImage = null;
     }

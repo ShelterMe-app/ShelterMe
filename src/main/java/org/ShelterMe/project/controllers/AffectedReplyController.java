@@ -5,13 +5,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
-import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.model.Volunteer;
+import org.ShelterMe.project.model.*;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
 import javafx.stage.Stage;
 import org.ShelterMe.project.model.Volunteer;
-import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.VolunteerService;
 
 import javax.swing.*;
@@ -75,6 +73,8 @@ public class AffectedReplyController {
         stage.close();
         destination.setNewHistory(true);
         UserService.updateUserInDatabase(destination);
+        loggedInAffected.setNewHistory(true);
+        UserService.updateUserInDatabase(loggedInAffected);
         JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer approved", "Successfully approved offer", 1);
     }
 
@@ -87,6 +87,8 @@ public class AffectedReplyController {
         stage.close();
         destination.setNewHistory(true);
         UserService.updateUserInDatabase(destination);
+        loggedInAffected.setNewHistory(true);
+        UserService.updateUserInDatabase(loggedInAffected);
         JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer rejected", "Successfully rejected offer", 1);
     }
 
