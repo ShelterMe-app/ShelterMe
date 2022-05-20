@@ -64,7 +64,7 @@ public class HistoryItemViewController {
         if (item instanceof AffectedItem) {
             AffectedItem affectedItem = (AffectedItem)item;
             if (com.getSourceUsername().equals(loggedInUser.getUsername()))
-                 historyItemViewWelcome.setText("Your request");
+                historyItemViewWelcome.setText("Your request");
             else
                 historyItemViewWelcome.setText(com.getSourceUsername() + "'s request");
             itemName.setText(affectedItem.getName());
@@ -76,6 +76,7 @@ public class HistoryItemViewController {
                 itemHealthCondition.setText(affectedItem.getHealthCondition());
             else
                 itemHealthCondition.setText("None");
+
         } else {
             VolunteerItem volunteerItem = (VolunteerItem) item;
             if (com.getSourceUsername().equals(loggedInUser.getUsername()))
