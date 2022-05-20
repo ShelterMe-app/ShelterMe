@@ -61,16 +61,25 @@ public class AffectedContactController {
             if (contactOffersView.getSelectionModel().getSelectedItem() != null) {
                 CommunicationService.existsCommunication(((VolunteerItem)contactOffersView.getSelectionModel().getSelectedItem()).getId(), loggedInVolunteer.getUsername(), toBeContacted.getUsername(), "offer", "Affected");
                 CommunicationService.addCommunication('o', loggedInVolunteer.getUsername(), toBeContacted.getUsername(), ((VolunteerItem) contactOffersView.getSelectionModel().getSelectedItem()).getId(), 'p', message.getText(), "", contactMethods.getText(), "");
-                JOptionPane.showMessageDialog(null, "Offer sent successfully to Affected (" + toBeContacted.getFullName() + ")", "Offer sent", 1);
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
+                stage.setAlwaysOnTop(false);
+                JOptionPane.showMessageDialog(null, "Offer sent successfully to Affected (" + toBeContacted.getFullName() + ")", "Offers sent", 1);
                 stage.close();
 
             } else {
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.setAlwaysOnTop(false);
                 JOptionPane.showMessageDialog(null, "Select an offer to send", "Failed to contact Affected", 1);
+                stage.setAlwaysOnTop(true);
             }
         } catch(CommunicationExistsException e) {
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.setAlwaysOnTop(false);
             JOptionPane.showMessageDialog(null, e.getMessage(), "Failed to contact Affected", 1);
+            stage.setAlwaysOnTop(true);
         }
     }
 }
