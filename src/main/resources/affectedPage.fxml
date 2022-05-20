@@ -241,7 +241,7 @@
                </VBox>
                <VBox fx:id="historyTab" alignment="BOTTOM_CENTER" stylesheets="@menu.css">
                   <children>
-                     <TableView fx:id="historyTable" onMouseClicked="#handleHistoryTableClick" prefHeight="270.0" prefWidth="750.0" />
+                     <TableView fx:id="historyTable" onMouseClicked="#handleHistoryTableClick" prefHeight="270.0" maxWidth="720.0" tableMenuButtonVisible="true" />
                      <HBox alignment="CENTER" prefHeight="120.0" prefWidth="750.0">
                         <children>
                            <JFXButton id="InMenuButton" fx:id="showItem" alignment="CENTER" mnemonicParsing="false" onAction="#handleShowItem" text="Show Item">
