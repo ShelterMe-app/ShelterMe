@@ -59,6 +59,7 @@
 
 #historyTable .table-column {
     -fx-alignment: CENTER;
+}
 
 .table-view {
     -fx-background-color: transparent;
