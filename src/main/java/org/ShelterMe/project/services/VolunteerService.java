@@ -161,4 +161,10 @@ public class VolunteerService {
         }
         return null;
     }
+
+    public static List<VolunteerItem> databaseToRequestHistory(ArrayList<Integer> ids) {
+        Predicate<VolunteerItem> isId = volunteer -> ids.contains(volunteer.getId());
+        return volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
+    }
+
 }

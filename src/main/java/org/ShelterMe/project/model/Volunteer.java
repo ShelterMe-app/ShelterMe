@@ -18,10 +18,12 @@ public class Volunteer extends User {
     private int offersNo;
     private int activeRequestsNo;
     private boolean newOffer;
+    private boolean newHistory;
 
     public Volunteer(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {
         super(username, password, role, fullName, country, phoneNumber);
         this.newOffer = false;
+        this.newHistory = false;
     }
 
     public void calculateValues(){
@@ -62,6 +64,14 @@ public class Volunteer extends User {
     public void setNewOffer(boolean newOffer) {
         this.newOffer = newOffer;
 
+    }
+
+    public boolean isNewHistory() {
+        return newHistory;
+    }
+
+    public void setNewHistory(boolean newHistory) {
+        this.newHistory = newHistory;
     }
 
 }

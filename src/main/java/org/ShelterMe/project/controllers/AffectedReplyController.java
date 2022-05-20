@@ -10,10 +10,13 @@ import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
 import javafx.stage.Stage;
+import org.ShelterMe.project.model.Volunteer;
+import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.VolunteerService;
 
 import javax.swing.*;
 import java.awt.*;
+import org.ShelterMe.project.services.UserService;
 
 public class AffectedReplyController {
 
@@ -64,20 +67,26 @@ public class AffectedReplyController {
 
     public void handleApproveOffer(javafx.event.ActionEvent event) {
         CommunicationService.closeRequest(VolunteerService.getOfferSourceUsername(offerId),loggedInAffected.getUsername(),  offerId, 'a', affectedReplyMessage.getText(), affectedContactInfo.getText());
+        Volunteer destination = (Volunteer) UserService.getUser(((VolunteerItem)offersInboxTable.getSelectionModel().getSelectedItem()).getUsername());
         if (offersInboxTable != null)
             offersInboxTable.setItems(AffectedPageController.getOffersInbox(loggedInAffected.getUsername()));
 
         Stage stage = (Stage) approveOfferButton.getScene().getWindow();
         stage.close();
+        destination.setNewHistory(true);
+        UserService.updateUserInDatabase(destination);
         JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer approved", "Successfully approved offer", 1);
     }
 
     public void handleRejectOffer(javafx.event.ActionEvent event){
         CommunicationService.closeRequest(VolunteerService.getOfferSourceUsername(offerId),loggedInAffected.getUsername(), offerId, 'r', affectedReplyMessage.getText(), affectedContactInfo.getText());
+        Volunteer destination = (Volunteer) UserService.getUser(((VolunteerItem)offersInboxTable.getSelectionModel().getSelectedItem()).getUsername());
         if (offersInboxTable != null)
             offersInboxTable.setItems(AffectedPageController.getOffersInbox(loggedInAffected.getUsername()));
         Stage stage = (Stage) rejectOfferButton.getScene().getWindow();
         stage.close();
+        destination.setNewHistory(true);
+        UserService.updateUserInDatabase(destination);
         JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer rejected", "Successfully rejected offer", 1);
     }
 

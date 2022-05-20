@@ -150,13 +150,4 @@ public class CommunicationService {
         return communicationRepository.find().toList().stream().filter(user).collect(Collectors.toList());
     }
 
-    public static ArrayList<Integer> getOfferHistory(String username) {
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (Communication item : communicationRepository.find()) {
-            if (username.equals(item.getDestinationUsername()) || username.equals(item.getSourceUsername()) && item.isType() == '0') {
-                ids.add(item.getId());
-            }
-        }
-        return ids;
-    }
 }
