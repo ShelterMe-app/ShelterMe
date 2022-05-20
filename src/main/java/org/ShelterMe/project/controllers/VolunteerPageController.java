@@ -1,6 +1,8 @@
 package org.ShelterMe.project.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +21,8 @@ import org.ShelterMe.project.services.UserService;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.VolunteerService;
+
+import javafx.util.Callback;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -144,21 +148,28 @@ public class VolunteerPageController{
         affectedCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         affectedTable.getColumns().addAll(affectedUsernameColumn, affectedFullNameColumn, affectedCountryColumn);
 
-        TableColumn<Communication, Character> communicationType = new TableColumn<>("Type (Request / Offer)");
-        communicationType.setMinWidth(200);
-        communicationType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        TableColumn<Communication, String> communicationType = new TableColumn<>("Type");
+        communicationType.setMinWidth(100);
+        communicationType.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Communication, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Communication, String> p ) {
+                return new ReadOnlyStringWrapper(p.getValue().isType() == 'r' ? "Request" : "Offer");
+            }
+        });
         TableColumn<Communication, Integer> communicationSource = new TableColumn<>("Source");
         communicationSource.setMinWidth(100);
         communicationSource.setCellValueFactory(new PropertyValueFactory<>("sourceUsername"));
         TableColumn<Communication, Integer> communicationDestination = new TableColumn<>("Destination");
         communicationDestination.setMinWidth(100);
         communicationDestination.setCellValueFactory(new PropertyValueFactory<>("destinationUsername"));
-        TableColumn<Communication, Integer> communicationId = new TableColumn<>("ID");
-        communicationId.setMinWidth(100);
-        communicationId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Communication, Character> communicationStatus = new TableColumn<>("Status (Accepted / Rejected)");
-        communicationStatus.setMinWidth(200);
-        communicationStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        TableColumn<Communication, String> communicationStatus = new TableColumn<>("Status");
+        communicationStatus.setMinWidth(100);
+        communicationStatus.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Communication, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Communication, String> p ) {
+                return new ReadOnlyStringWrapper(p.getValue().getStatus() == 'a' ? "Accepted" : "Rejected");
+            }
+        });
         TableColumn<Communication, Character> communicationSourceMessage = new TableColumn<>("Your message");
         communicationSourceMessage.setMinWidth(200);
         communicationSourceMessage.setCellValueFactory(new PropertyValueFactory<>("sourceMessage"));
@@ -171,7 +182,7 @@ public class VolunteerPageController{
         TableColumn<Communication, Character> communicationDestinationContactMethods = new TableColumn<>("Volunteer's contact methods");
         communicationDestinationContactMethods.setMinWidth(200);
         communicationDestinationContactMethods.setCellValueFactory(new PropertyValueFactory<>("destinationContactMethods"));
-        historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationId, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
+        historyTable.getColumns().addAll(communicationType, communicationSource, communicationDestination, communicationStatus, communicationSourceMessage, communicationSourceContactMethods, communicationDestinationMessage, communicationDestinationContactMethods);
 
 
     }
