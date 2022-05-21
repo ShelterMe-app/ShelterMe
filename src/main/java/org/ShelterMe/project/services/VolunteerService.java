@@ -2,6 +2,7 @@ package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.AffectedItem;
+import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.model.VolunteerItem;
 import org.apache.commons.io.FileUtils;
@@ -32,16 +33,6 @@ public class VolunteerService {
                 .openOrCreate("test", "test");
 
         volunteerItemsRepository = database.getRepository(VolunteerItem.class);
-    }
-
-
-    public static VolunteerItem getVolunteerItems(String username) {
-        for (VolunteerItem item : volunteerItemsRepository.find()) {
-            if (Objects.equals(username, item.getUsername())) {
-                return item;
-            }
-        }
-        return null;
     }
 
     public static void addItem(String username, String name, String categories, String supplies, float quantity, String imageBase64) throws  EmptyFieldException{
@@ -162,13 +153,14 @@ public class VolunteerService {
         return null;
     }
 
-    public static List<VolunteerItem> databaseToRequestHistory(ArrayList<Integer> ids) {
-        Predicate<VolunteerItem> isId = volunteer -> ids.contains(volunteer.getId());
-        return volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
-    }
-
     public static void closeDatabase(){
         volunteerItemsRepository.close();
+    }
+
+    public static void resetDatabase() {
+        for (VolunteerItem item : volunteerItemsRepository.find()) {
+            volunteerItemsRepository.remove(item);
+        }
     }
 
 }

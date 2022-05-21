@@ -60,25 +60,6 @@ public class CommunicationService {
         return index;
     }
 
-    public static String imageToBase64(String filePath) throws IOException {
-        byte[] fileContent = FileUtils.readFileToByteArray(new File(filePath));
-        String encodedString = Base64
-                .getEncoder()
-                .encodeToString(fileContent);
-        return encodedString;
-    }
-
-    public static Image base64ToImage(String base64) throws IOException {
-        if (base64 == null)
-            return null;
-        byte[] decodedBytes = Base64
-                .getDecoder()
-                .decode(base64);
-        InputStream stream = new ByteArrayInputStream(decodedBytes);
-        Image recoveredImage = new Image(stream);
-        return recoveredImage;
-    }
-
     public static ArrayList<Integer> getSourceIDs(String destination) {
         ArrayList<Integer> ids = new ArrayList<>();
         for (Communication item : communicationRepository.find()) {
@@ -152,6 +133,12 @@ public class CommunicationService {
 
     public static void closeDatabase(){
         communicationRepository.close();
+    }
+
+    public static void resetDatabase() {
+        for (Communication com : communicationRepository.find()) {
+            communicationRepository.remove(com);
+        }
     }
 
 }

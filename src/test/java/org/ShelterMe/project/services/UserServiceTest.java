@@ -36,7 +36,7 @@ public class UserServiceTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-1";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();
@@ -81,6 +81,20 @@ public class UserServiceTest {
         assertThrows(FullNameFormatException.class, () -> {
             UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME_WORD, COUNTRY, PHONENUMBER, CODE);
         });
+
+        try {
+            UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME_WORD, COUNTRY, PHONENUMBER, CODE);
+        }catch(FullNameFormatException e) {
+            assertThat(e.getMessage()).isEqualTo("Error: The entered full name is not formatted correctly: Full name needs to contain at least 2 words");
+        } catch (UsernameAlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (EmptyFieldException e) {
+            e.printStackTrace();
+        } catch (WeakPasswordException e) {
+            e.printStackTrace();
+        } catch (PhoneNumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -89,6 +103,20 @@ public class UserServiceTest {
         assertThrows(PhoneNumberFormatException.class, () -> {
             UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME, COUNTRY, ROMANIA_WRONG_FORMAT_PHONE_NUMBER, CODE);
         });
+
+        try {
+            UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME, COUNTRY, ROMANIA_WRONG_FORMAT_PHONE_NUMBER, CODE);
+        }catch(PhoneNumberFormatException e) {
+            assertThat(e.getPhoneNumber()).isEqualTo(ROMANIA_WRONG_FORMAT_PHONE_NUMBER);
+        } catch(FullNameFormatException e) {
+            e.printStackTrace();
+        } catch (UsernameAlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (EmptyFieldException e) {
+            e.printStackTrace();
+        } catch (WeakPasswordException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -99,6 +127,19 @@ public class UserServiceTest {
             UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME, COUNTRY, PHONENUMBER, CODE);
             UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME, COUNTRY, PHONENUMBER, CODE);
         });
+        try {
+            UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME, COUNTRY, PHONENUMBER, CODE);
+        } catch(UsernameAlreadyExistsException e) {
+            assertThat(e.getUsername()).isEqualTo(USERNAME);
+        } catch(EmptyFieldException e) {
+            e.printStackTrace();
+        } catch (FullNameFormatException e) {
+            e.printStackTrace();
+        } catch (WeakPasswordException e) {
+            e.printStackTrace();
+        } catch (PhoneNumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -124,6 +165,18 @@ public class UserServiceTest {
             UserService.addUser(USERNAME, PASSWORD, ROLE, FULLNAME, COUNTRY, PHONENUMBER, CODE);
             UserService.verifyLogin(USERNAME, WEAK_PASSWORD);
         });
+
+        try {
+            UserService.verifyLogin(USERNAME, WEAK_PASSWORD);
+        } catch(IncorrectPasswordException e) {
+            assertThat(e.getUser()).isEqualTo(UserService.getUser(USERNAME));
+        } catch (EmptyFieldException e) {
+            e.printStackTrace();
+        } catch (UsernameDoesNotExistException e) {
+            e.printStackTrace();
+        } catch (LockedAccountException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

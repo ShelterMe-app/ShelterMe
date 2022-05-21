@@ -43,7 +43,7 @@ class AffectedServiceTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-2";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();
@@ -107,14 +107,6 @@ class AffectedServiceTest {
     }
 
     @Test
-    void databaseToListInbox() {
-    }
-
-    @Test
-    void getCounter() {
-    }
-
-    @Test
     @DisplayName("Image encryption and decryption works correctly")
     void testImageEncryptioDecryption() throws IOException {
         String b = AffectedService.imageToBase64("src\\test\\resources\\BackgroundImage.jpg");
@@ -125,10 +117,6 @@ class AffectedServiceTest {
         assertThat(image2).isNull();
 
 
-    }
-
-    @Test
-    void base64ToImage() {
     }
 
     @Test
