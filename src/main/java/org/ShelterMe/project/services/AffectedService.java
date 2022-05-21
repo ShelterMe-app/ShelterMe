@@ -32,9 +32,7 @@ public class AffectedService {
         Nitrite database = Nitrite.builder()
                 .filePath(FileSystemService.getPathToFile("affected-items.db").toFile())
                 .openOrCreate("test", "test");
-
         affectedItemsRepository = database.getRepository(AffectedItem.class);
-
     }
 
     public static void addItem(String username, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) throws  EmptyFieldException {

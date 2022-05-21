@@ -22,17 +22,17 @@
 
     <Label prefHeight="20.0" prefWidth="200.0" text="Username:" />
 
-    <TextField fx:id="usernameField" maxHeight="20.0" maxWidth="200.0" />
+    <TextField id="usernameField" fx:id="usernameField" maxHeight="20.0" maxWidth="200.0" />
 
     <Label prefHeight="20.0" prefWidth="200.0" text="Password:" textAlignment="RIGHT" />
 
-    <PasswordField fx:id="passwordField" maxHeight="20.0" maxWidth="200.0" />
+    <PasswordField id="passwordField" fx:id="passwordField" maxHeight="20.0" maxWidth="200.0" />
 
-    <Text fx:id="loginMessage" styleClass="text-id" textAlignment="CENTER" />
-    <Button fx:id="loginButton" onAction="#handleLoginAction" text="Login" />
+    <Text id = "loginMessage" fx:id="loginMessage" styleClass="text-id" textAlignment="CENTER" />
+    <Button id="loginButton" fx:id="loginButton" onAction="#handleLoginAction" text="Login" />
     <HBox alignment="center" spacing="10">
           <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-id" text="Don't have an account?" textAlignment="RIGHT" textOrigin="CENTER" wrappingWidth="200" />
-          <Hyperlink fx:id="registerPressed" alignment="CENTER_LEFT" onAction="#handleRegisterMenu" prefWidth="80.0" text="Sign up">
+          <Hyperlink id ="registerPressed" fx:id="registerPressed" alignment="CENTER_LEFT" onAction="#handleRegisterMenu" prefWidth="80.0" text="Sign up">
          <padding>
             <Insets left="5.0" top="2.0" />
          </padding></Hyperlink>

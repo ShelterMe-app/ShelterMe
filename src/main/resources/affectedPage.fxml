@@ -91,7 +91,7 @@
             </VBox>
          </top>
          <center>
-            <StackPane>
+            <StackPane id="stack">
 
 
                <VBox fx:id="homeTab" managed="false" visible="false">

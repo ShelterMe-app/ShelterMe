@@ -211,12 +211,14 @@ public class UserService {
 
     public static void closeDatabase(){
         userRepository.close();
+
     }
 
     public static void resetDatabase() {
         for (User user : userRepository.find()) {
             userRepository.remove(user);
         }
+
     }
 
 }

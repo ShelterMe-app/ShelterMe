@@ -30,31 +30,24 @@ import org.ShelterMe.project.model.AffectedItem;
 import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.services.UserService;
 
 import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.VolunteerService;
 import org.ShelterMe.project.services.CommunicationService;
 
 import org.ShelterMe.project.model.Communication;
+import org.jetbrains.annotations.NotNull;
 
 public class AffectedPageController{
     private Affected loggedInAffected;
-
     @FXML
     private Label signedInAsLabel;
     @FXML
     private JFXButton signOutButton;
     @FXML
-    private JFXButton requestsButton;
-    @FXML
     private JFXButton historyButton;
     @FXML
-    private  JFXButton homeButton;
-    @FXML
     private JFXButton offersButton;
-    @FXML
-    private BorderPane borderPane;
     @FXML
     private VBox homeTab;
     @FXML
@@ -74,8 +67,6 @@ public class AffectedPageController{
     @FXML
     private TableView historyTable;
     @FXML
-    private JFXButton viewVolunteerInfo;
-    @FXML
     private Label signedInAsLabel1;
     @FXML
     private Label signedInAsLabel11;
@@ -88,7 +79,7 @@ public class AffectedPageController{
 
     private Image historyImage;
 
-    public void setSignedInAs(Affected loggedInAffected) {
+    public void setSignedInAs(@NotNull Affected loggedInAffected) {
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
