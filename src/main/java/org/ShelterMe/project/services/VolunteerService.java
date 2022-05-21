@@ -167,4 +167,8 @@ public class VolunteerService {
         return volunteerItemsRepository.find().toList().stream().filter(isId).collect(Collectors.toList());
     }
 
+    public static void closeDatabase(){
+        volunteerItemsRepository.close();
+    }
+
 }

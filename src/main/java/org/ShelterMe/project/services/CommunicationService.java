@@ -150,4 +150,8 @@ public class CommunicationService {
         return communicationRepository.find().toList().stream().filter(user).collect(Collectors.toList());
     }
 
+    public static void closeDatabase(){
+        communicationRepository.close();
+    }
+
 }

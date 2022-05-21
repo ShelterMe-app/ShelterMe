@@ -37,15 +37,6 @@ public class AffectedService {
 
     }
 
-    public static AffectedItem getAffectedItems(String username) {
-        for (AffectedItem item : affectedItemsRepository.find()) {
-            if (Objects.equals(username, item.getUsername())) {
-                return item;
-            }
-        }
-        return null;
-    }
-
     public static void addItem(String username, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) throws  EmptyFieldException {
             checkItemEmptyFields(name, categories, supplies, generalInformation);
             affectedItemsRepository.insert(new AffectedItem(username, name, categories, supplies, quantity, generalInformation, healthCondition, imageBase64));
@@ -134,7 +125,6 @@ public class AffectedService {
         return recoveredImage;
     }
 
-
     public static String getRequestName(int id) {
         for (AffectedItem item:affectedItemsRepository.find())
             if(id == item.getId())
@@ -171,5 +161,15 @@ public class AffectedService {
                 return item;
         }
         return null;
+    }
+
+    public static void closeDatabase(){
+        affectedItemsRepository.close();
+    }
+
+    public static void resetDatabase() {
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            affectedItemsRepository.remove(item);
+        }
     }
 }

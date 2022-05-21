@@ -9,8 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.control.TextField;
 import javafx.css.PseudoClass;
 import javafx.stage.Stage;
-import org.ShelterMe.project.services.FileSystemService;
-import org.ShelterMe.project.services.UserService;
+import org.ShelterMe.project.services.*;
 
 import java.awt.*;
 import java.nio.file.Files;
@@ -22,7 +21,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         initDirectory();
         UserService.initDatabase();
-
+        VolunteerService.initVolunteerItemsDatabase();
+        AffectedService.initAffectedItemsDatabase();
+        CommunicationService.initCommunicationDatabase();
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         primaryStage.setTitle("ShelterMe");
         primaryStage.setScene(new Scene(root, 700, 500));
