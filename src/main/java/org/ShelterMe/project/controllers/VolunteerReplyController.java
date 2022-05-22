@@ -1,6 +1,7 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -35,6 +36,7 @@ public class VolunteerReplyController {
     private Button approveRequestButton;
     @FXML
     private Button rejectRequestButton;
+    private Alert alert;
 
     public void setRequestId(int requestId) {
         this.requestId = requestId;
@@ -74,7 +76,10 @@ public class VolunteerReplyController {
         UserService.updateUserInDatabase(destination);
         loggedInVolunteer.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInVolunteer);
-        JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request approved", "Successfully approved request", 1);
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully approved request");
+        alert.setHeaderText(AffectedService.getRequestName(requestId) + " request approved");
+        alert.showAndWait();
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
@@ -88,6 +93,10 @@ public class VolunteerReplyController {
         UserService.updateUserInDatabase(destination);
         loggedInVolunteer.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInVolunteer);
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully rejected request");
+        alert.setHeaderText(AffectedService.getRequestName(requestId) + " request rejected");
+        alert.showAndWait();
         JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request rejected", "Successfully rejected request", 1);
     }
 }

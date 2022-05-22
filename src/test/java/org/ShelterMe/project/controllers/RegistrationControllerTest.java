@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ApplicationExtension.class)
 @Category(TestFx.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class RegistrationControllerTest {
 
 
@@ -85,6 +86,7 @@ class RegistrationControllerTest {
     }
 
     @Test
+    @Order(1)
     void testRegisterSuccessVolunteer(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test Account");
@@ -106,6 +108,7 @@ class RegistrationControllerTest {
     }
 
     @Test
+    @Order(2)
     void testRegisterSuccessAffected(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test Account");
@@ -129,6 +132,7 @@ class RegistrationControllerTest {
 
 
     @Test
+    @Order(3)
     void testRegisterSuccessLogin(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test Account");
@@ -157,6 +161,7 @@ class RegistrationControllerTest {
     }
 
     @Test
+    @Order(4)
     void testRegisterFail(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test");
