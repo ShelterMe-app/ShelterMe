@@ -36,7 +36,7 @@
     <PasswordField fx:id="passwordField" maxHeight="20.0" maxWidth="200.0" />
    <Label prefHeight="20.0" prefWidth="200.0" text="Role" />
    <ChoiceBox fx:id="role" prefWidth="200.0" />
-    <Button onAction="#handleRegisterAction" text="Register" />
+    <Button fx:id = "registerButton" onAction="#handleRegisterAction" text="Register" />
    <Text fx:id="registrationMessage" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-id" textAlignment="CENTER" textOrigin="CENTER" translateY="10.0" wrappingWidth="520.7999863624573" />
     <HBox alignment="center" spacing="10" translateY="35.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-id" text="Already have an account?" textAlignment="CENTER" textOrigin="CENTER" wrappingWidth="208.79998636245728" />

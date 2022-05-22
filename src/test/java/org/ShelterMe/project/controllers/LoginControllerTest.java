@@ -2,7 +2,10 @@ package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.*;
@@ -23,7 +26,9 @@ import org.testfx.osgi.service.TestFx;
 import static org.hamcrest.CoreMatchers.*;
 import static org.testfx.matcher.control.TextMatchers.hasText;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.assertions.api.Assertions.assertThat;
@@ -37,6 +42,7 @@ class LoginControllerTest {
     public static final String CODE = "RO";
     private FXMLLoader loader;
     private FXMLLoader loaderDest1;
+    private Scene scene;
     public static final Volunteer logedInVolunteer = new Volunteer("SebiG", PASSWORD, "Volunteer", "Sebi Gabor", COUNTRY, PHONENUMBER);
 
     @BeforeAll
@@ -48,14 +54,27 @@ class LoginControllerTest {
         VolunteerService.initVolunteerItemsDatabase();
         AffectedService.initAffectedItemsDatabase();
         CommunicationService.initCommunicationDatabase();
+    }
+
+    @BeforeEach
+    void setUp() throws UsernameAlreadyExistsException, EmptyFieldException, FullNameFormatException, WeakPasswordException, PhoneNumberFormatException {
         UserService.addUser("SebiG", PASSWORD, "Volunteer", "Sebi Gabor", COUNTRY, PHONENUMBER, CODE);
         UserService.addUser("seb gab", PASSWORD, "Affected", "Seb Gab", COUNTRY, PHONENUMBER, CODE);
     }
+
+    @AfterEach
+    void tearDown() {
+        UserService.resetDatabase();
+        AffectedService.resetDatabase();
+        VolunteerService.resetDatabase();
+        CommunicationService.resetDatabase();
+    }
+
     @Start
     public void start (@NotNull Stage stage) throws Exception {
         loader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
         loaderDest1 = new FXMLLoader(getClass().getClassLoader().getResource("volunteerPage.fxml"));
-        stage.setScene(new Scene(loader.load()));
+        stage.setScene(scene = new Scene(loader.load()));
         stage.show();
         stage.toFront();
     }
@@ -68,26 +87,66 @@ class LoginControllerTest {
         CommunicationService.closeDatabase();
     }
 
-    @BeforeEach
-    public void setUp() {
-
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
-    void handleLoginAction(@NotNull FxRobot robot) {
+    void handleLoginActionSuccess(@NotNull FxRobot robot) {
         robot.clickOn("#usernameField");
         robot.write("SebiG");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
+        FxAssert.verifyThat(logedInVolunteer.getCurrentFailedAttempts(), is(0));
         robot.clickOn("#loginButton");
-        //FxAssert.verifyThat(logedInVolunteer.getCurrentFailedAttempts(), is(0));
     }
 
     @Test
-    void handleRegisterMenu() {
+    void handleLoginActionWrong(@NotNull FxRobot robot) {
+        robot.clickOn("#usernameField");
+        robot.write("SebiG");
+        robot.clickOn("#passwordField");
+        robot.write(PASSWORD + "1");
+        robot.clickOn("#loginButton");
+        Text loginMessage = (Text) scene.lookup("#loginMessage");
+        FxAssert.verifyThat(loginMessage.getText(), is("Incorrect password!"));
+    }
+
+    @Test
+    void handleLoginActionEmptyField(@NotNull FxRobot robot) {
+        Text loginMessage = (Text) scene.lookup("#loginMessage");
+        robot.clickOn("#loginButton");
+        FxAssert.verifyThat(loginMessage.getText(), is("Error: One of the fields is empty. Enter info for field: username"));
+        robot.clickOn("#usernameField");
+        robot.write("Sebi");
+        robot.clickOn("#loginButton");
+        FxAssert.verifyThat(loginMessage.getText(), is("Error: One of the fields is empty. Enter info for field: password"));
+        robot.clickOn("#passwordField");
+        robot.write(PASSWORD);
+        robot.clickOn("#loginButton");
+        FxAssert.verifyThat(loginMessage.getText(), is("Username Sebi does not exist! If you don't have an account, please sign up."));
+    }
+
+    @Test
+    void handleLoginActionLockout(@NotNull FxRobot robot) {
+        robot.clickOn("#usernameField");
+        robot.write("SebiG");
+        robot.clickOn("#passwordField");
+        robot.write(PASSWORD + "1");
+        robot.clickOn("#loginButton");
+        Text loginMessage = (Text) scene.lookup("#loginMessage");
+        FxAssert.verifyThat(loginMessage.getText(), is("Incorrect password!"));
+        robot.clickOn("#loginButton");
+        FxAssert.verifyThat(loginMessage.getText(), is("Incorrect password!"));
+        robot.clickOn("#loginButton");
+        FxAssert.verifyThat(loginMessage.getText(), is("Incorrect password!"));
+        robot.clickOn("#loginButton");
+        FxAssert.verifyThat(loginMessage.getText(), is("Incorrect password!"));
+        robot.clickOn("#loginButton");
+        FxAssert.verifyThat(loginMessage.getText(), containsString("You have exhausted all attempts. You can try again after:"));
+    }
+
+    @Test
+    void handleRegisterMenu(@NotNull FxRobot robot) throws InterruptedException {
+        robot.clickOn("#registerPressed");
+        Thread.sleep(1500);
+        Button b = robot.lookup("#registerButton").queryButton();
+        FxAssert.verifyThat(b.getText(),is("Register"));
     }
 }

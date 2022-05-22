@@ -30,7 +30,7 @@ class AffectedPageControllerTest {
     //private static AffectedPageController instance = new AffectedPageController();
     @BeforeAll
     public static void beforeAll() throws IOException, UsernameAlreadyExistsException, EmptyFieldException, FullNameFormatException, WeakPasswordException, PhoneNumberFormatException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-10";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-1000";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();
@@ -59,6 +59,8 @@ class AffectedPageControllerTest {
         instance.handleHomePage();
         FxAssert.verifyThat(robot.lookup("#stack").lookup("#homeTab").lookup("#welcomeMessage").queryText(), hasText("Welcome, Seb Gab"));
     }*/
+
+    /*
 
     @Test
     void handleSignOut() {
@@ -124,6 +126,7 @@ class AffectedPageControllerTest {
     void handleRemoveRequest() {
     }
 
+
     @Test
     void handleContactVolunteer() {
     }
@@ -151,4 +154,6 @@ class AffectedPageControllerTest {
     @Test
     void handleHistoryTableClick() {
     }
+
+     */
 }
