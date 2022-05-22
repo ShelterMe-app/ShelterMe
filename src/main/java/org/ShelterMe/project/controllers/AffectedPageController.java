@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,7 +26,6 @@ import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.model.AffectedItem;
 
-import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Affected;
 
@@ -391,7 +389,7 @@ public class AffectedPageController{
             int requestId = request.getId();
             AffectedService.removeItem(requestId);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succesfully removed request");
+            alert.setTitle("Successfully removed request");
             alert.setHeaderText("Selected request has been removed");
             alert.showAndWait();
             if (requestsTable != null)

@@ -38,7 +38,7 @@ public class UserServiceTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-1";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-7";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();

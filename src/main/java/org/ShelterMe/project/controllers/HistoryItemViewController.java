@@ -17,8 +17,6 @@ import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.VolunteerService;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class HistoryItemViewController {

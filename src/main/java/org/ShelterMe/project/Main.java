@@ -5,13 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.text.Font;
-import javafx.scene.control.TextField;
-import javafx.css.PseudoClass;
 import javafx.stage.Stage;
 import org.ShelterMe.project.services.*;
 
-import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -39,7 +35,7 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         launch(args);
     }
 }

@@ -6,19 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.ShelterMe.project.controllers.AffectedPageController;
-import org.ShelterMe.project.controllers.RegistrationController;
 
 import java.io.IOException;
 
 import org.ShelterMe.project.services.AffectedService;
-import org.ShelterMe.project.services.VolunteerService;
 
 public class Affected extends User {
 
     private int requestsNo;
-    private int offersNo;
     private boolean newRequest;
     private boolean newHistory;
     public Affected(@JsonProperty("username") String username,@JsonProperty("password") String password,@JsonProperty("role") String role,@JsonProperty("fullName") String fullName,@JsonProperty("country") String country,@JsonProperty("phoneNumber") String phoneNumber) {

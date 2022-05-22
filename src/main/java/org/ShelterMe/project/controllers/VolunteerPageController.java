@@ -381,7 +381,7 @@ public class VolunteerPageController{
         }
     }
 
-    public void handleRemoveOffer(javafx.event.ActionEvent event) throws IOException {
+    public void handleRemoveOffer(javafx.event.ActionEvent event) {
         if (offersTable.getSelectionModel().getSelectedItem() != null) {
             VolunteerItem offer = (VolunteerItem) offersTable.getSelectionModel().getSelectedItem();
             int offerId = offer.getId();

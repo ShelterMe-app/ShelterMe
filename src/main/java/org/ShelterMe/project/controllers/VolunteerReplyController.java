@@ -14,9 +14,6 @@ import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.UserService;
 
-import javax.swing.*;
-import java.awt.*;
-
 public class VolunteerReplyController {
 
     private Volunteer loggedInVolunteer;

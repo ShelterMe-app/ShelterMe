@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
@@ -37,14 +36,14 @@ import static org.testfx.matcher.control.TextMatchers.hasText;
 @ExtendWith(ApplicationExtension.class)
 @Category(TestFx.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class AffectedTest {
+class VolunteerTest {
     private final String PASSWORD = "TeST12345!!";
     private FXMLLoader loader;
     private Scene scene;
 
     @BeforeAll
     public static void beforeAll() throws IOException, UsernameAlreadyExistsException, EmptyFieldException, FullNameFormatException, WeakPasswordException, PhoneNumberFormatException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-3";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-10";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();
@@ -57,7 +56,7 @@ class AffectedTest {
     void setUp() throws UsernameAlreadyExistsException, EmptyFieldException, FullNameFormatException, WeakPasswordException, PhoneNumberFormatException, IOException {
         UserService.addUser("unit_test1", PASSWORD, "Affected", "Unit Test", "Romania", "712345678", "RO");
         UserService.addUser("unit_test2", PASSWORD, "Volunteer", "Unit Test", "Romania", "712345678", "RO");
-        AffectedService.addItem("unit_test1", "New Request", "Clean useful goods", "Something", 1, "General Information", "Health Condition", AffectedService.imageToBase64("src\\test\\resources\\BackgroundImage.jpg"));
+        VolunteerService.addItem("unit_test2", "New Offer", "Clean useful goods", "Something", 1,  VolunteerService.imageToBase64("src\\test\\resources\\BackgroundImage.jpg"));
     }
 
     @AfterEach
@@ -88,28 +87,28 @@ class AffectedTest {
     @Order(1)
     public void testHomePageMenu(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#usernameField");
-        robot.write("unit_test1");
+        robot.write("unit_test2");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
         Thread.sleep(2000);
         robot.clickOn("Home");
-        robot.clickOn("Requests");
-        robot.clickOn("Edit Request");
-        robot.type(KeyCode.ENTER);
-        robot.clickOn("Remove request");
-        robot.type(KeyCode.ENTER);
-        robot.clickOn("Show Request Image");
-        robot.type(KeyCode.ENTER);
         robot.clickOn("Offers");
-        robot.clickOn("Show Message");
+        robot.clickOn("Edit offer");
+        robot.type(KeyCode.ENTER);
+        robot.clickOn("Remove offer");
         robot.type(KeyCode.ENTER);
         robot.clickOn("Show Offer Image");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("Volunteers");
-        robot.clickOn("Contact Volunteer");
+        robot.clickOn("Requests");
+        robot.clickOn("Show Message");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("View Volunteer Info");
+        robot.clickOn("Show Request Image");
+        robot.type(KeyCode.ENTER);
+        robot.clickOn("Affected");
+        robot.clickOn("Contact Affected");
+        robot.type(KeyCode.ENTER);
+        robot.clickOn("View Affected Info");
         robot.type(KeyCode.ENTER);
         robot.clickOn("History");
         robot.clickOn("Show Item");
@@ -127,117 +126,110 @@ class AffectedTest {
 
     @Test
     @Order(2)
-    public void testRequestsPage(@NotNull FxRobot robot) throws InterruptedException, IOException {
+    public void testAddOffer(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#usernameField");
-        robot.write("unit_test1");
+        robot.write("unit_test2");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
         Thread.sleep(2000);
-        robot.clickOn("Requests");
-        robot.clickOn("New request");
-        robot.clickOn("#requestName");
-        robot.write("New Request");
-        robot.clickOn("#requestCategory");
+        robot.clickOn("Offers");
+        robot.clickOn("New offer");
+        robot.clickOn("#offerName");
+        robot.write("New Offer");
+        robot.clickOn("#offerCategory");
         robot.type(KeyCode.DOWN);
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestSupplies");
+        robot.clickOn("#offerSupplies");
         robot.write("Something");
-        robot.clickOn("#requestQuantity");
+        robot.clickOn("#offerQuantity");
         robot.write("1");
-        robot.clickOn("#generalInformation");
-        robot.write("General Information");
-        robot.clickOn("#healthCondition");
-        robot.write("Health Condition");
-        robot.clickOn("Add request");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        Button b = robot.lookup("#addRequestButton").queryButton();
+
+
+        Button b = robot.lookup("#addOfferButton").queryButton();
         Stage stage = (Stage) b.getScene().getWindow();
         Platform.runLater(
                 () -> {
                     stage.close();
                 }
         );
+
         robot.clickOn("Home");
-        FxAssert.verifyThat(AffectedService.getCounter(), is(2));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getUsername(), is("unit_test1"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getName(), is("New Request"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getSupplies(), is("Something"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getQuantity(), is(1.0F));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getGeneralInformation(), is("General Information"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getHealthCondition(), is("Health Condition"));
-        robot.clickOn("Requests");
-        TableView requestsTab = robot.lookup("#requestsTable").queryTableView();
+        FxAssert.verifyThat(VolunteerService.getCounter(), is(2));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getUsername(), is("unit_test2"));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getName(), is("New Offer"));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getSupplies(), is("Something"));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getQuantity(), is(1.0F));
+        robot.clickOn("Offers");
+        TableView offersTab = robot.lookup("#offersTable").queryTableView();
         Platform.runLater(
                 () -> {
-                    requestsTab.getSelectionModel().select(0);
+                    offersTab.getSelectionModel().select(0);
                 }
         );
-        robot.clickOn("#requestsTable");
-        robot.clickOn("Show Request Image");
-        ImageView i = (ImageView) robot.lookup("#requestImage").query();
+        robot.clickOn("#offersTable");
+        robot.clickOn("Show Offer Image");
+        ImageView i = (ImageView) robot.lookup("#offerImage").query();
         Stage imageStage = (Stage) i.getScene().getWindow();
         Platform.runLater(
                 () -> {
                     imageStage.close();
                 }
         );
-        robot.clickOn("#requestsTable");
-        robot.clickOn("Edit Request");
-        robot.clickOn("#requestName");
+        robot.clickOn("#offersTable");
+        robot.clickOn("Edit offer");
+        robot.clickOn("#offerName");
         robot.write("1");
-        robot.clickOn("#requestCategory");
+        robot.clickOn("#offerCategory");
         robot.type(KeyCode.DOWN);
         robot.type(KeyCode.DOWN);
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestSupplies");
+        robot.clickOn("#offerSupplies");
         robot.write("1");
-        robot.clickOn("#requestQuantity");
+        robot.clickOn("#offerQuantity");
         robot.write("a");
-        robot.clickOn("Edit request");
+        robot.clickOn("Edit offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestQuantity");
+        robot.clickOn("#offerQuantity");
         robot.type(KeyCode.BACK_SPACE);
-        robot.write("1");
-        robot.clickOn("#generalInformation");
-        robot.write("1");
-        robot.clickOn("#healthCondition");
         robot.write("1");
         robot.clickOn("#removeCurrentImage");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#addRequestButton");
-        robot.type(KeyCode.ENTER);
-        Button b1 = robot.lookup("#addRequestButton").queryButton();
-        Stage stage1 = (Stage) b1.getScene().getWindow();
-        Platform.runLater(
-                () -> {
-                    stage1.close();
-                }
-        );
-        FxAssert.verifyThat(AffectedService.getCounter(), is(2));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getUsername(), is("unit_test1"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getName(), is("New Request1"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getSupplies(), is("Something1"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getQuantity(), is(1.01F));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getGeneralInformation(), is("General Information1"));
-        FxAssert.verifyThat(AffectedService.getItemWithId(1).getHealthCondition(), is("Health Condition1"));
-        Platform.runLater(
-                () -> {
-                    requestsTab.getSelectionModel().select(0);
-                }
-        );
-        robot.clickOn("Remove request");
+        robot.clickOn("#addOfferButton");
         robot.type(KeyCode.ENTER);
 
-        robot.clickOn("Volunteers");
-        TableView volunteersTab = robot.lookup("#volunteersTable").queryTableView();
+        Button b2 = robot.lookup("#addOfferButton").queryButton();
+        Stage stage2 = (Stage) b2.getScene().getWindow();
         Platform.runLater(
                 () -> {
-                    volunteersTab.getSelectionModel().select(0);
+                    stage2.close();
                 }
         );
-        robot.clickOn("#volunteersTable");
-        robot.clickOn("Contact Volunteer");
+        FxAssert.verifyThat(VolunteerService.getCounter(), is(2));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getUsername(), is("unit_test2"));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getName(), is("New Offer1"));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getSupplies(), is("Something1"));
+        FxAssert.verifyThat(VolunteerService.getItemWithId(1).getQuantity(), is(1.01F));
+
+        Platform.runLater(
+                () -> {
+                    offersTab.getSelectionModel().select(0);
+                }
+        );
+        robot.clickOn("Remove offer");
+        robot.type(KeyCode.ENTER);
+
+        robot.clickOn("Affected");
+        TableView affectedTab = robot.lookup("#affectedTable").queryTableView();
+        Platform.runLater(
+                () -> {
+                    affectedTab.getSelectionModel().select(0);
+                }
+        );
+        robot.clickOn("#affectedTable");
+        robot.clickOn("Contact Affected");
         robot.clickOn("#contactMethods");
         robot.write("contact");
         robot.clickOn("#message");
@@ -265,63 +257,53 @@ class AffectedTest {
 
     @Test
     @Order(3)
-    public void testVolunteerContact(@NotNull FxRobot robot) throws InterruptedException {
+    public void testAffectedContact(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#usernameField");
-        robot.write("unit_test1");
+        robot.write("unit_test2");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
         Thread.sleep(2000);
-        robot.clickOn("Requests");
-        robot.clickOn("New request");
-        robot.clickOn("#requestName");
+        robot.clickOn("Offers");
+        robot.clickOn("New offer");
+        robot.clickOn("#offerName");
         robot.write("");
-        robot.clickOn("Add request");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestName");
-        robot.write("New Request");
-        robot.clickOn("#requestCategory");
-        robot.clickOn("Add request");
+        robot.clickOn("#offerName");
+        robot.write("New Offer");
+        robot.clickOn("#offerCategory");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestCategory");
+        robot.clickOn("#offerCategory");
         robot.type(KeyCode.DOWN);
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestSupplies");
+        robot.clickOn("#offerSupplies");
         robot.write("");
-        robot.clickOn("Add request");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestSupplies");
+        robot.clickOn("#offerSupplies");
         robot.write("Something");
-        robot.clickOn("#requestQuantity");
+        robot.clickOn("#offerQuantity");
         robot.write("");
-        robot.clickOn("Add request");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestQuantity");
+        robot.clickOn("#offerQuantity");
         robot.write("a");
-        robot.clickOn("Add request");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestQuantity");
+        robot.clickOn("#offerQuantity");
         robot.type(KeyCode.BACK_SPACE);
         robot.write("-1");
-        robot.clickOn("Add request");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#requestQuantity");
+        robot.clickOn("#offerQuantity");
         robot.type(KeyCode.BACK_SPACE);
         robot.type(KeyCode.BACK_SPACE);
         robot.write("1");
-        robot.clickOn("Add request");
+        robot.clickOn("Add offer");
         robot.type(KeyCode.ENTER);
-        robot.clickOn("#generalInformation");
-        robot.write("");
-        robot.clickOn("Add request");
-        robot.type(KeyCode.ENTER);
-        robot.clickOn("#generalInformation");
-        robot.write("General Information");
-        robot.clickOn("#healthCondition");
-        robot.write("Health Condition");
-        robot.clickOn("Add request");
-        robot.type(KeyCode.ENTER);
-        Button b = robot.lookup("#addRequestButton").queryButton();
+        Button b = robot.lookup("#addOfferButton").queryButton();
         Stage stage = (Stage) b.getScene().getWindow();
         Platform.runLater(
                 () -> {
@@ -329,27 +311,27 @@ class AffectedTest {
                 }
         );
 
-        robot.clickOn("Volunteers");
-        TableView volunteersTab = robot.lookup("#volunteersTable").queryTableView();
+        robot.clickOn("Affected");
+        TableView affectedTab = robot.lookup("#affectedTable").queryTableView();
         Platform.runLater(
                 () -> {
-                    volunteersTab.getSelectionModel().select(0);
+                    affectedTab.getSelectionModel().select(0);
                 }
         );
-        robot.clickOn("#volunteersTable");
-        robot.clickOn("View Volunteer Info");
-        TableView volunteerOffersTable = robot.lookup("#volunteerOffersTable").queryTableView();
-        Stage stageOffersTable = (Stage) volunteerOffersTable.getScene().getWindow();
+        robot.clickOn("#affectedTable");
+        robot.clickOn("View Affected Info");
+        TableView volunteerOffersTable = robot.lookup("#affectedRequestsTable").queryTableView();
+        Stage stageRequestsTable = (Stage) volunteerOffersTable.getScene().getWindow();
         Platform.runLater(
                 () -> {
-                    stageOffersTable.close();
+                    stageRequestsTable.close();
                 }
         );
-        robot.clickOn("Contact Volunteer");
-        TableView contactRequestsView = robot.lookup("#contactRequestsView").queryTableView();
+        robot.clickOn("Contact Affected");
+        TableView contactOffersView = robot.lookup("#contactOffersView").queryTableView();
         Platform.runLater(
                 () -> {
-                    contactRequestsView.getSelectionModel().select(0);
+                    contactOffersView.getSelectionModel().select(0);
                 }
         );
         robot.clickOn("#contactMethods");
@@ -360,30 +342,30 @@ class AffectedTest {
         robot.type(KeyCode.ENTER);
         robot.clickOn("Sign Out");
         robot.clickOn("#usernameField");
-        robot.write("unit_test2");
+        robot.write("unit_test1");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
         Thread.sleep(2000);
-        robot.clickOn("Requests (new)");
-        TableView requestsInboxTable = robot.lookup("#requestsInboxTable").queryTableView();
+        robot.clickOn("Offers (new)");
+        TableView offersInboxTable = robot.lookup("#offersInboxTable").queryTableView();
         Platform.runLater(
                 () -> {
-                    requestsInboxTable.getSelectionModel().select(0);
+                    offersInboxTable.getSelectionModel().select(0);
                 }
         );
-        robot.clickOn("#requestsInboxTable");
+        robot.clickOn("#offersInboxTable");
         robot.type(KeyCode.ENTER);
         robot.clickOn("Show Message");
-        robot.clickOn("#volunteerReplyMessage");
+        robot.clickOn("#affectedReplyMessage");
         robot.write("message");
-        robot.clickOn("#volunteerContactInfo");
+        robot.clickOn("#affectedContactInfo");
         robot.write("info");
         robot.clickOn("Approve");
         robot.type(KeyCode.ENTER);
         robot.clickOn("Sign Out");
         robot.clickOn("#usernameField");
-        robot.write("unit_test1");
+        robot.write("unit_test2");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
@@ -425,31 +407,31 @@ class AffectedTest {
 
     @Test
     @Order(4)
-    public void testVolunteerContactReject(@NotNull FxRobot robot) throws InterruptedException {
+    public void testAffectedContactReject(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#usernameField");
-        robot.write("unit_test1");
+        robot.write("unit_test2");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
         Thread.sleep(2000);
-        robot.clickOn("Volunteers");
-        TableView volunteersTab = robot.lookup("#volunteersTable").queryTableView();
+        robot.clickOn("Affected");
+        TableView affectedTab = robot.lookup("#affectedTable").queryTableView();
         Platform.runLater(
                 () -> {
-                    volunteersTab.getSelectionModel().select(0);
+                    affectedTab.getSelectionModel().select(0);
                 }
         );
-        robot.clickOn("#volunteersTable");
-        robot.clickOn("View Volunteer Info");
-        TableView volunteerOffersTable = robot.lookup("#volunteerOffersTable").queryTableView();
-        Stage stageOffersTable = (Stage) volunteerOffersTable.getScene().getWindow();
+        robot.clickOn("#affectedTable");
+        robot.clickOn("View Affected Info");
+        TableView affectedRequestsTable = robot.lookup("#affectedRequestsTable").queryTableView();
+        Stage stageOffersTable = (Stage) affectedRequestsTable.getScene().getWindow();
         Platform.runLater(
                 () -> {
                     stageOffersTable.close();
                 }
         );
-        robot.clickOn("Contact Volunteer");
-        TableView contactRequestsView = robot.lookup("#contactRequestsView").queryTableView();
+        robot.clickOn("Contact Affected");
+        TableView contactRequestsView = robot.lookup("#contactOffersView").queryTableView();
         Platform.runLater(
                 () -> {
                     contactRequestsView.getSelectionModel().select(0);
@@ -463,30 +445,30 @@ class AffectedTest {
         robot.type(KeyCode.ENTER);
         robot.clickOn("Sign Out");
         robot.clickOn("#usernameField");
-        robot.write("unit_test2");
+        robot.write("unit_test1");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
         Thread.sleep(2000);
-        robot.clickOn("Requests (new)");
-        TableView requestsInboxTable = robot.lookup("#requestsInboxTable").queryTableView();
+        robot.clickOn("Offers (new)");
+        TableView offersInboxTable = robot.lookup("#offersInboxTable").queryTableView();
         Platform.runLater(
                 () -> {
-                    requestsInboxTable.getSelectionModel().select(0);
+                    offersInboxTable.getSelectionModel().select(0);
                 }
         );
-        robot.clickOn("#requestsInboxTable");
+        robot.clickOn("#offersInboxTable");
         robot.type(KeyCode.ENTER);
         robot.clickOn("Show Message");
-        robot.clickOn("#volunteerReplyMessage");
+        robot.clickOn("#affectedReplyMessage");
         robot.write("message");
-        robot.clickOn("#volunteerContactInfo");
+        robot.clickOn("#affectedContactInfo");
         robot.write("info");
         robot.clickOn("Reject");
         robot.type(KeyCode.ENTER);
         robot.clickOn("Sign Out");
         robot.clickOn("#usernameField");
-        robot.write("unit_test1");
+        robot.write("unit_test2");
         robot.clickOn("#passwordField");
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
@@ -525,5 +507,4 @@ class AffectedTest {
                 }
         );
     }
-
 }

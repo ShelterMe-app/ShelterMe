@@ -9,23 +9,16 @@ import org.ShelterMe.project.exceptions.EmptyFieldException;
 import org.ShelterMe.project.exceptions.QuantityFormatException;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.VolunteerService;
-import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.swing.*;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-import java.util.Base64;
-import org.apache.commons.io.IOUtils;
-import java.io.InputStream;
 
 public class OfferMenuController {
 
@@ -119,7 +112,7 @@ public class OfferMenuController {
         setRemoveCurrentImageStatus(false);
     }
 
-    public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
+    public void handleAddOfferAction(javafx.event.ActionEvent event) {
             if (addOfferButton.getText().equals("Edit Offer")) {
                 try {
                     if (Float.valueOf(offerQuantity.getText()) <= 0)

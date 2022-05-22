@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.VolunteerService;
 
-import javax.swing.*;
 import org.ShelterMe.project.services.UserService;
 
 public class AffectedReplyController {

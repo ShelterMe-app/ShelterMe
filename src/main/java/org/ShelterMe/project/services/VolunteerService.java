@@ -1,9 +1,6 @@
 package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.exceptions.*;
-import org.ShelterMe.project.model.AffectedItem;
-import org.ShelterMe.project.model.Communication;
-import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.model.VolunteerItem;
 import org.apache.commons.io.FileUtils;
 import org.dizitart.no2.Nitrite;
@@ -101,7 +98,7 @@ public class VolunteerService {
         return encodedString;
     }
 
-    public static Image base64ToImage(String base64) throws IOException {
+    public static Image base64ToImage(String base64) {
         if (base64 == null)
             return null;
         byte[] decodedBytes = Base64

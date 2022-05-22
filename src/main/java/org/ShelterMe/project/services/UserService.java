@@ -114,15 +114,15 @@ public class UserService {
             }
         }
 
-        if (minimum == false)
+        if (!minimum)
             throw new WeakPasswordException("Password must have at least 8 characters");
-        else if (hasUpper == false)
+        else if (!hasUpper)
             throw new WeakPasswordException("Password must contain at least an upper character");
-        else if (hasLower == false)
+        else if (!hasLower)
             throw new WeakPasswordException("Password must contain at least a lower character");
-        else if (hasDigit == false)
+        else if (!hasDigit)
             throw new WeakPasswordException("Password must contain at least one digit");
-        else if (hasSpecial == false)
+        else if (!hasSpecial)
             throw new WeakPasswordException("Password must contain at least a special character");
 
 

@@ -14,8 +14,6 @@ import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
 
-import javax.swing.*;
-
 public class VolunteerContactController {
     Affected loggedInAffected;
     Volunteer toBeContacted;

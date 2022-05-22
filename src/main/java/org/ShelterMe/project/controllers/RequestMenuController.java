@@ -7,27 +7,18 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import org.ShelterMe.project.exceptions.QuantityFormatException;
 import org.ShelterMe.project.services.AffectedService;
-import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.ShelterMe.project.exceptions.EmptyFieldException;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.ShelterMe.project.model.Affected;
-
-import java.util.Base64;
-import org.apache.commons.io.IOUtils;
-import java.io.InputStream;
 
 public class RequestMenuController {
 
@@ -117,7 +108,7 @@ public class RequestMenuController {
         }
     }
 
-    public void handleRemoveImageAction(javafx.event.ActionEvent event) throws IOException {
+    public void handleRemoveImageAction(javafx.event.ActionEvent event) {
         base64Image = null;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Success");
@@ -126,7 +117,7 @@ public class RequestMenuController {
         setRemoveCurrentImageStatus(false);
     }
 
-    public void handleAddRequestAction(javafx.event.ActionEvent event) throws IOException {
+    public void handleAddRequestAction(javafx.event.ActionEvent event) {
         if (addRequestButton.getText().equals("Edit request")) {
            try {
                if (Float.valueOf(requestQuantity.getText()) <= 0)
@@ -134,7 +125,7 @@ public class RequestMenuController {
                AffectedService.editItem(requestId, requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                alert.setTitle("Success");
-               alert.setHeaderText("Request updated succesfully");
+               alert.setHeaderText("Request updated successfully");
                alert.showAndWait();
                if (requestsTable != null)
                    requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
@@ -160,7 +151,7 @@ public class RequestMenuController {
             AffectedService.addItem(loggedInAffected.getUsername(), requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Success");
-            alert.setHeaderText("Request created succesfully");
+            alert.setHeaderText("Request created successfully");
             alert.showAndWait();
             if (requestsTable != null)
                 requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));

@@ -4,13 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import org.ShelterMe.project.model.AffectedItem;
 import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.services.UserService;
 import org.ShelterMe.project.services.AffectedService;
 
 public class ViewAffectedRequestsController {

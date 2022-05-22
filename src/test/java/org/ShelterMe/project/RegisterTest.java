@@ -44,7 +44,7 @@ class RegisterTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, UsernameAlreadyExistsException, EmptyFieldException, FullNameFormatException, WeakPasswordException, PhoneNumberFormatException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-5";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-6";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();

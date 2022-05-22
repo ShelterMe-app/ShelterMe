@@ -51,7 +51,7 @@ class CommunicationServiceTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-3";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-4";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();

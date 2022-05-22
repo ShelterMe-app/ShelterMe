@@ -40,7 +40,7 @@ class VolunteerServiceTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-4";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-9";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();

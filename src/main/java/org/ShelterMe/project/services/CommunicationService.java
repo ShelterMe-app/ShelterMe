@@ -1,26 +1,15 @@
 package org.ShelterMe.project.services;
 
-import javafx.scene.image.Image;
 import org.ShelterMe.project.exceptions.CommunicationExistsException;
 import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.User;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.model.Affected;
-import org.apache.commons.io.FileUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
-import javafx.scene.image.Image;
-import org.ShelterMe.project.model.*;
-import org.apache.commons.io.FileUtils;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
