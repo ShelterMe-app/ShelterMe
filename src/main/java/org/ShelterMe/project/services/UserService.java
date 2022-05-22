@@ -31,9 +31,7 @@ public class UserService {
 
         userRepository = database.getRepository(User.class);
 
-        VolunteerService.initVolunteerItemsDatabase();
-        AffectedService.initAffectedItemsDatabase();
-        CommunicationService.initCommunicationDatabase();
+
     }
 
     public static void addUser(String username, String password, String role, String fullName, String country, String phoneNumber, String code) throws UsernameAlreadyExistsException, EmptyFieldException, PhoneNumberFormatException, WeakPasswordException, FullNameFormatException {
@@ -47,7 +45,11 @@ public class UserService {
         else userRepository.insert(new Volunteer(username, encodePassword(username, password), role, fullName, country, phoneNumber));
     }
 
-    private static void checkEmptyFields(String username, String password, String role, String fullName, String country, String phoneNumber) throws EmptyFieldException {
+    public static List<User> getAllUsers() {
+        return userRepository.find().toList();
+    }
+
+    public static void checkEmptyFields(String username, String password, String role, String fullName, String country, String phoneNumber) throws EmptyFieldException {
 
         if (fullName.length() == 0)
             throw new EmptyFieldException("full name");
@@ -70,7 +72,7 @@ public class UserService {
         }
     }
 
-    private static String checkPhoneNumberFormat(String phoneNumber, String country, String code) throws PhoneNumberFormatException {
+    public static String checkPhoneNumberFormat(String phoneNumber, String country, String code) throws PhoneNumberFormatException {
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         try {
             PhoneNumber phoneNumberProto = phoneUtil.parse(phoneNumber, code);
@@ -90,7 +92,7 @@ public class UserService {
         return WordUtils.capitalizeFully(StringUtils.lowerCase(StringUtils.normalizeSpace(FullName)));
     }
 
-    private static void checkPassword(String password) throws WeakPasswordException {
+    public static void checkPassword(String password) throws WeakPasswordException {
         boolean hasUpper = false;
         boolean hasLower = false;
         boolean hasSpecial = false;
@@ -112,21 +114,21 @@ public class UserService {
             }
         }
 
-        if (minimum == false)
+        if (!minimum)
             throw new WeakPasswordException("Password must have at least 8 characters");
-        else if (hasUpper == false)
+        else if (!hasUpper)
             throw new WeakPasswordException("Password must contain at least an upper character");
-        else if (hasLower == false)
+        else if (!hasLower)
             throw new WeakPasswordException("Password must contain at least a lower character");
-        else if (hasDigit == false)
+        else if (!hasDigit)
             throw new WeakPasswordException("Password must contain at least one digit");
-        else if (hasSpecial == false)
+        else if (!hasSpecial)
             throw new WeakPasswordException("Password must contain at least a special character");
 
 
     }
 
-    private static String encodePassword(String salt, String password) {
+    public static String encodePassword(String salt, String password) {
         MessageDigest md = getMessageDigest();
         md.update(salt.getBytes(StandardCharsets.UTF_8));
 
@@ -147,7 +149,7 @@ public class UserService {
         return md;
     }
 
-    private static void checkLoginEmptyFields(String username, String password) throws EmptyFieldException {
+    public static void checkLoginEmptyFields(String username, String password) throws EmptyFieldException {
         if(username.length() == 0)
             throw new EmptyFieldException("username");
         if(password.length() == 0)
@@ -206,4 +208,17 @@ public class UserService {
         Predicate<User> availableAffected = affected -> affected.getCountry().equals(country) && affected.getRole().equals("Affected");
         return userRepository.find().toList().stream().filter(availableAffected).collect(Collectors.toList());
     }
+
+    public static void closeDatabase(){
+        userRepository.close();
+
+    }
+
+    public static void resetDatabase() {
+        for (User user : userRepository.find()) {
+            userRepository.remove(user);
+        }
+
+    }
+
 }

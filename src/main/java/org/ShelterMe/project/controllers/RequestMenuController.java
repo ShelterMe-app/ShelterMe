@@ -7,27 +7,18 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import org.ShelterMe.project.exceptions.QuantityFormatException;
 import org.ShelterMe.project.services.AffectedService;
-import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.ShelterMe.project.exceptions.EmptyFieldException;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.ShelterMe.project.model.Affected;
-
-import java.util.Base64;
-import org.apache.commons.io.IOUtils;
-import java.io.InputStream;
 
 public class RequestMenuController {
 
@@ -108,47 +99,77 @@ public class RequestMenuController {
         if (selectedFile != null) {
             selectedImage = new Image(selectedFile.getPath());
             base64Image = AffectedService.imageToBase64(selectedFile.getPath());
-            JOptionPane.showMessageDialog(null, "File has been selected: " + selectedFile.getName(), "Success", 1);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("File has been selected: " + selectedFile.getName());
+            alert.showAndWait();
             requestImage.setText(selectedFile.getName());
 
         }
     }
 
-    public void handleRemoveImageAction(javafx.event.ActionEvent event) throws IOException {
+    public void handleRemoveImageAction(javafx.event.ActionEvent event) {
         base64Image = null;
-        JOptionPane.showMessageDialog(null, "Image has been removed", "Success", 1);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Image has been removed");
+        alert.showAndWait();
         setRemoveCurrentImageStatus(false);
     }
 
-    public void handleAddRequestAction(javafx.event.ActionEvent event) throws IOException {
+    public void handleAddRequestAction(javafx.event.ActionEvent event) {
         if (addRequestButton.getText().equals("Edit request")) {
            try {
                if (Float.valueOf(requestQuantity.getText()) <= 0)
                    throw new QuantityFormatException();
                AffectedService.editItem(requestId, requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
-               JOptionPane.showMessageDialog(null, "Request updated succesfully", "Success", 1);
+               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+               alert.setTitle("Success");
+               alert.setHeaderText("Request updated successfully");
+               alert.showAndWait();
                if (requestsTable != null)
                    requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
            }catch(EmptyFieldException e) {
-               JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Error");
+               alert.setHeaderText(e.getMessage());
+               alert.showAndWait();
            } catch(NumberFormatException e) {
-               JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setHeaderText("Quantity must be a number!");
+               alert.showAndWait();
            } catch(QuantityFormatException e) {
-               JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.WARNING_MESSAGE);
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setHeaderText(e.getMessage());
+               alert.showAndWait();
            }
         } else { try {
             if (Float.valueOf(requestQuantity.getText()) <= 0)
                 throw new QuantityFormatException();
             AffectedService.addItem(loggedInAffected.getUsername(), requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
-            JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Request created successfully");
+            alert.showAndWait();
             if (requestsTable != null)
                 requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
         }catch(EmptyFieldException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
         } catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Quantity must be a number!");
+            alert.showAndWait();
         } catch(QuantityFormatException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.WARNING_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
         }
 
         }

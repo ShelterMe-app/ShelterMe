@@ -9,23 +9,16 @@ import org.ShelterMe.project.exceptions.EmptyFieldException;
 import org.ShelterMe.project.exceptions.QuantityFormatException;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.VolunteerService;
-import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.swing.*;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-import java.util.Base64;
-import org.apache.commons.io.IOUtils;
-import java.io.InputStream;
 
 public class OfferMenuController {
 
@@ -56,6 +49,7 @@ public class OfferMenuController {
     private static ArrayList<String> categoryItems = new ArrayList<>();
 
     private int offerId;
+    private Alert alert;
 
     public void setLoggedInVolunteer(Volunteer signedInVolunteer) {
         this.loggedInVolunteer = signedInVolunteer;
@@ -101,48 +95,77 @@ public class OfferMenuController {
         if (selectedFile != null) {
             selectedImage = new Image(selectedFile.getPath());
             base64Image = VolunteerService.imageToBase64(selectedFile.getPath());
-            JOptionPane.showMessageDialog(null, "File has been selected: " + selectedFile.getName(), "Success", 1);
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("File has been selected: " + selectedFile.getName());
+            alert.showAndWait();
             offerImage.setText(selectedFile.getName());
-
         }
     }
 
     public void handleRemoveImageAction(javafx.event.ActionEvent event) throws IOException {
         base64Image = null;
-        JOptionPane.showMessageDialog(null, "Image has been removed", "Success", 1);
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Image has been removed");
+        alert.showAndWait();
         setRemoveCurrentImageStatus(false);
     }
 
-    public void handleAddOfferAction(javafx.event.ActionEvent event) throws IOException {
+    public void handleAddOfferAction(javafx.event.ActionEvent event) {
             if (addOfferButton.getText().equals("Edit Offer")) {
                 try {
                     if (Float.valueOf(offerQuantity.getText()) <= 0)
                         throw new QuantityFormatException();
                     VolunteerService.editItem(offerId, offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
-                    JOptionPane.showMessageDialog(null, "Offer updated successfully", "Success", 1);
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText("Offer updated successfully");
+                    alert.showAndWait();
                     if (offerTable != null)
                         offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
                 } catch (EmptyFieldException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.showAndWait();
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error", JOptionPane.WARNING_MESSAGE);
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Quantity must be a number!");
+                    alert.showAndWait();
                 } catch (QuantityFormatException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.showAndWait();
                 }
             } else {
                 try {
                     if (Float.valueOf(offerQuantity.getText()) <= 0)
                         throw new QuantityFormatException();
                     VolunteerService.addItem(loggedInVolunteer.getUsername(), offerName.getText(), (String) offerCategory.getValue(), offerSupplies.getText(), Float.valueOf(offerQuantity.getText()), base64Image);
-                    JOptionPane.showMessageDialog(null, "Offer created successfully", "Success", 1);
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Success");
+                    alert.setHeaderText("Offer created successfully");
+                    alert.showAndWait();
                     if (offerTable != null)
                         offerTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
                 } catch (EmptyFieldException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.showAndWait();
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error", JOptionPane.WARNING_MESSAGE);
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Quantity must be a number!");
+                    alert.showAndWait();
                 } catch (QuantityFormatException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(e.getMessage());
+                    alert.showAndWait();
                 }
             }
         }

@@ -14,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,34 +26,26 @@ import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.model.AffectedItem;
 
-import javax.swing.JOptionPane;
 
 import org.ShelterMe.project.model.Affected;
-import org.ShelterMe.project.services.UserService;
 
 import org.ShelterMe.project.model.VolunteerItem;
 import org.ShelterMe.project.services.VolunteerService;
 import org.ShelterMe.project.services.CommunicationService;
 
 import org.ShelterMe.project.model.Communication;
+import org.jetbrains.annotations.NotNull;
 
 public class AffectedPageController{
     private Affected loggedInAffected;
-
     @FXML
     private Label signedInAsLabel;
     @FXML
     private JFXButton signOutButton;
     @FXML
-    private JFXButton requestsButton;
-    @FXML
     private JFXButton historyButton;
     @FXML
-    private  JFXButton homeButton;
-    @FXML
     private JFXButton offersButton;
-    @FXML
-    private BorderPane borderPane;
     @FXML
     private VBox homeTab;
     @FXML
@@ -74,8 +65,6 @@ public class AffectedPageController{
     @FXML
     private TableView historyTable;
     @FXML
-    private JFXButton viewVolunteerInfo;
-    @FXML
     private Label signedInAsLabel1;
     @FXML
     private Label signedInAsLabel11;
@@ -88,7 +77,7 @@ public class AffectedPageController{
 
     private Image historyImage;
 
-    public void setSignedInAs(Affected loggedInAffected) {
+    public void setSignedInAs(@NotNull Affected loggedInAffected) {
         this.loggedInAffected = loggedInAffected;
         signedInAsLabel.setText("Welcome, " + loggedInAffected.getFullName() + "!");
         requestsTable.setItems(getRequests(loggedInAffected.getUsername()));
@@ -332,7 +321,10 @@ public class AffectedPageController{
 
     public void handleRequestImage(javafx.event.ActionEvent event) throws IOException {
         if (requestImage == null) {
-            JOptionPane.showMessageDialog(null, "This request has no image", "Failed to open image", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("This request has no image");
+            alert.showAndWait();
             return;
         }
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("requestImageDialog.fxml"));
@@ -384,7 +376,10 @@ public class AffectedPageController{
             newStage.setResizable(false);
             requestImage = null;
         } else {
-            JOptionPane.showMessageDialog(null, "Select a request in order to edit", "Failed to edit request", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to edit request");
+            alert.setHeaderText("Select a request in order to edit");
+            alert.showAndWait();
         }
     }
 
@@ -393,11 +388,17 @@ public class AffectedPageController{
             AffectedItem request = (AffectedItem)requestsTable.getSelectionModel().getSelectedItem();
             int requestId = request.getId();
             AffectedService.removeItem(requestId);
-            JOptionPane.showMessageDialog(null, "Selected request has been removed", "Succesfully removed request", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Successfully removed request");
+            alert.setHeaderText("Selected request has been removed");
+            alert.showAndWait();
             if (requestsTable != null)
                 requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
         } else {
-            JOptionPane.showMessageDialog(null, "Select a request in order to remove", "Failed to remove request", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to remove request");
+            alert.setHeaderText("Select a request in order to remove");
+            alert.showAndWait();
         }
     }
 
@@ -417,7 +418,10 @@ public class AffectedPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select a Volunteer to contact", "Failed to contact Volunteer", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to contact Volunteer");
+            alert.setHeaderText("Select a Volunteer to contact");
+            alert.showAndWait();
         }
     }
 
@@ -437,7 +441,10 @@ public class AffectedPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select a Volunteer to view info", "Failed to view info of Volunteer", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to view info of Volunteer");
+            alert.setHeaderText("Select a Volunteer to view info");
+            alert.showAndWait();
         }
     }
 
@@ -447,11 +454,17 @@ public class AffectedPageController{
     }
     public void handleOfferInboxImage(javafx.event.ActionEvent event) throws IOException {
         if (offersInboxTable.getSelectionModel().getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(null, "Select an offer in order to view image", "Failed to open image", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("Select an offer in order to view image");
+            alert.showAndWait();
             return;
         }
         else if (offerInboxImage == null) {
-            JOptionPane.showMessageDialog(null, "This offer has no image", "Failed to open image", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("This offer has no image");
+            alert.showAndWait();
             return;
         }
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("offerImageDialog.fxml"));
@@ -488,7 +501,10 @@ public class AffectedPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open offer");
+            alert.setHeaderText("Select an offer in order to see it");
+            alert.showAndWait();
         }
     }
 
@@ -514,11 +530,17 @@ public class AffectedPageController{
                 newStage.show();
                 newStage.setResizable(false);
             } else {
-                JOptionPane.showMessageDialog(null, "Item has been deleted by it's owner", "Failed to show item", 1);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Failed to show item");
+                alert.setHeaderText("Item has been deleted by it's owner");
+                alert.showAndWait();
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Select an item to show first", "Failed to show item", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to show item");
+            alert.setHeaderText("Select an item to show first");
+            alert.showAndWait();
         }
 
     }

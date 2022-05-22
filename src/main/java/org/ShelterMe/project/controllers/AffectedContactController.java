@@ -3,8 +3,7 @@ package org.ShelterMe.project.controllers;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,12 +12,11 @@ import javafx.stage.Stage;
 import org.ShelterMe.project.exceptions.CommunicationExistsException;
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.model.VolunteerItem;
-import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.VolunteerService;
 import org.ShelterMe.project.services.CommunicationService;
+import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 
 public class AffectedContactController {
     Volunteer loggedInVolunteer;
@@ -32,8 +30,9 @@ public class AffectedContactController {
     private TextField contactMethods;
     @FXML
     private TextArea message;
+    private Alert alert;
 
-    public void setLoggedInVolunteer(Volunteer loggedInVolunteer, Affected toBeContacted) {
+    public void setLoggedInVolunteer(@NotNull Volunteer loggedInVolunteer, @NotNull Affected toBeContacted) {
         this.loggedInVolunteer = loggedInVolunteer;
         this.toBeContacted = toBeContacted;
         contactOffersView.setItems(FXCollections.observableList(VolunteerService.databaseToList(loggedInVolunteer.getUsername())));
@@ -64,22 +63,39 @@ public class AffectedContactController {
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.setAlwaysOnTop(false);
-                JOptionPane.showMessageDialog(null, "Offer sent successfully to Affected (" + toBeContacted.getFullName() + ")", "Offers sent", 1);
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Offers sent");
+                alert.setHeaderText("Offer sent successfully to Affected (" + toBeContacted.getFullName() + ")");
+                alert.showAndWait();
                 stage.close();
-
             } else {
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.setAlwaysOnTop(false);
-                JOptionPane.showMessageDialog(null, "Select an offer to send", "Failed to contact Affected", 1);
+                alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Failed to contact Affected");
+                alert.setHeaderText("Select an offer to send!");
+                alert.showAndWait();
                 stage.setAlwaysOnTop(true);
             }
         } catch(CommunicationExistsException e) {
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.setAlwaysOnTop(false);
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Failed to contact Affected", 1);
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Failed to contact Affected");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
             stage.setAlwaysOnTop(true);
         }
+    }
+
+    public Alert getAlert()
+    {
+        return alert;
+    }
+
+    public TableView getContactOffersView() {
+        return contactOffersView;
     }
 }

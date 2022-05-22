@@ -18,10 +18,10 @@
             <Insets bottom="40.0" />
         </VBox.margin></Text>
    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a Request" />
-   <TableView fx:id="contactRequestsView" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true"/>
+   <TableView id="contactRequestsView" fx:id="contactRequestsView" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true"/>
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Methods" />
-    <TextField fx:id="contactMethods" />
+    <TextField id="contactMethods" fx:id="contactMethods" />
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message" />
-    <TextArea fx:id="message" prefHeight="50.0" prefWidth="285.0" />
-    <Button fx:id="sendRequest" onAction="#handleSendRequestAction" text="Send" />
+    <TextArea id="message" fx:id="message" prefHeight="50.0" prefWidth="285.0" />
+    <Button id="sendRequest" fx:id="sendRequest" onAction="#handleSendRequestAction" text="Send" />
 </VBox>

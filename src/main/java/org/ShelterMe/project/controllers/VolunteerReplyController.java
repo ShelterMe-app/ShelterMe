@@ -1,6 +1,7 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -12,9 +13,6 @@ import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.CommunicationService;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.UserService;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class VolunteerReplyController {
 
@@ -51,18 +49,6 @@ public class VolunteerReplyController {
         this.requestsInboxTable = requestsInboxTable;
     }
 
-    public void setVolunteerReplyName(Text volunteerReplyName) {
-        this.volunteerReplyName = volunteerReplyName;
-    }
-
-    public void setMessageToVolunteer(Text messageToVolunteer) {
-        this.messageToVolunteer = messageToVolunteer;
-    }
-
-    public void setContactToVolunteer(Text contactToVolunteer) {
-        this.contactToVolunteer = contactToVolunteer;
-    }
-
     public void handleApproveRequest(javafx.event.ActionEvent event) {
         CommunicationService.closeRequest(AffectedService.getRequestDestinationUsername(requestId), loggedInVolunteer.getUsername(), requestId, 'a', volunteerReplyMessage.getText(), volunteerContactInfo.getText());
         Affected destination = (Affected) UserService.getUser(((AffectedItem)requestsInboxTable.getSelectionModel().getSelectedItem()).getUsername());
@@ -74,7 +60,10 @@ public class VolunteerReplyController {
         UserService.updateUserInDatabase(destination);
         loggedInVolunteer.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInVolunteer);
-        JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request approved", "Successfully approved request", 1);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully approved request");
+        alert.setHeaderText(AffectedService.getRequestName(requestId) + " request approved");
+        alert.showAndWait();
     }
 
     public void handleRejectRequest(javafx.event.ActionEvent event){
@@ -88,6 +77,9 @@ public class VolunteerReplyController {
         UserService.updateUserInDatabase(destination);
         loggedInVolunteer.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInVolunteer);
-        JOptionPane.showMessageDialog(null, AffectedService.getRequestName(requestId) + " request rejected", "Successfully rejected request", 1);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully rejected request");
+        alert.setHeaderText(AffectedService.getRequestName(requestId) + " request rejected");
+        alert.showAndWait();
     }
 }

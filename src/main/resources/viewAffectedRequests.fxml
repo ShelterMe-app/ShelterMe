@@ -15,5 +15,5 @@
             <Insets bottom="40.0" />
         </VBox.margin></Text>
     <Text fx:id="infoAffectedDetail" strokeType="OUTSIDE" strokeWidth="0.0" text="The Affected's requests" />
-    <TableView fx:id="affectedRequestsTable" cache="true" prefHeight="200.0" prefWidth="617.0" tableMenuButtonVisible="true" />
+    <TableView id="affectedRequestsTable" fx:id="affectedRequestsTable" cache="true" prefHeight="200.0" prefWidth="617.0" tableMenuButtonVisible="true" />
 </VBox>

@@ -3,22 +3,16 @@ package org.ShelterMe.project.controllers;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.ShelterMe.project.exceptions.CommunicationExistsException;
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.model.AffectedItem;
-import org.ShelterMe.project.model.Communication;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
-
-import javax.swing.*;
 
 public class VolunteerContactController {
     Affected loggedInAffected;
@@ -32,6 +26,7 @@ public class VolunteerContactController {
     private TextField contactMethods;
     @FXML
     private TextArea message;
+    private Alert alert;
 
     public void setLoggedInAffected(Affected loggedInAffected, Volunteer toBeContacted) {
         this.loggedInAffected = loggedInAffected;
@@ -57,7 +52,6 @@ public class VolunteerContactController {
     }
 
     public void handleSendRequestAction(javafx.event.ActionEvent event) {
-
         try {
             if (contactRequestsView.getSelectionModel().getSelectedItem() != null) {
                 CommunicationService.existsCommunication(((AffectedItem)contactRequestsView.getSelectionModel().getSelectedItem()).getId(), loggedInAffected.getUsername(), toBeContacted.getUsername(), "request", "Volunteer");
@@ -65,23 +59,39 @@ public class VolunteerContactController {
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.setAlwaysOnTop(false);
-                JOptionPane.showMessageDialog(null, "Request sent succesfully to Volunteer (" + toBeContacted.getFullName() + ")", "Request sent", 1);
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Requests sent");
+                alert.setHeaderText("Request sent successfully to Volunteer (" + toBeContacted.getFullName() + ")");
+                alert.showAndWait();
                 stage.close();
-
             } else {
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
                 stage.setAlwaysOnTop(false);
-                JOptionPane.showMessageDialog(null, "Select a request to send", "Failed to contact Volunteer", 1);
+                alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Failed to contact Volunteer");
+                alert.setHeaderText("Select a request to send!");
+                alert.showAndWait();
                 stage.setAlwaysOnTop(true);
             }
         }catch(CommunicationExistsException e) {
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.setAlwaysOnTop(false);
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Failed to contact Volunteer", 1);
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Failed to contact Volunteer");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
             stage.setAlwaysOnTop(true);
         }
+    }
 
+    public Alert getAlert()
+    {
+        return alert;
+    }
+
+    public TableView getContactRequestsView() {
+        return contactRequestsView;
     }
 }

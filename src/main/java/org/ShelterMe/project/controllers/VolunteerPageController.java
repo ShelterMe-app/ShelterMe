@@ -30,8 +30,6 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
-import javax.swing.JOptionPane;
-
 public class VolunteerPageController{
     private Volunteer loggedInVolunteer;
     @FXML
@@ -82,6 +80,7 @@ public class VolunteerPageController{
     @FXML
     private JFXButton viewAffectedInfo;
     private Image historyImage;
+    private Alert alert;
 
     public void setSignedInAs(Volunteer loggedInVolunteer) {
         this.loggedInVolunteer = loggedInVolunteer;
@@ -324,7 +323,10 @@ public class VolunteerPageController{
 
     public void handleOfferImage(javafx.event.ActionEvent event) throws IOException {
         if (offerImage == null) {
-            JOptionPane.showMessageDialog(null, "This offer has no image", "Failed to open image", 1);
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("This offer has no image");
+            alert.showAndWait();
             return;
         }
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("offerImageDialog.fxml"));
@@ -372,20 +374,29 @@ public class VolunteerPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select an offer in order to edit", "Failed to edit offer", 1);
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Failed to edit offer");
+            alert.setHeaderText("Select an offer in order to edit");
+            alert.showAndWait();
         }
     }
 
-    public void handleRemoveOffer(javafx.event.ActionEvent event) throws IOException {
+    public void handleRemoveOffer(javafx.event.ActionEvent event) {
         if (offersTable.getSelectionModel().getSelectedItem() != null) {
             VolunteerItem offer = (VolunteerItem) offersTable.getSelectionModel().getSelectedItem();
             int offerId = offer.getId();
             VolunteerService.removeItem(offerId);
-            JOptionPane.showMessageDialog(null, "Selected offer has been removed", "Successfully removed offer", 1);
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Successfully removed offer");
+            alert.setHeaderText("Selected offer has been removed");
+            alert.showAndWait();
             if (offersTable != null)
                 offersTable.setItems(VolunteerPageController.getOffers(loggedInVolunteer.getUsername()));
         } else {
-            JOptionPane.showMessageDialog(null, "Select an offer in order to remove", "Failed to remove offer", 1);
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Failed to remove offer");
+            alert.setHeaderText("Select an offer in order to remove");
+            alert.showAndWait();
         }
     }
 
@@ -396,11 +407,17 @@ public class VolunteerPageController{
 
     public void handleRequestInboxImage(javafx.event.ActionEvent event) throws IOException {
         if (requestsInboxTable.getSelectionModel().getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(null, "Select a request in order to view image", "Failed to open image", 1);
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("Select a request in order to view image");
+            alert.showAndWait();
             return;
         }
         else if (requestInboxImage == null) {
-            JOptionPane.showMessageDialog(null, "This request has no image", "Failed to open image", 1);
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("This request has no image");
+            alert.showAndWait();
             return;
         }
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("requestImageDialog.fxml"));
@@ -437,7 +454,10 @@ public class VolunteerPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select a request in order to see it", "Failed to open request", 1);
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Failed to open request");
+            alert.setHeaderText("Select a request in order to see it");
+            alert.showAndWait();
         }
     }
 
@@ -457,7 +477,10 @@ public class VolunteerPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select an Affected person to contact", "Failed to contact Affected", 1);
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Failed to contact Affected");
+            alert.setHeaderText("Select an Affected person to contact");
+            alert.showAndWait();
         }
     }
 
@@ -477,7 +500,10 @@ public class VolunteerPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select an Affected to view info", "Failed to view info of Affected", 1);
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Failed to view info of Affected");
+            alert.setHeaderText("Select an Affected to view info");
+            alert.showAndWait();
         }
     }
 
@@ -503,10 +529,16 @@ public class VolunteerPageController{
                 newStage.show();
                 newStage.setResizable(false);
             } else {
-                JOptionPane.showMessageDialog(null, "Item has been deleted by it's owner", "Failed to show item", 1);
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Failed to show item");
+                alert.setHeaderText("Item has been deleted by it's owner");
+                alert.showAndWait();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Select an item to show first", "Failed to show item", 1);
+            alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Failed to show item");
+            alert.setHeaderText("Select an item to show first");
+            alert.showAndWait();
         }
     }
 

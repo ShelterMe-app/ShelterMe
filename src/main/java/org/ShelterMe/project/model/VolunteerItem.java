@@ -1,6 +1,5 @@
 package org.ShelterMe.project.model;
 
-import javafx.scene.image.Image;
 import org.ShelterMe.project.services.VolunteerService;
 import org.dizitart.no2.objects.Id;
 

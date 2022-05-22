@@ -1,19 +1,17 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import org.ShelterMe.project.model.*;
-import org.ShelterMe.project.services.AffectedService;
 import org.ShelterMe.project.services.CommunicationService;
 import javafx.stage.Stage;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.services.VolunteerService;
 
-import javax.swing.*;
-import java.awt.*;
 import org.ShelterMe.project.services.UserService;
 
 public class AffectedReplyController {
@@ -51,31 +49,21 @@ public class AffectedReplyController {
         this.offersInboxTable = offersInboxTable;
     }
 
-    public void setAffectedReplyName(Text affectedReplyName) {
-        this.affectedReplyName = affectedReplyName;
-    }
-
-    public void setMessageToAffected(Text messageToAffected) {
-        this.messageToAffected = messageToAffected;
-    }
-
-    public void setContactToAffected(Text contactToAffected) {
-        this.contactToAffected = contactToAffected;
-    }
-
     public void handleApproveOffer(javafx.event.ActionEvent event) {
         CommunicationService.closeRequest(VolunteerService.getOfferSourceUsername(offerId),loggedInAffected.getUsername(),  offerId, 'a', affectedReplyMessage.getText(), affectedContactInfo.getText());
         Volunteer destination = (Volunteer) UserService.getUser(((VolunteerItem)offersInboxTable.getSelectionModel().getSelectedItem()).getUsername());
         if (offersInboxTable != null)
             offersInboxTable.setItems(AffectedPageController.getOffersInbox(loggedInAffected.getUsername()));
-
         Stage stage = (Stage) approveOfferButton.getScene().getWindow();
         stage.close();
         destination.setNewHistory(true);
         UserService.updateUserInDatabase(destination);
         loggedInAffected.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInAffected);
-        JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer approved", "Successfully approved offer", 1);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully approved offer");
+        alert.setHeaderText(VolunteerService.getOfferName(offerId) + " offer approved");
+        alert.showAndWait();
     }
 
     public void handleRejectOffer(javafx.event.ActionEvent event){
@@ -89,7 +77,9 @@ public class AffectedReplyController {
         UserService.updateUserInDatabase(destination);
         loggedInAffected.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInAffected);
-        JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer rejected", "Successfully rejected offer", 1);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully rejected offer");
+        alert.setHeaderText(VolunteerService.getOfferName(offerId) + " offer rejected");
+        alert.showAndWait();
     }
-
 }

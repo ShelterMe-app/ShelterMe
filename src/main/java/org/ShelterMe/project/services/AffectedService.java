@@ -1,12 +1,8 @@
 package org.ShelterMe.project.services;
 
 import org.ShelterMe.project.exceptions.*;
-import org.ShelterMe.project.model.*;
 import org.ShelterMe.project.model.AffectedItem;
-import org.ShelterMe.project.model.VolunteerItem;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.objects.ObjectRepository;
 
@@ -14,9 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import java.util.function.Predicate;
@@ -32,18 +25,7 @@ public class AffectedService {
         Nitrite database = Nitrite.builder()
                 .filePath(FileSystemService.getPathToFile("affected-items.db").toFile())
                 .openOrCreate("test", "test");
-
         affectedItemsRepository = database.getRepository(AffectedItem.class);
-
-    }
-
-    public static AffectedItem getAffectedItems(String username) {
-        for (AffectedItem item : affectedItemsRepository.find()) {
-            if (Objects.equals(username, item.getUsername())) {
-                return item;
-            }
-        }
-        return null;
     }
 
     public static void addItem(String username, String name, String categories, String supplies, float quantity, String generalInformation, String healthCondition, String imageBase64) throws  EmptyFieldException {
@@ -77,7 +59,6 @@ public class AffectedService {
     public static void removeItem(int id) {
         for (AffectedItem item : affectedItemsRepository.find()) {
             if (Objects.equals(id, item.getId())) {
-                int itemId = item.getId();
                 affectedItemsRepository.remove(item);
                 break;
             }
@@ -123,7 +104,7 @@ public class AffectedService {
         return encodedString;
     }
 
-    public static Image base64ToImage(String base64) throws IOException {
+    public static Image base64ToImage(String base64) {
         if (base64 == null)
             return null;
         byte[] decodedBytes = Base64
@@ -133,7 +114,6 @@ public class AffectedService {
         Image recoveredImage = new Image(stream);
         return recoveredImage;
     }
-
 
     public static String getRequestName(int id) {
         for (AffectedItem item:affectedItemsRepository.find())
@@ -172,4 +152,15 @@ public class AffectedService {
         }
         return null;
     }
+
+    public static void closeDatabase(){
+        affectedItemsRepository.close();
+    }
+
+    public static void resetDatabase() {
+        for (AffectedItem item : affectedItemsRepository.find()) {
+            affectedItemsRepository.remove(item);
+        }
+    }
+
 }
