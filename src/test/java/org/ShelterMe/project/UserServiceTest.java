@@ -1,8 +1,10 @@
-package org.ShelterMe.project.services;
+package org.ShelterMe.project;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.User;
+import org.ShelterMe.project.services.FileSystemService;
+import org.ShelterMe.project.services.UserService;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.internal.bytebuddy.pool.TypePool;
 import org.junit.Rule;

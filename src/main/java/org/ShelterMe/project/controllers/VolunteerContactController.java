@@ -87,13 +87,4 @@ public class VolunteerContactController {
             stage.setAlwaysOnTop(true);
         }
     }
-
-    public Alert getAlert()
-    {
-        return alert;
-    }
-
-    public TableView getContactRequestsView() {
-        return contactRequestsView;
-    }
 }

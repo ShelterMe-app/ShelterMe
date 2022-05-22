@@ -1,10 +1,13 @@
-package org.ShelterMe.project.services;
+package org.ShelterMe.project;
 
 import javafx.scene.image.Image;
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.AffectedItem;
 import org.ShelterMe.project.model.Volunteer;
 import org.ShelterMe.project.model.VolunteerItem;
+import org.ShelterMe.project.services.FileSystemService;
+import org.ShelterMe.project.services.UserService;
+import org.ShelterMe.project.services.VolunteerService;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.internal.bytebuddy.build.ToStringPlugin;
 import org.junit.jupiter.api.*;
@@ -27,17 +30,12 @@ class VolunteerServiceTest {
     public static final String FULLNAME = "Unit Test";
     public static final String COUNTRY = "Romania";
     public static final String PHONENUMBER = "0758214675";
-    public static final String ROMANIA_WRONG_FORMAT_PHONE_NUMBER = "0512345678";
     public static final String CODE = "RO";
-    public static final String EMPTY_FIELD = "";
-    public static final String FULLNAME_WORD = "Unit";
 
     public static final String NAME = "request";
     public static final String CATEGORY = "Housing";
     public static final String SUPPLIES = "supplies";
     public static final float QUANTITY = 1;
-    public static final String GENERALINFORMATION = "General";
-    public static final String HEALTHCONDITION = "Health";
     public static final String IMAGEBASE64 = "";
 
     @BeforeAll

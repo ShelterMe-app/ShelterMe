@@ -1,8 +1,9 @@
-package org.ShelterMe.project.services;
+package org.ShelterMe.project;
 
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.model.Communication;
+import org.ShelterMe.project.services.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
 
@@ -24,10 +25,7 @@ class CommunicationServiceTest {
     public static final String FULLNAME = "Unit Test";
     public static final String COUNTRY = "Romania";
     public static final String PHONENUMBER = "0758214675";
-    public static final String ROMANIA_WRONG_FORMAT_PHONE_NUMBER = "0512345678";
     public static final String CODE = "RO";
-    public static final String EMPTY_FIELD = "";
-    public static final String FULLNAME_WORD = "Unit";
 
     public static final String NAME = "request";
     public static final String CATEGORY = "Housing";
@@ -40,18 +38,13 @@ class CommunicationServiceTest {
 
     public static final char TYPE_REQUEST = 'r';
     public static final char TYPE_OFFER = 'o';
-    public static final String SOURCEUSERNAME = "unit_test1";
-    public static final String DESTINATIONUSERNAME = "unit_test2";
     public static final int ID = 1; // id of request or offer
     public static final char STATUS_PENDING = 'p';
     public static final char STATUS_ACCEPTED = 'a';
-    public static final char STATUS_REJECTED = 'r';
     public static final String SOURCEMESSAGE = "help";
     public static final String DESTINATIONMESSAGE = "ok";
     public static final String SOURCECONTACTMETHODS = "mail";
     public static final String DESTINATIONCONTACTMETHODS = "phone";
-    public static final Boolean ISINHISTORY_TRUE = true;
-    public static final Boolean ISINHISTORY_FALSE = false;
 
 
 

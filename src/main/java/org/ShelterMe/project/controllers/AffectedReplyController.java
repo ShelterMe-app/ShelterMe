@@ -1,6 +1,7 @@
 package org.ShelterMe.project.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
@@ -60,7 +61,10 @@ public class AffectedReplyController {
         UserService.updateUserInDatabase(destination);
         loggedInAffected.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInAffected);
-        JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer approved", "Successfully approved offer", 1);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully approved offer");
+        alert.setHeaderText(VolunteerService.getOfferName(offerId) + " offer approved");
+        alert.showAndWait();
     }
 
     public void handleRejectOffer(javafx.event.ActionEvent event){
@@ -74,6 +78,9 @@ public class AffectedReplyController {
         UserService.updateUserInDatabase(destination);
         loggedInAffected.setNewHistory(true);
         UserService.updateUserInDatabase(loggedInAffected);
-        JOptionPane.showMessageDialog(null, VolunteerService.getOfferName(offerId) + " offer rejected", "Successfully rejected offer", 1);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Successfully rejected offer");
+        alert.setHeaderText(VolunteerService.getOfferName(offerId) + " offer rejected");
+        alert.showAndWait();
     }
 }

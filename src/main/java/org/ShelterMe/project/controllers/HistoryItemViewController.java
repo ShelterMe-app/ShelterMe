@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
@@ -95,7 +96,10 @@ public class HistoryItemViewController {
 
     public void handleItemViewImage() throws IOException {
             if (historyImage == null) {
-                JOptionPane.showMessageDialog(null, "This " + typeString + " has no image", "Failed to view image", 1);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Failed to view image");
+                alert.setHeaderText("This " + typeString + " has no image");
+                alert.showAndWait();
             } else {
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("requestImageDialog.fxml"));
                 Parent history = loader.load();

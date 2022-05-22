@@ -1,8 +1,9 @@
-package org.ShelterMe.project.controllers;
+package org.ShelterMe.project;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
@@ -29,7 +30,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ApplicationExtension.class)
 @Category(TestFx.class)
-class RegistrationControllerTest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class RegisterTest {
 
 
     public static final String PASSWORD = "uNiTTest!12";
@@ -37,13 +39,12 @@ class RegistrationControllerTest {
     public static final String PHONENUMBER = "758214675";
     public static final String CODE = "RO";
     private FXMLLoader loader;
-    private FXMLLoader loaderDest1;
     private Scene scene;
     public static final Volunteer logedInVolunteer = new Volunteer("SebiG", PASSWORD, "Volunteer", "Sebi Gabor", COUNTRY, PHONENUMBER);
 
     @BeforeAll
     public static void beforeAll() throws IOException, UsernameAlreadyExistsException, EmptyFieldException, FullNameFormatException, WeakPasswordException, PhoneNumberFormatException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-103";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-5";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();
@@ -85,6 +86,7 @@ class RegistrationControllerTest {
     }
 
     @Test
+    @Order(1)
     void testRegisterSuccessVolunteer(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test Account");
@@ -103,9 +105,17 @@ class RegistrationControllerTest {
         Text registerMessage = (Text) scene.lookup("#registrationMessage");
         FxAssert.verifyThat(registerMessage.getText(),is("Account created successfully! You will be redirected to the login page in 5 seconds."));
         FxAssert.verifyThat(UserService.getUser("unit_test").getRole(), is("Volunteer"));
+        Button bExit = robot.lookup("#registerButton").queryButton();
+        Stage stageExit = (Stage) bExit.getScene().getWindow();
+        Platform.runLater(
+                () -> {
+                    stageExit.close();
+                }
+        );
     }
 
     @Test
+    @Order(2)
     void testRegisterSuccessAffected(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test Account");
@@ -125,10 +135,18 @@ class RegistrationControllerTest {
         Text registerMessage = (Text) scene.lookup("#registrationMessage");
         FxAssert.verifyThat(registerMessage.getText(),is("Account created successfully! You will be redirected to the login page in 5 seconds."));
         FxAssert.verifyThat(UserService.getUser("unit_test").getRole(), is("Affected"));
+        Button bExit = robot.lookup("#registerButton").queryButton();
+        Stage stageExit = (Stage) bExit.getScene().getWindow();
+        Platform.runLater(
+                () -> {
+                    stageExit.close();
+                }
+        );
     }
 
 
     @Test
+    @Order(3)
     void testRegisterSuccessLogin(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test Account");
@@ -154,9 +172,18 @@ class RegistrationControllerTest {
         robot.write(PASSWORD);
         robot.clickOn("#loginButton");
         FxAssert.verifyThat(UserService.getUser("unit_test").getCurrentFailedAttempts(), is(0));
+        robot.clickOn("Sign Out");
+        Button bExit = robot.lookup("#loginButton").queryButton();
+        Stage stageExit = (Stage) bExit.getScene().getWindow();
+        Platform.runLater(
+                () -> {
+                    stageExit.close();
+                }
+        );
     }
 
     @Test
+    @Order(4)
     void testRegisterFail(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#fullName");
         robot.write("Test");
@@ -206,6 +233,13 @@ class RegistrationControllerTest {
         robot.write("$");
         robot.clickOn("#registerButton");
         FxAssert.verifyThat(registerMessage.getText(),is("Account created successfully! You will be redirected to the login page in 5 seconds."));
+        Button bExit = robot.lookup("#registerButton").queryButton();
+        Stage stageExit = (Stage) bExit.getScene().getWindow();
+        Platform.runLater(
+                () -> {
+                    stageExit.close();
+                }
+        );
     }
 
 

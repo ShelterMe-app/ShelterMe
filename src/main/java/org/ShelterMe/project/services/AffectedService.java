@@ -170,4 +170,5 @@ public class AffectedService {
             affectedItemsRepository.remove(item);
         }
     }
+
 }

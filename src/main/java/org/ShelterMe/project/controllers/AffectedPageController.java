@@ -323,7 +323,10 @@ public class AffectedPageController{
 
     public void handleRequestImage(javafx.event.ActionEvent event) throws IOException {
         if (requestImage == null) {
-            JOptionPane.showMessageDialog(null, "This request has no image", "Failed to open image", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("This request has no image");
+            alert.showAndWait();
             return;
         }
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("requestImageDialog.fxml"));
@@ -375,7 +378,10 @@ public class AffectedPageController{
             newStage.setResizable(false);
             requestImage = null;
         } else {
-            JOptionPane.showMessageDialog(null, "Select a request in order to edit", "Failed to edit request", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to edit request");
+            alert.setHeaderText("Select a request in order to edit");
+            alert.showAndWait();
         }
     }
 
@@ -384,11 +390,17 @@ public class AffectedPageController{
             AffectedItem request = (AffectedItem)requestsTable.getSelectionModel().getSelectedItem();
             int requestId = request.getId();
             AffectedService.removeItem(requestId);
-            JOptionPane.showMessageDialog(null, "Selected request has been removed", "Succesfully removed request", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Succesfully removed request");
+            alert.setHeaderText("Selected request has been removed");
+            alert.showAndWait();
             if (requestsTable != null)
                 requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
         } else {
-            JOptionPane.showMessageDialog(null, "Select a request in order to remove", "Failed to remove request", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to remove request");
+            alert.setHeaderText("Select a request in order to remove");
+            alert.showAndWait();
         }
     }
 
@@ -408,7 +420,10 @@ public class AffectedPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select a Volunteer to contact", "Failed to contact Volunteer", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to contact Volunteer");
+            alert.setHeaderText("Select a Volunteer to contact");
+            alert.showAndWait();
         }
     }
 
@@ -428,7 +443,10 @@ public class AffectedPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select a Volunteer to view info", "Failed to view info of Volunteer", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to view info of Volunteer");
+            alert.setHeaderText("Select a Volunteer to view info");
+            alert.showAndWait();
         }
     }
 
@@ -438,11 +456,17 @@ public class AffectedPageController{
     }
     public void handleOfferInboxImage(javafx.event.ActionEvent event) throws IOException {
         if (offersInboxTable.getSelectionModel().getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(null, "Select an offer in order to view image", "Failed to open image", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("Select an offer in order to view image");
+            alert.showAndWait();
             return;
         }
         else if (offerInboxImage == null) {
-            JOptionPane.showMessageDialog(null, "This offer has no image", "Failed to open image", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open image");
+            alert.setHeaderText("This offer has no image");
+            alert.showAndWait();
             return;
         }
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("offerImageDialog.fxml"));
@@ -479,7 +503,10 @@ public class AffectedPageController{
             newStage.show();
             newStage.setResizable(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Select an offer in order to see it", "Failed to open offer", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to open offer");
+            alert.setHeaderText("Select an offer in order to see it");
+            alert.showAndWait();
         }
     }
 
@@ -505,11 +532,17 @@ public class AffectedPageController{
                 newStage.show();
                 newStage.setResizable(false);
             } else {
-                JOptionPane.showMessageDialog(null, "Item has been deleted by it's owner", "Failed to show item", 1);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Failed to show item");
+                alert.setHeaderText("Item has been deleted by it's owner");
+                alert.showAndWait();
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Select an item to show first", "Failed to show item", 1);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failed to show item");
+            alert.setHeaderText("Select an item to show first");
+            alert.showAndWait();
         }
 
     }

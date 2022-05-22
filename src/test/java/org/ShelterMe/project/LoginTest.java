@@ -1,5 +1,6 @@
-package org.ShelterMe.project.controllers;
+package org.ShelterMe.project;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,7 +36,7 @@ import static org.testfx.assertions.api.Assertions.assertThat;
 
 @ExtendWith(ApplicationExtension.class)
 @Category(TestFx.class)
-class LoginControllerTest {
+class LoginTest {
     public static final String PASSWORD = "uNiTTest!12";
     public static final String COUNTRY = "Romania";
     public static final String PHONENUMBER = "758214675";
@@ -47,7 +48,7 @@ class LoginControllerTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, UsernameAlreadyExistsException, EmptyFieldException, FullNameFormatException, WeakPasswordException, PhoneNumberFormatException {
-        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-102";
+        FileSystemService.APPLICATION_FOLDER = ".shelterme-test-6";
         FileSystemService.initDirectory();
         FileUtils.cleanDirectory(FileSystemService.getApplicationHomeFolder().toFile());
         UserService.initDatabase();
@@ -95,6 +96,14 @@ class LoginControllerTest {
         robot.write(PASSWORD);
         FxAssert.verifyThat(logedInVolunteer.getCurrentFailedAttempts(), is(0));
         robot.clickOn("#loginButton");
+        robot.clickOn("Sign Out");
+        Button bExit = robot.lookup("#loginButton").queryButton();
+        Stage stageExit = (Stage) bExit.getScene().getWindow();
+        Platform.runLater(
+                () -> {
+                    stageExit.close();
+                }
+        );
     }
 
     @Test
@@ -148,5 +157,11 @@ class LoginControllerTest {
         Thread.sleep(1500);
         Button b = robot.lookup("#registerButton").queryButton();
         FxAssert.verifyThat(b.getText(),is("Register"));
+        Stage stageExit = (Stage) b.getScene().getWindow();
+        Platform.runLater(
+                () -> {
+                    stageExit.close();
+                }
+        );
     }
 }

@@ -1,9 +1,12 @@
-package org.ShelterMe.project.services;
+package org.ShelterMe.project;
 
 import javafx.scene.image.Image;
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.model.Affected;
 import org.ShelterMe.project.model.AffectedItem;
+import org.ShelterMe.project.services.AffectedService;
+import org.ShelterMe.project.services.FileSystemService;
+import org.ShelterMe.project.services.UserService;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.internal.bytebuddy.pool.TypePool;
 import org.junit.jupiter.api.*;
@@ -28,10 +31,7 @@ class AffectedServiceTest {
     public static final String FULLNAME = "Unit Test";
     public static final String COUNTRY = "Romania";
     public static final String PHONENUMBER = "0758214675";
-    public static final String ROMANIA_WRONG_FORMAT_PHONE_NUMBER = "0512345678";
     public static final String CODE = "RO";
-    public static final String EMPTY_FIELD = "";
-    public static final String FULLNAME_WORD = "Unit";
 
     public static final String NAME = "request";
     public static final String CATEGORY = "Housing";

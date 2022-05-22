@@ -108,7 +108,10 @@ public class RequestMenuController {
         if (selectedFile != null) {
             selectedImage = new Image(selectedFile.getPath());
             base64Image = AffectedService.imageToBase64(selectedFile.getPath());
-            JOptionPane.showMessageDialog(null, "File has been selected: " + selectedFile.getName(), "Success", 1);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("File has been selected: " + selectedFile.getName());
+            alert.showAndWait();
             requestImage.setText(selectedFile.getName());
 
         }
@@ -116,7 +119,10 @@ public class RequestMenuController {
 
     public void handleRemoveImageAction(javafx.event.ActionEvent event) throws IOException {
         base64Image = null;
-        JOptionPane.showMessageDialog(null, "Image has been removed", "Success", 1);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("Image has been removed");
+        alert.showAndWait();
         setRemoveCurrentImageStatus(false);
     }
 
@@ -126,29 +132,53 @@ public class RequestMenuController {
                if (Float.valueOf(requestQuantity.getText()) <= 0)
                    throw new QuantityFormatException();
                AffectedService.editItem(requestId, requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
-               JOptionPane.showMessageDialog(null, "Request updated succesfully", "Success", 1);
+               Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+               alert.setTitle("Success");
+               alert.setHeaderText("Request updated succesfully");
+               alert.showAndWait();
                if (requestsTable != null)
                    requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
            }catch(EmptyFieldException e) {
-               JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Error");
+               alert.setHeaderText(e.getMessage());
+               alert.showAndWait();
            } catch(NumberFormatException e) {
-               JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setHeaderText("Quantity must be a number!");
+               alert.showAndWait();
            } catch(QuantityFormatException e) {
-               JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.WARNING_MESSAGE);
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("Error");
+               alert.setHeaderText(e.getMessage());
+               alert.showAndWait();
            }
         } else { try {
             if (Float.valueOf(requestQuantity.getText()) <= 0)
                 throw new QuantityFormatException();
             AffectedService.addItem(loggedInAffected.getUsername(), requestName.getText(), (String) requestCategory.getValue(), requestSupplies.getText(), Float.valueOf(requestQuantity.getText()), generalInformation.getText(), healthCondition.getText(), base64Image);
-            JOptionPane.showMessageDialog(null, "Request created succesfully", "Success", 1);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText("Request created succesfully");
+            alert.showAndWait();
             if (requestsTable != null)
                 requestsTable.setItems(AffectedPageController.getRequests(loggedInAffected.getUsername()));
         }catch(EmptyFieldException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage() + "", "Error", JOptionPane.WARNING_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
         } catch(NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Quantity must be a number!", "Error",JOptionPane.WARNING_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Quantity must be a number!");
+            alert.showAndWait();
         } catch(QuantityFormatException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error",JOptionPane.WARNING_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
         }
 
         }
