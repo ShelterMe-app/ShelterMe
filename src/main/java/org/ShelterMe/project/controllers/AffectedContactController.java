@@ -90,4 +90,12 @@ public class AffectedContactController {
         }
     }
 
+    public Alert getAlert()
+    {
+        return alert;
+    }
+
+    public TableView getContactOffersView() {
+        return contactOffersView;
+    }
 }
