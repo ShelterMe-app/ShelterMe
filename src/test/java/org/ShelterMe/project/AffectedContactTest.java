@@ -70,7 +70,7 @@ public class AffectedContactTest {
 
     @Test
     @Order(1)
-    public void setLoggedInVolunteer(@NotNull FxRobot robot)  {
+    public void testSetLoggedInVolunteer(@NotNull FxRobot robot)  {
         AffectedContactController instance = loader.getController();
         instance.setLoggedInVolunteer(logedInVolunteer, destination);
         FxAssert.verifyThat(robot.lookup("#title-text"), hasText("Contact Seb Gab"));
@@ -78,7 +78,7 @@ public class AffectedContactTest {
 
     @Test
     @Order(2)
-    void handleSendOfferActionNull(@NotNull FxRobot robot) {
+    void testHandleSendOfferActionNull(@NotNull FxRobot robot) {
         AffectedContactController instance = loader.getController();
         instance.setLoggedInVolunteer(logedInVolunteer, destination);
         robot.clickOn("#sendOffer");
@@ -89,7 +89,7 @@ public class AffectedContactTest {
 
     @Test
     @Order(3)
-    void handleSendOfferAction(@NotNull FxRobot robot) throws InterruptedException {
+    void testHandleSendOfferAction(@NotNull FxRobot robot) throws InterruptedException {
         AffectedContactController instance = loader.getController();
         instance.setLoggedInVolunteer(logedInVolunteer, destination);
         instance.getContactOffersView().getSelectionModel().select(0);
@@ -100,7 +100,7 @@ public class AffectedContactTest {
     }
     @Test
     @Order(4)
-    void handleSendOfferAction2(@NotNull FxRobot robot) throws EmptyFieldException {
+    void testHandleSendOfferAction2(@NotNull FxRobot robot) throws EmptyFieldException {
         CommunicationService.addCommunication('o', "SebiG", "seb gab", 1, 'p',"","", "", "");
         AffectedContactController instance = loader.getController();
         instance.setLoggedInVolunteer(logedInVolunteer, destination);

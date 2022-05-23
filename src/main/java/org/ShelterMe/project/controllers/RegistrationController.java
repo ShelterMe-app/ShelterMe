@@ -9,10 +9,8 @@ import javafx.scene.text.Text;
 import org.ShelterMe.project.exceptions.*;
 import org.ShelterMe.project.services.UserService;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
-import java.io.IOException;
-import java.io.FileReader;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -48,8 +46,8 @@ public class RegistrationController{
         JSONParser parser = new JSONParser();
 
         try {
-            String filePath = new File("").getAbsolutePath();
-            JSONArray a = (JSONArray) parser.parse(new FileReader(filePath + "/src/main/resources/countries.json"));
+            InputStream in = ClassLoader.getSystemResourceAsStream("countries.json");
+            JSONArray a = (JSONArray) parser.parse(new InputStreamReader(in));
 
             for (Object o : a)
             {

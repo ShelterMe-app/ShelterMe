@@ -14,9 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -67,8 +65,8 @@ public class OfferMenuController {
         JSONParser parser = new JSONParser();
 
         try {
-            String filePath = new File("").getAbsolutePath();
-            JSONArray a = (JSONArray) parser.parse(new FileReader(filePath + "/src/main/resources/offersCategories.json"));
+            InputStream in = ClassLoader.getSystemResourceAsStream("offersCategories.json");
+            JSONArray a = (JSONArray) parser.parse(new InputStreamReader(in));
 
             for (Object o : a) {
                 JSONObject countryObject = (JSONObject) o;
