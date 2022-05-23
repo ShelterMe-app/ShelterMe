@@ -89,7 +89,7 @@ class LoginTest {
     }
 
     @Test
-    void handleLoginActionSuccess(@NotNull FxRobot robot) {
+    void testHandleLoginActionSuccess(@NotNull FxRobot robot) {
         robot.clickOn("#usernameField");
         robot.write("SebiG");
         robot.clickOn("#passwordField");
@@ -107,7 +107,7 @@ class LoginTest {
     }
 
     @Test
-    void handleLoginActionWrong(@NotNull FxRobot robot) {
+    void testHandleLoginActionWrong(@NotNull FxRobot robot) {
         robot.clickOn("#usernameField");
         robot.write("SebiG");
         robot.clickOn("#passwordField");
@@ -118,7 +118,7 @@ class LoginTest {
     }
 
     @Test
-    void handleLoginActionEmptyField(@NotNull FxRobot robot) {
+    void testHandleLoginActionEmptyField(@NotNull FxRobot robot) {
         Text loginMessage = (Text) scene.lookup("#loginMessage");
         robot.clickOn("#loginButton");
         FxAssert.verifyThat(loginMessage.getText(), is("Error: One of the fields is empty. Enter info for field: username"));
@@ -133,7 +133,7 @@ class LoginTest {
     }
 
     @Test
-    void handleLoginActionLockout(@NotNull FxRobot robot) {
+    void testHandleLoginActionLockout(@NotNull FxRobot robot) {
         robot.clickOn("#usernameField");
         robot.write("SebiG");
         robot.clickOn("#passwordField");
@@ -152,7 +152,7 @@ class LoginTest {
     }
 
     @Test
-    void handleRegisterMenu(@NotNull FxRobot robot) throws InterruptedException {
+    void testHandleRegisterMenu(@NotNull FxRobot robot) throws InterruptedException {
         robot.clickOn("#registerPressed");
         Thread.sleep(1500);
         Button b = robot.lookup("#registerButton").queryButton();

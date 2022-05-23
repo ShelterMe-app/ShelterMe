@@ -13,9 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.ShelterMe.project.exceptions.EmptyFieldException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 import org.ShelterMe.project.model.Affected;
@@ -71,9 +69,8 @@ public class RequestMenuController {
         JSONParser parser = new JSONParser();
 
         try {
-            String filePath = new File("").getAbsolutePath();
-            JSONArray a = (JSONArray) parser.parse(new FileReader(filePath + "/src/main/resources/requestsCategories.json"));
-
+            InputStream in = ClassLoader.getSystemResourceAsStream("requestsCategories.json");
+            JSONArray a = (JSONArray) parser.parse(new InputStreamReader(in));
             for (Object o : a) {
                 JSONObject countryObject = (JSONObject) o;
 
