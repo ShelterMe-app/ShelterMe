@@ -57,7 +57,7 @@ To understand better how to set up a project using JavaFX and [Maven](https://op
 You should see an application starting, that looks like this:
 
 <p align="center">
-  <img width = "500" src="docs/Running.png"/>
+  <img width = "500" src="docs/Run.png"/>
 </p>
 
 Pressing on the `Sign up` button will redirect to the following window:
