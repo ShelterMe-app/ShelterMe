@@ -56,15 +56,21 @@ To understand better how to set up a project using JavaFX and [Maven](https://op
 
 You should see an application starting, that looks like this:
 
-<img src="docs/Running.png" width="250"/>
+<p align="center">
+  <img width = "500" src="docs/Running.png"/>
+</p>
 
 Pressing on the `Sign up` button will redirect to the following window:
 
-<img src="docs/Registration.png" width="250"/>
+<p align="center">
+  <img width = "500" src="docs/Registration.png"/>
+</p>
 
 And the main page after logging in looks like this:
 
-<img src="docs/MainPage.png" width="250"/>
+<p align="center">
+  <img width = "500" src="docs/MainPage.png"/>
+</p>
 
 ### Technical Details
 
