@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/main/resources/Images/Logo-corners.png">
+  <img src="src/main/resources/Images/Logo-corners.png" width = "200" height = "200">
 </p>
 
 ShelterMe is a desktop app developed in Java. It's main scope is to unite people affected from all places of the world with the people that are there to help them. Project made for the Foundations of Software Engineering lab by @SebiGabor and @dragosefrem, during our second year of Computer Engineering studies at Polytechnic University of Timișoara. Technologies used:
