@@ -29,7 +29,7 @@ class VolunteerServiceTest {
     public static final String ROLE_VOLUNTEER = "Volunteer";
     public static final String FULLNAME = "Unit Test";
     public static final String COUNTRY = "Romania";
-    public static final String PHONENUMBER = "0758214675";
+    public static final String PHONENUMBER = "0712345678";
     public static final String CODE = "RO";
 
     public static final String NAME = "request";
