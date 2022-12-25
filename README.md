@@ -1,4 +1,4 @@
-*This application is a college project that presents our skills and work. It may or may not be supported in the future with updates.*
+*Note: This application is a college project that presents our skills and work. It may or may not be supported in the future with updates.*
 
 <p align="center">
   <img src="src/main/resources/Images/Logo-corners.png" width = "200" height = "200">
